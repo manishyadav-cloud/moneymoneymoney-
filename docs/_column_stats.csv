@@ -928,3 +928,84 @@ wiom_topup_income,FINANCE_REMARKS,VARCHAR,625184,17,0,0.0,Amount Withdrawn,Withd
 wiom_topup_income,PARTNER_NAME,VARCHAR,625184,1386,0,0.0, Aura Connect Group Of Company,yash broadband internet service,yash broadband internet service | Angel Fibernet | Sunny Cable Broadband service 
 wiom_topup_income,MIS_CITY,VARCHAR,625184,4,0,0.0,Bharat,Mumbai,Delhi | Mumbai | Meerut
 wiom_topup_income,STATE,VARCHAR,625184,4,0,0.0,DL,UP,MH | HR | UP
+wiom_refunded_transactions,DT,DATE,0.0,105,2025-12-27 | 2026-02-14 | 2026-03-07
+wiom_refunded_transactions,BILL_ID,BIGINT,0.0,1,0
+wiom_refunded_transactions,NASID,BIGINT,99.5,60,282162171864847 | 282162171487359 | 687195353404
+wiom_refunded_transactions,UPDATEDATE,TIMESTAMP,0.0,17420,2026-01-15 15:53:13 | 2025-12-30 13:46:35 | 2025-12-20 13:21:30
+wiom_refunded_transactions,DISCOUNT,BIGINT,0.0,1,0
+wiom_refunded_transactions,PID,BIGINT,0.0,9,10067 | 15373 | 15197
+wiom_refunded_transactions,RSP_MSG,VARCHAR,100.0,1,"Transaction completed after 320 seconds, marked as failed and initiated refund"
+wiom_refunded_transactions,SOURCE,VARCHAR,0.0,6,mr | cusSubs | wgSubs
+wiom_refunded_transactions,WEB_PAYMENT_FLOW,VARCHAR,100.0,0,
+wiom_refunded_transactions,PAYMENTDETAIL,VARCHAR,100.0,0,
+wiom_refunded_transactions,GST_NO,VARCHAR,100.0,0,
+wiom_refunded_transactions,DELIVERYADDRESS,VARCHAR,100.0,0,
+wiom_refunded_transactions,PLAN_END_DATE,VARCHAR,100.0,0,
+wiom_refunded_transactions,PAID_BY,VARCHAR,0.0,3,APP_SELF | CX_TEAM_LINK | CASH
+wiom_refunded_transactions,PLAN_START_DATE,TIMESTAMP,99.6,79,2026-03-09 07:39:18.356 | 2025-12-19 15:00:58.819 | 2025-12-18 08:38:35.007
+wiom_refunded_transactions,PAYMENTSTATUS,BIGINT,0.0,2,0 | 1
+wiom_refunded_transactions,CREATEDATE,TIMESTAMP,0.0,18189,2025-12-06 11:52:08.915 | 2025-12-22 07:55:02.567 | 2025-12-28 05:45:13.973
+wiom_refunded_transactions,TRANSACTION_ID,VARCHAR,0.0,18189,custGen_7827911425_189066587_0 | custGen_7300822150_187254685_0 | custGen_8860842942_188838253_0
+wiom_refunded_transactions,COUPON_CODE,VARCHAR,100.0,0,
+wiom_refunded_transactions,REFUND_STATUS,BIGINT,0.0,1,1
+wiom_refunded_transactions,QUANTITY,BIGINT,0.0,1,0
+wiom_refunded_transactions,TOTAL_PRICE,BIGINT,0.0,278,575 | 549 | 470
+wiom_refunded_transactions,INVOICE_NO,VARCHAR,100.0,0,
+wiom_refunded_transactions,PAYMENT_STATUS,BIGINT,0.0,2,0 | 1
+wiom_refunded_transactions,MOBILE,BIGINT,0.0,16972,9773577947 | 9891830068 | 7291893506
+wiom_refunded_transactions,UNIT_PRICE,VARCHAR,100.0,0,
+wiom_refunded_transactions,PAY_AMMOUNT,BIGINT,0.0,278,555 | 488 | 535
+wiom_refunded_transactions,PAYMENT_TYPE,BIGINT,0.0,7,14 | 4 | 16
+wiom_refunded_transactions,BILLINGADDRESS,VARCHAR,100.0,0,
+wiom_refunded_transactions,ORDER_ID,VARCHAR,0.0,18181,ordeh_a62898aa5b834a1b92fc67f0b11ed11c | ordeh_8dc1d0fddb034387af87e2909272e146 | ordeh_79ef5d2bbad94effb4c753bc80e36adc
+wiom_refunded_transactions,TXN_STATUS,VARCHAR,100.0,0,
+wiom_refunded_transactions,EXTRA_PARAM,VARCHAR,0.0,18181,"{
+  ""epg_txn_id"": ""20251228210440000211994694604490284"",
+  ""network_error_code"": | {
+  ""epg_txn_id"": ""20251221210390000209451459344428416"",
+  ""network_error_code"": | {
+  ""epg_txn_id"": ""20251221210400000209451639619074784"",
+  ""network_error_code"":"
+wiom_refunded_transactions,STATUS,VARCHAR,100.0,0,
+wiom_refunded_transactions,PAYMENT_MODE,VARCHAR,0.5,2,ONLINE | OFFLINE
+wiom_mobile_recharge_transactions,DT,DATE,0.0,104,2025-12-21 | 2026-01-24 | 2026-01-23
+wiom_mobile_recharge_transactions,BILL_ID,BIGINT,0.1,1,0
+wiom_mobile_recharge_transactions,NASID,BIGINT,100.0,2,96010 | 476417
+wiom_mobile_recharge_transactions,UPDATEDATE,TIMESTAMP,0.0,5779,2026-01-17 01:20:27 | 2025-12-29 10:28:57 | 2025-12-13 07:37:34
+wiom_mobile_recharge_transactions,DISCOUNT,BIGINT,0.0,1,0
+wiom_mobile_recharge_transactions,PID,BIGINT,0.0,3,10004 | 0 | 10003
+wiom_mobile_recharge_transactions,RSP_MSG,VARCHAR,100.0,0,
+wiom_mobile_recharge_transactions,SOURCE,VARCHAR,0.1,1,mr
+wiom_mobile_recharge_transactions,WEB_PAYMENT_FLOW,VARCHAR,100.0,0,
+wiom_mobile_recharge_transactions,PAYMENTDETAIL,VARCHAR,100.0,0,
+wiom_mobile_recharge_transactions,GST_NO,VARCHAR,100.0,0,
+wiom_mobile_recharge_transactions,DELIVERYADDRESS,VARCHAR,99.9,4,"{""address"":""22 gana bharathi main road Nagarabhavi "",""city"":""Bengaluru "",""countr | {""address"":""5th & 6th Floor, Select Citywalk Mall The New Delhi Dome, Saket Dist | {""address"":""884 4th main road Vijayanagar "",""city"":""Bengaluru "",""country"":""India"
+wiom_mobile_recharge_transactions,PLAN_END_DATE,VARCHAR,100.0,0,
+wiom_mobile_recharge_transactions,PAID_BY,VARCHAR,0.0,1,APP_SELF
+wiom_mobile_recharge_transactions,PLAN_START_DATE,VARCHAR,100.0,0,
+wiom_mobile_recharge_transactions,PAYMENTSTATUS,BIGINT,0.0,1,1
+wiom_mobile_recharge_transactions,CREATEDATE,TIMESTAMP,0.0,5780,2025-12-30 08:18:04.065 | 2025-12-19 14:17:38.315 | 2025-12-20 16:13:07.692
+wiom_mobile_recharge_transactions,TRANSACTION_ID,VARCHAR,0.0,5780,mr_9123417604_188448154_1 | mr_6307169973_188279880_1 | mr_9990976422_188709524_1
+wiom_mobile_recharge_transactions,COUPON_CODE,VARCHAR,100.0,0,
+wiom_mobile_recharge_transactions,REFUND_STATUS,VARCHAR,100.0,0,
+wiom_mobile_recharge_transactions,QUANTITY,BIGINT,0.0,2,0 | 1
+wiom_mobile_recharge_transactions,TOTAL_PRICE,DOUBLE,0.0,391,319.0 | 284.0 | 289.0
+wiom_mobile_recharge_transactions,INVOICE_NO,VARCHAR,100.0,0,
+wiom_mobile_recharge_transactions,PAYMENT_STATUS,BIGINT,0.0,1,1
+wiom_mobile_recharge_transactions,MOBILE,BIGINT,0.0,4596,9917682805 | 8010066869 | 9721713959
+wiom_mobile_recharge_transactions,UNIT_PRICE,VARCHAR,100.0,0,
+wiom_mobile_recharge_transactions,PAY_AMMOUNT,DOUBLE,0.0,391,329.0 | 35.0 | 103.0
+wiom_mobile_recharge_transactions,PAYMENT_TYPE,BIGINT,0.0,2,0 | 15
+wiom_mobile_recharge_transactions,BILLINGADDRESS,VARCHAR,99.9,4,"{""address"":""22 gana bharathi main road Nagarabhavi "",""city"":""Bengaluru "",""countr | {""address"":""884 4th main road Vijayanagar "",""city"":""Bengaluru "",""country"":""India | {""address"":""Near Rajasthan Guest House,Mangturam Compound, Nayabazar, Siliguri-7"
+wiom_mobile_recharge_transactions,ORDER_ID,VARCHAR,0.0,5780,ordeh_045fa149c3fa45898eae9e6189c32e22 | ordeh_2cc984c09d4f4cf7812ce3ce891db786 | ordeh_f5a06675a2494ad28510ec1208ccf7c8
+wiom_mobile_recharge_transactions,TXN_STATUS,VARCHAR,100.0,0,
+wiom_mobile_recharge_transactions,EXTRA_PARAM,VARCHAR,0.0,5780,"{
+  ""epg_txn_id"": ""20251205210550000203617076280327759"",
+  ""network_error_code"": | {
+  ""epg_txn_id"": ""20251224210540000210702387677990783"",
+  ""network_error_code"": | {
+  ""epg_txn_id"": ""26573702046"",
+  ""network_error_code"": null,
+  ""debit_amount"":"
+wiom_mobile_recharge_transactions,STATUS,VARCHAR,100.0,0,
+wiom_mobile_recharge_transactions,PAYMENT_MODE,VARCHAR,0.1,1,ONLINE

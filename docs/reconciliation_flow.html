@@ -66,7 +66,7 @@
 <body>
 
 <h1>Wiom Payment Reconciliation — Column-Level Link Map</h1>
-<p class="subtitle">18 tables &middot; 5.6M+ rows &middot; Dec 2025 – Feb 2026 &middot; Every confirmed join with match counts</p>
+<p class="subtitle">20 tables &middot; 5.8M+ rows &middot; Dec 2025 – Feb 2026 &middot; Every confirmed join with match counts</p>
 
 <!-- ====== ID TRANSFORMATION RULES ====== -->
 <div class="id-rules">
@@ -81,7 +81,7 @@
 
 <!-- ====== LAYER 1: WIOM INTERNAL DB ====== -->
 <div class="layer l1">
-  <div class="layer-label">Layer 1 — Wiom Internal DB (6 tables)</div>
+  <div class="layer-label">Layer 1 — Wiom Internal DB (8 tables)</div>
   <div class="tables-row">
     <div class="tbl">
       <h3>wiom_booking_transactions</h3>
@@ -131,6 +131,23 @@
       <span class="col"><b>ORDER_ID</b> <span class="tag tag-fk">FK→Juspay</span></span>
       <span class="col"><b>MOBILE</b> <span class="tag tag-link">LINK</span></span>
     </div>
+    <div class="tbl">
+      <h3>wiom_mobile_recharge_transactions</h3>
+      <div class="meta">5,780 rows &middot; 34 cols</div>
+      <span class="col"><b>TRANSACTION_ID</b> <span class="tag tag-fk">FK→Juspay</span> (mr_* pattern)</span>
+      <span class="col"><b>ORDER_ID</b> <span class="tag tag-fk">FK→Juspay</span></span>
+      <span class="col"><b>MOBILE</b> <span class="tag tag-link">LINK</span></span>
+      <span class="col"><b>PAY_AMMOUNT</b> Amount paid</span>
+    </div>
+    <div class="tbl refund">
+      <h3>wiom_refunded_transactions</h3>
+      <div class="meta">18,189 rows &middot; 34 cols &middot; REFUND_STATUS=1</div>
+      <span class="col"><b>TRANSACTION_ID</b> <span class="tag tag-fk">FK→Juspay</span> (custGen/cusSubs/w/mr)</span>
+      <span class="col"><b>ORDER_ID</b> <span class="tag tag-fk">FK→Juspay</span></span>
+      <span class="col"><b>MOBILE</b> <span class="tag tag-link">LINK</span></span>
+      <span class="col"><b>PAY_AMMOUNT</b> Original amount paid</span>
+      <span class="col"><b>REFUND_STATUS</b> 1 = refunded</span>
+    </div>
   </div>
 </div>
 
@@ -158,6 +175,9 @@
   <div class="link"><span class="src">security_dep.PG_TXN_ID</span> <span class="arrow">=</span> <span class="dst">juspay.juspay_txn_id</span> <span class="cnt">1,227</span></div>
   <div class="link"><span class="src">ott.TRANSACTION_ID</span> <span class="arrow">=</span> <span class="dst">juspay.order_id</span> <span class="cnt">348 / 381 (91%)</span></div>
   <div class="link"><span class="src">ott.ORDER_ID</span> <span class="arrow">=</span> <span class="dst">juspay.order_uuid</span> <span class="cnt">348</span></div>
+  <div class="link"><span class="src">mobile_recharge.TRANSACTION_ID</span> <span class="arrow">=</span> <span class="dst">juspay.order_id</span> <span class="cnt">5,706 / 5,780 (98.7%)</span></div>
+  <div class="link"><span class="src">refunded_txn.TRANSACTION_ID</span> <span class="arrow">=</span> <span class="dst">juspay.order_id</span> <span class="cnt">17,215 / 18,189 (94.6%)</span></div>
+  <div class="link"><span class="src">refunded_txn.TRANSACTION_ID</span> <span class="arrow">=</span> <span class="dst">juspay_refunds.order_id</span> <span class="cnt">16,741</span></div>
 </div>
 
 <!-- ====== LAYER 2: JUSPAY ====== -->
@@ -359,7 +379,9 @@
   2. Razorpay joins on <code>order_id = order_receipt</code> (not juspay_txn_id like other PGs) — no separate settlement table<br>
   3. Bank receipts are daily aggregates (358 rows) vs 1M+ individual settlements — reconciliation is amount-level, not txn-level<br>
   4. Wiom non-online (cash) transactions in primary_revenue/net_income do NOT appear in Juspay — this is expected<br>
-  5. Juspay has 1.1M rows vs 20K booking rows — booking only captures a subset; net_income (647K) and primary_revenue (391K) cover much more
+  5. Juspay has 1.1M rows vs 20K booking rows — booking only captures a subset; net_income (647K) and primary_revenue (391K) cover much more<br>
+  6. <code>wiom_mobile_recharge_transactions</code> (mr_*) and <code>wiom_refunded_transactions</code> resolved 5,794 of 8,149 original Juspay orphans<br>
+  7. Remaining 2,355 Juspay orphans (0.62%) = Rs 10.65L — mostly custGen_* via Paytm, not in any Wiom table
 </p>
 
 </body>
