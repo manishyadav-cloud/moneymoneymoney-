@@ -1,0 +1,930 @@
+table_name,column_name,data_type,total_rows,distinct_count,null_count,null_pct,min_value,max_value,sample_values
+bank_receipt_from_pg,S.no,DOUBLE,358,306,52,14.5,1.0,99.0,7.0 | 36.0 | 58.0
+bank_receipt_from_pg,Transaction,TIMESTAMP_NS,358,355,0,0.0,2025-04-02 00:00:00,2026-03-24 00:00:00,2025-04-06 00:00:00 | 2025-04-15 00:00:00 | 2025-05-06 00:00:00
+bank_receipt_from_pg,Month,VARCHAR,358,12,0,0.0,Apr-25,Sep-25,Nov-25 | Jan-26 | Dec-25
+bank_receipt_from_pg,Transaction Remarks,VARCHAR,358,358,0,0.0,AXNPNXXXXXXX0578,UTIBHXXXXXXX9986,RTGS/UTIBH25110000691/PAYTM PAYMENTS SERVICES LIMI/                    | RTGS/UTIBH25111000710/PAYTM PAYMENTS SERVICES LIMI/                    | RTGS/UTIBH25118000956/PAYTM PAYMENTS SERVICES LIMI/                   
+bank_receipt_from_pg,Payment Gateway,VARCHAR,358,1,0,0.0,01 Paytm-Wallet (WIOM Gold),01 Paytm-Wallet (WIOM Gold),01 Paytm-Wallet (WIOM Gold)
+bank_receipt_from_pg,Deposit Amt(INR),DOUBLE,358,358,0,0.0,1011765.41,843151.56,1210065.94 | 1083162.76 | 1028425.25
+juspay_refunds,customer_id,VARCHAR,20179,18915,0,0.0,1111151719,9999985854,9910579068_1747488343 | 8860192329_1757322821 | 9927476815
+juspay_refunds,txn_uuid,VARCHAR,20179,20172,0,0.0,moz213pYUHAo6acVWkf,mozzxpYLfXQ8r41wHGD,mozPS3JThLP8kq9SXFt | mozQp73AosjKjc3ZRT1 | mozwvshtiwJrbA4SnTE
+juspay_refunds,refund_initiated_by,VARCHAR,20179,9,0,0.0,API,wiom_sonu_thapa,wiom_shail | wiom_rutuj | AUTO_REFUNDED
+juspay_refunds,order_amount,BIGINT,20179,264,0,0.0,10,90,463 | 1380 | 17
+juspay_refunds,order_created,VARCHAR,20179,20108,0,0.0,2025-02-13T13:50:33,2026-02-28T18:43:30,2025-11-17T06:45:50 | 2025-11-25T13:02:00 | 2025-11-16T11:29:25
+juspay_refunds,order_id,VARCHAR,20179,20172,0,0.0,cusSubs_6206807578_189515389_0,wgSubs_8851743971_186744617_1,custGen_8130846524_185481267_0 | custWgSubs_9910579068_186624171_0 | custGen_9266141967_186665035_0
+juspay_refunds,currency,VARCHAR,20179,1,0,0.0,INR,INR,INR
+juspay_refunds,order_status,VARCHAR,20179,1,0,0.0,SUCCESS,SUCCESS,SUCCESS
+juspay_refunds,order_type,VARCHAR,20179,3,0,0.0,MANDATE_PAYMENT,ORDER_PAYMENT,MANDATE_PAYMENT | MANDATE_REGISTER | ORDER_PAYMENT
+juspay_refunds,payment_gateway,VARCHAR,20179,4,0,0.0,PAYTM_V2,RAZORPAY,RAZORPAY | PAYTM_V2 | PAYU
+juspay_refunds,payment_method_subtype,VARCHAR,20179,4,48,0.2,MANDATE,UPI_QR,UPI_COLLECT | UPI_QR | MANDATE
+juspay_refunds,refund_amount,BIGINT,20179,382,0,0.0,10,96,555 | 442 | 175
+juspay_refunds,refund_arn,DOUBLE,20179,20166,5,0.0,1.2345660225346e+22,995027103375.0,533504872659.0 | 533506215630.0 | 533506219759.0
+juspay_refunds,refund_date,VARCHAR,20179,19091,0,0.0,2025-12-01T00:05:40,2026-02-28T23:31:18,2025-12-01T00:22:26 | 2025-12-01T06:24:58 | 2025-12-01T11:26:41
+juspay_refunds,pg_error_message,VARCHAR,20179,4,0,0.0,Refund Request Queued,processed,SUCCESS | Refund Request Queued | Refund Successfull
+juspay_refunds,refund_ref_id,VARCHAR,20179,20179,0,0.0,100000025538,wgSubs_8279563871_193397416_1_1771346260994,custWgSubs_8178064514_186619378_0_1764553176014 | 533500310705 | erf017042e363e44e2a9
+juspay_refunds,pg_error_code,VARCHAR,20179,5,0,0.0,10,processed,SUCCESS | 102 | processed
+juspay_refunds,refund_rrn,VARCHAR,20179,18983,1195,5.9,22472317746,pay_SJQogfiNo2blyT,533504195784 | 533504872659 | 533506043938
+juspay_refunds,refund_success_at,VARCHAR,20179,19066,0,0.0,2025-12-01T00:22:13,2026-03-01T19:27:24,2025-12-01T00:52:58 | 2025-12-01T06:33:34 | 2025-12-01T10:06:56
+juspay_refunds,refund_total_amount,BIGINT,20179,378,0,0.0,10,96,555 | 442 | 175
+juspay_refunds,refund_type,VARCHAR,20179,1,0,0.0,STANDARD,STANDARD,STANDARD
+juspay_refunds,refund_unique_id,VARCHAR,20179,20179,0,0.0,ARnQTTxPMLCunc1v,wgSubs_8279563871_193397416_1_1771346260994,custGen_8527998315_186328327_1_1764531766401 | custGen_9891755424_186298776_1_1764559775179 | custGen_9717375970_186659940_1_1764563516300
+juspay_refunds,refund_updated,VARCHAR,20179,19156,0,0.0,2025-12-01T00:22:13,2026-03-02T12:04:01,2025-12-01T01:14:42 | 2025-12-01T07:42:44 | 2025-12-01T12:06:44
+juspay_refunds,refund_status,VARCHAR,20179,2,0,0.0,PENDING,SUCCESS,SUCCESS | PENDING
+juspay_refunds,refund_txn_id,VARCHAR,20179,20172,0,0.0,wiom-cusSubs_6206807578_189515389_0-1,wiom-wgSubs_8851743971_186744617_1-1,wiom-custGen_8570084519_185480350_0-1 | wiom-custGen_7042075567_185481257_0-1 | wiom-custWgSubs_8383078663_186625582_0-1
+juspay_refunds,txn_status,VARCHAR,20179,2,0,0.0,AUTO_REFUNDED,CHARGED,AUTO_REFUNDED | CHARGED
+juspay_refunds,refund_irn,VARCHAR,20179,20179,0,0.0,hs_0003556348034a83889f2dfbf786e53f,hs_fff86ce49fb04dfcbc5587cbcbe0a8ec,hs_36a929c4b7a34e70b058ab8820582c07 | hs_16d5dcf3e9654c5f9fedd69444b6fa26 | hs_a959cad887254e6ba8eadf6680bc28b9
+juspay_refunds,udf2,VARCHAR,20179,2,1086,5.4,prod,stage,stage | prod
+juspay_refunds,udf3,VARCHAR,20179,6,1154,5.7,Booking,WiomNet,WiomNet | Installation | Mobile_Recharges
+juspay_refunds,udf4,VARCHAR,20179,6,1179,5.8,App,Web_Link,Web_Link | UPI_Apps | UPI_APPS
+juspay_transactions,order_type,VARCHAR,1096610,3,0,0.0,MANDATE_PAYMENT,ORDER_PAYMENT,MANDATE_PAYMENT | MANDATE_REGISTER | ORDER_PAYMENT
+juspay_transactions,return_url,VARCHAR,1096610,322,0,0.0,https://ott.wiom.in/afterpayment?mobile=6201358356&amount=14&name=Aladdin&phoneNumber=6201358356&pla,https://www.i2e1.in/wiom/JusPayResponse,https://www.i2e1.in/wiom/JusPayResponse | https://ott.wiom.in/afterpayment?mobile=9716714349&amount=12&name=Suhaib Idrishi | https://ott.wiom.in/afterpayment?mobile=9263466766&amount=7&name=Mithlesh Kumar 
+juspay_transactions,customer_id,VARCHAR,1096610,352346,0,0.0,+44919717958126,9999999645,7557628330 | 8447893710 | 8826876791
+juspay_transactions,debit_amount,DOUBLE,1096610,571,956084,87.2,1.0,992.0,564.0 | 450.0 | 486.0
+juspay_transactions,status_sync_source,VARCHAR,1096610,6,32,0.0,ASN_FORCE_SYNC_V1,WEBHOOKS,WEBHOOKS | TRANSACTION | CRON_SYNC
+juspay_transactions,epg_txn_id,VARCHAR,1096610,1096583,27,0.0,20251201210320000202040936785159486,wiom-custWgSubs_9953109763_193894856_0-1,20251201210420000202089181833355318 | 20251201210440000202257250732335072 | 20251201210360000202248425115083792
+juspay_transactions,txn_object_type,VARCHAR,1096610,3,0,0.0,EMANDATE_PAYMENT,ORDER_PAYMENT,EMANDATE_PAYMENT | EMANDATE_REGISTER | ORDER_PAYMENT
+juspay_transactions,txn_detail_id,BIGINT,1096610,1096610,0,0.0,29255728089,31205159682,29838720117 | 29841954840 | 29841964478
+juspay_transactions,txn_uuid,VARCHAR,1096610,1096610,0,0.0,moz211E9Cz6f2bS8nrx,mozzzvveMskNqUqVYwf,moz6NfeUhFqcG9J2oNG | mozgXwi5ZY1VVZGWmgu | mozxswQzJw28DffarFV
+juspay_transactions,payment_status,VARCHAR,1096610,2,0,0.0,PENDING,SUCCESS,SUCCESS | PENDING
+juspay_transactions,effective_txn_amount,DOUBLE,1096610,932,0,0.0,1.0,998.0,492.0 | 50.0 | 600.0
+juspay_transactions,order_amount,DOUBLE,1096610,932,0,0.0,1.0,998.0,425.0 | 35.0 | 492.0
+juspay_transactions,amount,DOUBLE,1096610,932,0,0.0,1.0,998.0,492.0 | 50.0 | 600.0
+juspay_transactions,juspay_txn_id,VARCHAR,1096610,1096610,0,0.0,wiom-cusSubs_6000171008_189587686_0-1,wiom-wiomWall_9999862747_188371427_1-2,wiom-custGen_8076383685_192703936_0-1 | wiom-w_8595148467_192729376_0-1 | wiom-w_7678196208_192624249_0-1
+juspay_transactions,order_uuid,VARCHAR,1096610,1096601,0,0.0,ordeh_00000ebbb308443d864eb3af98895873,ordeh_fffff9000dbd4d5face2acdd83585be4,ordeh_a92b62164f6b4e2b9ff7907bf98ce2a0 | ordeh_1e185bb43a1f4355a5c94750f281d240 | ordeh_e46bf9b9673c42c08f2ef3fa548b848e
+juspay_transactions,order_id,VARCHAR,1096610,1096601,0,0.0,cusSubs_6000171008_189587686_0,wiomWall_9999862747_188371427_1,w_9217054903_193597186_1 | w_9279458604_193491301_1 | w_7988172790_193516749_0
+juspay_transactions,preferred_gateway,VARCHAR,1096610,1,1096276,100.0,PAYTM_V2,PAYTM_V2,PAYTM_V2
+juspay_transactions,payment_gateway,VARCHAR,1096610,4,3,0.0,PAYTM_V2,RAZORPAY,PAYTM_V2 | PHONEPE | RAZORPAY
+juspay_transactions,payment_flow,VARCHAR,1096610,10,1,0.0,CARD_3DS,SILENT_RETRY,SILENT_RETRY | QR | INTENT
+juspay_transactions,txn_last_modified,VARCHAR,1096610,997767,0,0.0,2025-12-01T00:00:14,2026-03-02T10:28:01,2025-12-01T02:57:44 | 2025-12-01T05:51:42 | 2025-12-02T04:17:35
+juspay_transactions,txn_flow_type,VARCHAR,1096610,6,0,0.0,CARD_TRANSACTION,REDIRECT_DEBIT,REDIRECT_DEBIT | QR | INTENT
+juspay_transactions,txn_conflict,VARCHAR,1096610,3,52,0.0,CONFLICTED,RESOLVED,CONFLICTED | MATCH | RESOLVED
+juspay_transactions,order_status,VARCHAR,1096610,4,0,0.0,AUTHORIZING,SUCCESS,SUCCESS | PENDING_AUTHENTICATION | AUTHORIZING
+juspay_transactions,actual_payment_status,VARCHAR,1096610,5,0,0.0,AUTHORIZING,STARTED,AUTO_REFUNDED | STARTED | PENDING_VBV
+juspay_transactions,previous_txn_status,VARCHAR,1096610,3,62,0.0,AUTHORIZATION_FAILED,PENDING_VBV,AUTHORIZATION_FAILED | PENDING_VBV | AUTHORIZING
+juspay_transactions,description,VARCHAR,1096610,2,123791,11.3,Complete your payment,Credits towards Wiom Partners Wallet,Credits towards Wiom Partners Wallet | Complete your payment
+juspay_transactions,refund_date,VARCHAR,1096610,12961,1083293,98.8,2025-12-01T04:25:08,2026-03-02T13:44:04,2026-02-27T12:59:26 | 2026-03-01T22:49:11 | 2026-02-27T23:18:11
+juspay_transactions,mandate_status,VARCHAR,1096610,4,972819,88.7,ACTIVE,REVOKED,ACTIVE | REVOKED | PAUSED
+juspay_transactions,mandate_gateway,VARCHAR,1096610,2,972819,88.7,PAYTM_V2,PAYU,PAYTM_V2 | PAYU
+juspay_transactions,error_category,VARCHAR,1096610,2,1096447,100.0,TECHNICAL_ERROR,TXN_PENDING,TXN_PENDING | TECHNICAL_ERROR
+juspay_transactions,mandate_id,VARCHAR,1096610,64877,972819,88.7,211iy3vfPupoDbH3x8Fjay,zzxAkwh33zSYYQ1oJtbiP,hG9UpBPUYozqRVaDJ1Zorr | pwFCT39j2FQ5L8DnaUaCB2 | r6zSaUng65BZb9wKjqxmJb
+juspay_transactions,mandate_created_at,VARCHAR,1096610,64691,972819,88.7,2024-12-02T00:12:25,2026-02-28T22:57:01,2025-11-03T14:30:18 | 2025-10-05T16:02:18 | 2025-11-04T06:43:43
+juspay_transactions,mandate_end_date,VARCHAR,1096610,64688,972819,88.7,2025-12-02T00:12:25,2027-02-28T22:57:01,2026-08-08T22:20:17 | 2026-01-20T21:32:20 | 2026-10-05T18:38:44
+juspay_transactions,mandate_start_date,VARCHAR,1096610,64688,972819,88.7,2024-12-02T00:12:25,2026-02-28T22:57:01,2026-02-21T13:03:55 | 2025-12-25T10:50:23 | 2025-11-26T08:05:39
+juspay_transactions,mandate_revoke_source,VARCHAR,1096610,2,1093255,99.7,MANDATE_LIFE_CYCLE_WEBHOOK,MERCHANT_MANDATE_REVOKE,MERCHANT_MANDATE_REVOKE | MANDATE_LIFE_CYCLE_WEBHOOK
+juspay_transactions,system_date,VARCHAR,1096610,996440,0,0.0,2025-12-01T00:00:02,2026-02-28T23:59:39,2025-12-28T10:37:20 | 2025-12-28T22:30:07 | 2025-12-28T21:46:56
+juspay_transactions,order_date_created,VARCHAR,1096610,996246,0,0.0,2025-05-27T08:05:35,2026-02-28T23:59:39,2026-01-30T00:09:16 | 2026-01-29T06:55:08 | 2026-01-29T18:19:25
+juspay_transactions,udf3,VARCHAR,1096610,6,92028,8.4,Booking,WiomNet,WiomNet | Renewal | Mobile_Recharges
+juspay_transactions,source_month,VARCHAR,1096610,3,0,0.0,Dec25,Jan26,Jan26 | Feb26 | Dec25
+paytm_refunds,Transaction_ID,VARCHAR,16914,16914,0,0.0,"""'20260201220352246472312578375683472'""",'20260131220592243123803480555540532','20251201220492020593431400611850126' | '20251201220422022754990204149764010' | '20251201220632022715145115197454776'
+paytm_refunds,Order_ID,VARCHAR,16914,16908,0,0.0,'wiom-cusSubs_6206807578_189515389_0-1',wiom-wgSubs_8279563871_193397416_1-2,'wiom-custGen_7042075567_185481257_0-1' | 'wiom-custGen_9897632229_185535669_0-1' | 'wiom-custGen_8588808136_185532002_0-1'
+paytm_refunds,Merchant_Unique_Ref,VARCHAR,16914,12,919,5.4,'App',UPI_Apps,Friend_QR_Link | UPI_Apps | 'QR_checkout'
+paytm_refunds,Merchant_Request_Id,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Transaction_Date,VARCHAR,16914,15826,0,0.0,'2025-12-01 00:22:11',2026-02-28 23:51:34,'2025-12-01 01:14:40' | '2025-12-01 07:18:10' | '2025-12-01 15:38:10'
+paytm_refunds,Updated_Date,VARCHAR,16914,15958,0,0.0,'2025-12-01 00:22:12',2026-03-01 18:31:31,'2025-12-01 07:22:46' | '2025-12-01 15:36:17' | '2025-12-01 15:30:33'
+paytm_refunds,Transaction_Type,VARCHAR,16914,2,0,0.0,'REFUND',REFUND,REFUND | 'REFUND'
+paytm_refunds,Status,VARCHAR,16914,2,0,0.0,'SUCCESS',SUCCESS,SUCCESS | 'SUCCESS'
+paytm_refunds,MID,VARCHAR,16914,2,0,0.0,'EjzWDC77709729750855',EjzWDC77709729750855,'EjzWDC77709729750855' | EjzWDC77709729750855
+paytm_refunds,Merchant_Name,VARCHAR,16914,2,0,0.0,'Wiom',Wiom,Wiom | 'Wiom'
+paytm_refunds,Customer_ID,VARCHAR,16914,16049,0,0.0,'1112223271',9999875861,'9911809145_1762169005' | '9540331594' | '8976059322'
+paytm_refunds,Customer_Nickname,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Payment_Mobile_Number,VARCHAR,16914,16031,0,0.0,'1112223271',9999875861,'9654201063' | '9310730510' | '9990888731'
+paytm_refunds,Payment_Email_Id,VARCHAR,16914,4,0,0.0,'con****@wiom.in',contact@wiom.in,contact@wiom.in | con****@wiom.in | 'contact@wiom.in'
+paytm_refunds,Amount,DOUBLE,16914,355,0,0.0,10.0,96.0,279.0 | 476.0 | 345.0
+paytm_refunds,Commission,DOUBLE,16914,1,0,0.0,0.0,0.0,0.0
+paytm_refunds,GST,DOUBLE,16914,1,0,0.0,0.0,0.0,0.0
+paytm_refunds,Merchant_Order_ID,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Payout_ID,VARCHAR,16914,90,0,0.0,'ONSPG202512020000216820000730814963725',ONSPG202603010000216820000730814963725,'ONSPG202512280000216820000730814963725' | ONSPG202602120000216820000730814963725 | ONSPG202602150000216820000730814963725
+paytm_refunds,Channel,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,UTR_No.,VARCHAR,16914,90,0,0.0,'UTIBR62025120241020586',UTIBR62026030160076141,'UTIBR62025121643828646' | 'UTIBR62026010447917425' | 'UTIBR62026011249367648'
+paytm_refunds,Payout_Date,VARCHAR,16914,90,0,0.0,'2025-12-02 00:00:00',2026-03-01 00:00:00,'2025-12-15 00:00:00' | '2025-12-27 00:00:00' | 2026-02-06 00:00:00
+paytm_refunds,Settled_Date,VARCHAR,16914,90,0,0.0,'2025-12-02 16:24:17',2026-03-01 15:02:40,2026-02-09 15:02:43 | 2026-02-10 01:36:39 | 2026-02-17 01:38:31
+paytm_refunds,Payment_Mode,VARCHAR,16914,8,0,0.0,'UPI',UPI_PPIWALLET,'UPI_PPIWALLET' | 'UPI' | UPI_LITE
+paytm_refunds,Issuing_Bank,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Reference_Transaction_ID,VARCHAR,16914,16908,0,0.0,'20250729210320000156883201890520641',20260228210580000234637683851719209,'20251116210540000196964947847550678' | '20251126210590000200397126052549097' | '20251201210570000202148651770785150'
+paytm_refunds,POS_ID,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Merchant_Ref_ID,VARCHAR,16914,16914,0,0.0,'cusSubs_6206807578_189515389_0_1767353006715',wgSubs_8279563871_193397416_1_1771346260994,'custGen_9873839805_185486378_1_1764533749741' | 'custGen_8130846524_185481267_0_1764528746473' | 'custWgSubs_9867246266_186625226_0_1764553519149'
+paytm_refunds,External_Serial_No,VARCHAR,16914,16914,0,0.0,'51201800095303856141',60228806543594360837,'51201802042539664401' | '51201802041866043393' | '51201804078818735137'
+paytm_refunds,Commission_Rate,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Product_Code,VARCHAR,16914,4,0,0.0,'51051000100000000001',51051000100000000004,51051000100000000001 | 51051000100000000004 | '51051000100000000001'
+paytm_refunds,GMV_Tier,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Transaction_Slab,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Request_Type,VARCHAR,16914,6,0,0.0,'NATIVE',RENEW_SUBSCRIPTION,'NATIVE' | 'NATIVE_SUBSCRIPTION' | NATIVE_SUBSCRIPTION
+paytm_refunds,Refund_Type,VARCHAR,16914,2,775,4.6,'REFUND_TO_SOURCE',REFUND_TO_SOURCE,REFUND_TO_SOURCE | 'REFUND_TO_SOURCE'
+paytm_refunds,Refund_Actor,VARCHAR,16914,2,0,0.0,'MERCHANT',MERCHANT,'MERCHANT' | MERCHANT
+paytm_refunds,Split_Flag,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Split_MID,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Split_Id,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Is_Split_Refund,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Link_Description,VARCHAR,16914,2,854,5.0,'NA',NA,NA | 'NA'
+paytm_refunds,Payment_Reference_Number,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Is_PRN_Validated,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,PRN_Validate_Time,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Credit/Debit_Card_Last_4_Digits,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Bank_Transaction_ID,VARCHAR,16914,16914,0,0.0,'0',642509602681,'533505544757' | '570107379291' | '570107228393'
+paytm_refunds,Promo_Code,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Promo_Response,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Settled_Amount,DOUBLE,16914,355,0,0.0,10.0,96.0,537.0 | 11.0 | 30.0
+paytm_refunds,PCF,DOUBLE,16914,1,0,0.0,0.0,0.0,0.0
+paytm_refunds,PCF_GST,DOUBLE,16914,1,0,0.0,0.0,0.0,0.0
+paytm_refunds,FS_Offer_Fee,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,FS_Offer_GST,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Response_code,VARCHAR,16914,2,0,0.0,'10',10,'10' | 10
+paytm_refunds,Customer_VPA,VARCHAR,16914,12831,8,0.0,'00701179828@ybl',zaidrain5967-1@okicici,'8377046504@ptaxis' | '8743064914@ybl' | '9999022812@ptyes'
+paytm_refunds,Card_BIN,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Customer_Details,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Link_Name,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Link_Notes,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Response_message,VARCHAR,16914,2,0,0.0,'Refund Successful.',Refund Successful.,Refund Successful. | 'Refund Successful.'
+paytm_refunds,Promo_discount_type,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Promo_Amount,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Original_txn_value_before_promo,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Total_Bill_Amount,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Instant_Discount,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,MLV_Amount,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Auth_Code,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,RRN,VARCHAR,16914,16914,0,0.0,'070003979367',642509602681,'533504994893' | '570107815299' | '533506918468'
+paytm_refunds,Prepaid_Card,VARCHAR,16914,2,0,0.0,'false',false,'false' | false
+paytm_refunds,AdditionalComments,VARCHAR,16914,2,1,0.0,'Success',Success,'Success' | Success
+paytm_refunds,Charge_Target,VARCHAR,16914,2,0,0.0,'RECEIVER',RECEIVER,'RECEIVER' | RECEIVER
+paytm_refunds,Fee_Factor,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Bank/Gateway,VARCHAR,16914,6,0,0.0,'PTYBLC',PTYBLS,'PTYBLI' | PTYBLI | 'PTYBLS'
+paytm_refunds,Card_Scheme,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,ACQUIRING_SERVICE_FEE,DOUBLE,16914,1,0,0.0,0.0,0.0,0.0
+paytm_refunds,ACQUIRING_SERVICE_TAX,DOUBLE,16914,1,0,0.0,0.0,0.0,0.0
+paytm_refunds,PLATFORM_SERVICE_FEE,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,PLATFORM_SERVICE_TAX,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Promo_Cart_Amount,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Reseller_ID,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Reseller_Name,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Employee_Id,VARCHAR,16914,1,16913,100.0,'EjzWDC77709729750855','EjzWDC77709729750855','EjzWDC77709729750855'
+paytm_refunds,Employee_Name,VARCHAR,16914,1,16913,100.0,'rutuj.dodal','rutuj.dodal','rutuj.dodal'
+paytm_refunds,Employee_PhoneNo,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Employee_Email,VARCHAR,16914,1,16913,100.0,'rutuj.dodal@wiom.in','rutuj.dodal@wiom.in','rutuj.dodal@wiom.in'
+paytm_refunds,User_Expected_Credit_Date,VARCHAR,16914,15958,0,0.0,'UPI:2025-12-02 00:22:12',UPI:2026-03-02 18:31:31,'UPI:2025-12-02 07:38:25' | 'UPI:2025-12-02 07:22:46' | 'UPI:2025-12-02 15:38:12'
+paytm_refunds,Order_Reason,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Customer_Account_Number,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Customer_BANK_IFSC,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,TEMPLATE_ID,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,TEMPLATE_NAME,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Foreign_Currency,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Foreign_Currency_Name,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Foreign_Amount,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Exchange_Rate,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,User_Markup_Rate,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Refund_Source,VARCHAR,16914,2,0,0.0,'SETTLEMENT_REFUND',SETTLEMENT_REFUND,'SETTLEMENT_REFUND' | SETTLEMENT_REFUND
+paytm_refunds,Sub_Order_Status,VARCHAR,16914,2,0,0.0,'SUCCESS',SUCCESS,'SUCCESS' | SUCCESS
+paytm_refunds,Refund_Reversal_Id,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Refund_Reversal_Status,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Refund_Reversal_TimeStamp,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Capture_Id,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Pos_Date,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Pos_Time,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Add_Money_Type,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,ARN,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Gateway_Response_Code,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Gateway_Response_Message,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,ARN_AVAILABILITY,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Split_Reference_Id,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,UDF2,VARCHAR,16914,4,854,5.0,'prod',stage,stage | prod | UDF2
+paytm_refunds,UDF3,VARCHAR,16914,13,854,5.0,'Booking',WiomNet,Installation | WiomNet | 'NA'
+paytm_refunds,IS_REVERSAL,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Settle_Type,VARCHAR,16914,2,0,0.0,'ONLINE_AWS',ONLINE_AWS,'ONLINE_AWS' | ONLINE_AWS
+paytm_refunds,Merchant_Payment_Detail_1,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Settlement_Bundle_Id,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Settle_Factors,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Is_Dqr_True,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,Customer_Convenience_Fee,VARCHAR,16914,0,16914,100.0,,,
+paytm_refunds,filename,VARCHAR,16914,3,0,0.0,csv\paytm-refunds\Paytm- Refund Report - 01 Dec 2025 - 31 Dec 2025.csv,csv\paytm-refunds\Paytm- Refund Report - 01 Jan 2026 - 31 Jan 2026.csv,csv\paytm-refunds\Paytm- Refund Report - 01 Dec 2025 - 31 Dec 2025.csv | csv\paytm-refunds\Paytm- Refund Report - 01 Feb 2026 - 28 Feb 2026.csv | csv\paytm-refunds\Paytm- Refund Report - 01 Jan 2026 - 31 Jan 2026.csv
+paytm_settlements,transaction_id,DOUBLE,927025,5675,0,0.0,2.025112921035e+34,2.0260227220602342e+34,2.026010521046e+34 | 2.026010121063e+34 | 2.026010421039e+34
+paytm_settlements,order_id,VARCHAR,927025,912560,0,0.0,w-Wiom79820330121767704933259-1,wiom-wiomWall_9999862747_188371427_1-2,wiom-w_8126780025_189661500_1-1 | wiom-custGen_8750509550_191598497_0-1 | wiom-w_8779748372_189711258_1-1
+paytm_settlements,merchant_unique_ref,VARCHAR,927025,10,69561,7.5,App,link,App | Router_QR | link
+paytm_settlements,transaction_date,TIMESTAMP,927025,853185,0,0.0,2025-11-25 09:08:54,2026-02-27 23:59:20,2026-01-01 17:54:21 | 2026-01-06 20:21:15 | 2026-01-06 19:04:40
+paytm_settlements,updated_date,TIMESTAMP,927025,854818,0,0.0,2025-11-30 00:00:02,2026-02-27 23:59:46,2026-01-04 00:07:22 | 2026-01-04 16:09:14 | 2026-01-04 23:03:31
+paytm_settlements,transaction_type,VARCHAR,927025,4,0,0.0,ACQUIRING,REFUND,REFUND | CHARGEBACK_REVERSAL | ACQUIRING
+paytm_settlements,status,VARCHAR,927025,1,0,0.0,SUCCESS,SUCCESS,SUCCESS
+paytm_settlements,original_mid,VARCHAR,927025,1,0,0.0,EjzWDC77709729750855,EjzWDC77709729750855,EjzWDC77709729750855
+paytm_settlements,merchant_name,VARCHAR,927025,1,0,0.0,OMNIA INFORMATION PRIVATE LIMITED,OMNIA INFORMATION PRIVATE LIMITED,OMNIA INFORMATION PRIVATE LIMITED
+paytm_settlements,customer_id,VARCHAR,927025,313840,0,0.0,1111151719,9999999645,8368329982 | 8218973115 | 9871363246_1763302102
+paytm_settlements,nickname,VARCHAR,927025,1,0,0.0,Wiom,Wiom,Wiom
+paytm_settlements,customer_phone_no,VARCHAR,927025,30706,16,0.0,11******000,99******999,84******709 | 90******307 | 97******656
+paytm_settlements,customer_email_id,VARCHAR,927025,1,16,0.0,con****@wiom.in,con****@wiom.in,con****@wiom.in
+paytm_settlements,amount,DOUBLE,927025,912,0,0.0,1.0,998.0,453.0 | 570.0 | 572.0
+paytm_settlements,commission,DOUBLE,927025,335,0,0.0,0.0,90.0,12.83 | 12.89 | 10.58
+paytm_settlements,gst,DOUBLE,927025,213,0,0.0,0.0,81.0,0.04 | 1.72 | 1.87
+paytm_settlements,merchant_bill_id,VARCHAR,927025,90,0,0.0,ONSPG20251201000021682000073081496372555,ONSPG20260228000021682000073081496372555,ONSPG20251226000021682000073081496372555 | ONSPG20251214000021682000073081496372555 | ONSPG20251207000021682000073081496372555
+paytm_settlements,payout_id,VARCHAR,927025,90,0,0.0,ONSPG202512010000216820000730814963725,ONSPG202602280000216820000730814963725,ONSPG202602170000216820000730814963725 | ONSPG202601120000216820000730814963725 | ONSPG202601290000216820000730814963725
+paytm_settlements,channel,VARCHAR,927025,2,0,0.0,SYSTEM,WEB,SYSTEM | WEB
+paytm_settlements,utr_no,VARCHAR,927025,90,0,0.0,AXNPN04599360578,UTIBR62026022859894286,UTIBR62026010247564139 | UTIBR62026012452087767 | UTIBR62026011449938380
+paytm_settlements,payout_date,DATE,927025,90,0,0.0,2025-12-01,2026-02-28,2026-01-12 | 2026-01-29 | 2025-12-03
+paytm_settlements,settled_date,DATE,927025,89,0,0.0,2025-12-01,2026-02-28,2026-01-20 | 2026-01-11 | 2026-02-16
+paytm_settlements,payment_mode,VARCHAR,927025,2,29,0.0,NET_BANKING,UPI,UPI | NET_BANKING
+paytm_settlements,issuing_bank,VARCHAR,927025,3,927001,100.0,Bank of Baroda,ICICI Bank,Bank of Baroda | HDFC Bank | ICICI Bank
+paytm_settlements,pos_id,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,extserialno,DOUBLE,927025,923799,308,0.0,5.112980657862727e+19,6.022780657695168e+19,6.010480442845749e+19 | 6.010480511968209e+19 | 6.01048015126468e+19
+paytm_settlements,settled_amount,DOUBLE,927025,1222,0,0.0,0.98,998.0,492.0 | 600.0 | 50.0
+paytm_settlements,prn,VARCHAR,927025,1,926983,100.0,null,null,null
+paytm_settlements,validate_count,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,prn_validate_time,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,prn_validated,VARCHAR,927025,1,926983,100.0,null,null,null
+paytm_settlements,comments,VARCHAR,927025,1,926970,100.0,COMMENT,COMMENT,COMMENT
+paytm_settlements,promocode,VARCHAR,927025,1,909831,98.1,Null,Null,Null
+paytm_settlements,promocode_response,VARCHAR,927025,1,909831,98.1,Null,Null,Null
+paytm_settlements,bank_transaction_id,VARCHAR,927025,926701,308,0.0,000000031859,999998649269,390519690670 | 600179825300 | 637055966138
+paytm_settlements,link_description,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,reference_transaction_id,DOUBLE,927025,2506,909789,98.1,2.025072921032e+34,2.026022721063e+34,2.025091321052e+34 | 2.025122721045e+34 | 2.025122221047e+34
+paytm_settlements,merchant_ref_id,VARCHAR,927025,17225,909789,98.1,216820000730814963725_20251011210500000183645616825017628_L1_1,wgSubs_8279563871_193397416_1_1771346260994,custGen_8800307514_180028505_0_1769692216630 | custGen_9993418695_179998797_1_1769685010067 | custGen_9990830319_188833042_1_1767359852550
+paytm_settlements,gateway,VARCHAR,927025,6,308,0.0,BOBAC1IN,PTYSC1IN,PTYCC1IN | ICICC1IN | PTYIC1IN
+paytm_settlements,commission_rate,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,product_code,VARCHAR,927025,2,926983,100.0,51051000100000000001,51051000100000000004,51051000100000000004 | 51051000100000000001
+paytm_settlements,gmv_tier,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,request_type,VARCHAR,927025,3,17236,1.9,NATIVE,RENEW_SUBSCRIPTION,RENEW_SUBSCRIPTION | NATIVE | NATIVE_SUBSCRIPTION
+paytm_settlements,transaction_slab,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,dispute_id,VARCHAR,927025,31,926983,100.0,202511251103912000043686366904338986,202602261103812337275303478353920712,202601131103212177692783347425284379 | 202602211105812319006989890764808716 | 202601281103212232186480647004170176
+paytm_settlements,card_network,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,feefactor,VARCHAR,927025,30,17236,1.9,Scheme=UPI;Bank=PTYBLS;\,upiModeSubType=UPI_PPIWALLET;Scheme=UPIPUSH;Bank=PTYBLS;\,solutionWiseMdr=API;upiModeSubType=UPI_CREDITLINE;Scheme=UPI;upiCreditLineIntere | solutionWiseMdr=API;upiModeSubType=UPI_LITE;Scheme=UPIPUSH;Bank=PTYBLI;\ | solutionWiseMdr=API;Scheme=ICICI;Bank=ICICI;\
+paytm_settlements,acquiring_fee,DOUBLE,927025,335,0,0.0,0.0,90.0,10.85 | 10.96 | 11.07
+paytm_settlements,platform_fee,DOUBLE,927025,1,0,0.0,0.0,0.0,0.0
+paytm_settlements,acquiring_tax,DOUBLE,927025,213,0,0.0,0.0,81.0,141.75 | 0.64 | 5.63
+paytm_settlements,platform_tax,DOUBLE,927025,1,0,0.0,0.0,0.0,0.0
+paytm_settlements,reseller_id,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,reseller_name,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,split_flag,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,van,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,ifsc_code,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,bank_name,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,beneficiary_name,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,purpose,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,issuingbankid,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,issuing_bank_name,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,maskedcardno,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,instunioncode,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,depositor_name,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,transfermode,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,transactiondate,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,rrncode,VARCHAR,927025,841034,85988,9.3,000000031859,PAYTM602218016594800650252026022106,557009331149 | 888232893781 | 314507793492
+paytm_settlements,van_udf1,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,van_udf2,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,van_udf3,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,van_udf4,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,van_udf5,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,reference_no,VARCHAR,927025,909518,17502,1.9,000000031859,999998649269,603074331324 | 297929918438 | 116694205290
+paytm_settlements,link_customer_name,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,settlement_type,VARCHAR,927025,1,0,0.0,online_settlement,online_settlement,online_settlement
+paytm_settlements,sub_merchant_name,VARCHAR,927025,1,0,0.0,Wiom,Wiom,Wiom
+paytm_settlements,tip_amount,BIGINT,927025,1,0,0.0,0,0,0
+paytm_settlements,merchant_request_id,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,upi_mode_sub_type,VARCHAR,927025,5,862649,93.1,UPI_CREDITLINE,UPI_SAVINGS,UPI_PPIWALLET | UPI_CREDIT_CARD | UPI_LITE
+paytm_settlements,capture_id,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,protection_plan_provider,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,protection_plan_amount,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,split_transaction_id,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,bill_amount,DOUBLE,927025,1,0,0.0,0.0,0.0,0.0
+paytm_settlements,discount_amount,DOUBLE,927025,1,0,0.0,0.0,0.0,0.0
+paytm_settlements,txn_amount,DOUBLE,927025,1,0,0.0,0.0,0.0,0.0
+paytm_settlements,udf1,VARCHAR,927025,1,64681,7.0,NA,NA,NA
+paytm_settlements,udf2,VARCHAR,927025,5,64681,7.0,UDF2,stage,UDF2 | stage | prod
+paytm_settlements,udf3,VARCHAR,927025,8,64681,7.0,Booking,WiomNet,WiomNet | Installation | Renewal
+paytm_settlements,partner_id,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,loan_amount,DOUBLE,927025,1,0,0.0,0.0,0.0,0.0
+paytm_settlements,subvention_amount,DOUBLE,927025,1,0,0.0,0.0,0.0,0.0
+paytm_settlements,subvention_type,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,bank_offer_discount,BIGINT,927025,1,909789,98.1,0,0,0
+paytm_settlements,bank_offer_cashback,BIGINT,927025,1,909789,98.1,0,0,0
+paytm_settlements,Payment_Currency_Code,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,Payment_Currency_Name,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,Payment_Currency_Amount,VARCHAR,927025,0,927025,100.0,,,
+paytm_settlements,offer_processing_fee,VARCHAR,927025,1,480323,51.8,0.0,0.0,0.0
+paytm_settlements,offer_processing_tax,VARCHAR,927025,1,480323,51.8,0.0,0.0,0.0
+paytm_settlements,filename,VARCHAR,927025,3,0,0.0,csv\PG-settlements\paytm\Paytm- Historical Settlement Report - 01 Dec 2025 - 31 Dec 2025.csv,csv\PG-settlements\paytm\Paytm- Historical Settlement Report - 01 Jan 2026 - 31 Jan 2026.csv,csv\PG-settlements\paytm\Paytm- Historical Settlement Report - 01 Feb 2026 - 28  | csv\PG-settlements\paytm\Paytm- Historical Settlement Report - 01 Jan 2026 - 31  | csv\PG-settlements\paytm\Paytm- Historical Settlement Report - 01 Dec 2025 - 31 
+paytm_transactions,Transaction_ID,VARCHAR,907342,907342,0,0.0,'20251201210320000202040936785159486','20260228210630000234655116381473522','20260125210330000222225063840151802' | '20260125210490000222224901583160511' | '20260125210610000222224887440674817'
+paytm_transactions,Order_ID,VARCHAR,907342,907342,0,0.0,'w-Wiom79820330121767704933259-1','wiom-wiomWall_9999862747_188371427_1-2','wiom-w_8375903233_191502909_1-1' | 'wiom-w_9625157219_191501148_0-1' | 'wiom-custGen_9599416833_191500923_1-1'
+paytm_transactions,Merchant_Unique_Ref,VARCHAR,907342,9,68431,7.5,'App','link','Friend_QR_Link' | 'app' | 'Router_QR'
+paytm_transactions,Merchant_Request_Id,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Transaction_Date,VARCHAR,907342,837497,0,0.0,'2025-12-01 00:00:03','2026-02-28 23:59:39','2026-01-25 16:46:30' | '2026-01-25 16:45:39' | '2026-01-25 16:44:52'
+paytm_transactions,Updated_Date,VARCHAR,907342,838870,0,0.0,'2025-12-01 00:00:17','2026-03-01 00:01:46','2026-01-25 16:45:29' | '2026-01-25 16:41:19' | '2026-01-25 16:39:54'
+paytm_transactions,Transaction_Type,VARCHAR,907342,1,0,0.0,'ACQUIRING','ACQUIRING','ACQUIRING'
+paytm_transactions,Status,VARCHAR,907342,1,0,0.0,'SUCCESS','SUCCESS','SUCCESS'
+paytm_transactions,MID,VARCHAR,907342,1,0,0.0,'EjzWDC77709729750855','EjzWDC77709729750855','EjzWDC77709729750855'
+paytm_transactions,Merchant_Name,VARCHAR,907342,1,0,0.0,'Wiom','Wiom','Wiom'
+paytm_transactions,Customer_ID,VARCHAR,907342,310129,0,0.0,'1111151719','9999999645','7217603511' | '9205528986' | '8130761910'
+paytm_transactions,Customer_Nickname,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Payment_Mobile_Number,VARCHAR,907342,302751,0,0.0,'1111151719','9999999645','9354911321' | '8076685314' | '8439943365'
+paytm_transactions,Payment_Email_Id,VARCHAR,907342,2,0,0.0,'con****@wiom.in','contact@wiom.in','contact@wiom.in' | 'con****@wiom.in'
+paytm_transactions,Amount,DOUBLE,907342,884,0,0.0,1.0,998.0,564.0 | 450.0 | 561.0
+paytm_transactions,Commission,DOUBLE,907342,335,0,0.0,0.0,90.0,10.85 | 12.67 | 11.07
+paytm_transactions,GST,DOUBLE,907342,213,0,0.0,0.0,81.0,1.09 | 5.65 | 6.25
+paytm_transactions,Merchant_Order_ID,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Payout_ID,VARCHAR,907342,91,0,0.0,'ONSPG202512020000216820000730814963725','ONSPG202603020000216820000730814963725','ONSPG202601300000216820000730814963725' | 'ONSPG202602160000216820000730814963725' | 'ONSPG202602060000216820000730814963725'
+paytm_transactions,Channel,VARCHAR,907342,2,0,0.0,'SYSTEM','WEB','WEB' | 'SYSTEM'
+paytm_transactions,UTR_No.,VARCHAR,907342,91,0,0.0,'AXNPN04599360578','UTIBR62026030260102637','UTIBR62026020554654257' | 'AXNPN04599360578' | 'UTIBR62026013153513651'
+paytm_transactions,Payout_Date,VARCHAR,907342,91,0,0.0,'2025-12-02 00:00:00','2026-03-02 00:00:00','2026-02-20 00:00:00' | '2025-12-15 00:00:00' | '2026-01-28 00:00:00'
+paytm_transactions,Settled_Date,VARCHAR,907342,91,0,0.0,'2025-12-02 16:24:17','2026-03-02 01:36:56','2025-12-17 02:54:29' | '2025-12-23 01:33:25' | '2026-01-15 01:36:03'
+paytm_transactions,Payment_Mode,VARCHAR,907342,6,0,0.0,'NET_BANKING','UPI_PPIWALLET','UPI_LITE' | 'UPI' | 'UPI_CREDIT_CARD'
+paytm_transactions,Issuing_Bank,VARCHAR,907342,3,907319,100.0,'Bank of Baroda','ICICI Bank','Bank of Baroda' | 'HDFC Bank' | 'ICICI Bank'
+paytm_transactions,Reference_Transaction_ID,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,POS_ID,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Merchant_Ref_ID,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,External_Serial_No,VARCHAR,907342,907342,0,0.0,'51201800000216760321','60228806578290401285','60125804572674110469' | '60125804420876733469' | '60125804419067850765'
+paytm_transactions,Commission_Rate,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Product_Code,VARCHAR,907342,2,0,0.0,'51051000100000000001','51051000100000000004','51051000100000000004' | '51051000100000000001'
+paytm_transactions,GMV_Tier,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Transaction_Slab,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Request_Type,VARCHAR,907342,3,0,0.0,'NATIVE','RENEW_SUBSCRIPTION','NATIVE' | 'NATIVE_SUBSCRIPTION' | 'RENEW_SUBSCRIPTION'
+paytm_transactions,Refund_Type,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Refund_Actor,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Split_Flag,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Split_MID,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Split_Id,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Is_Split_Refund,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Link_Description,VARCHAR,907342,1,62885,6.9,'NA','NA','NA'
+paytm_transactions,Payment_Reference_Number,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Is_PRN_Validated,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,PRN_Validate_Time,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Credit/Debit_Card_Last_4_Digits,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Bank_Transaction_ID,VARCHAR,907342,907337,0,0.0,'000000031859','999998649269','705199702791' | '690251424385' | '638041898960'
+paytm_transactions,Promo_Code,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Promo_Response,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Settled_Amount,DOUBLE,907342,1192,0,0.0,0.98,998.0,572.0 | 471.0 | 570.0
+paytm_transactions,PCF,DOUBLE,907342,1,0,0.0,0.0,0.0,0.0
+paytm_transactions,PCF_GST,DOUBLE,907342,1,0,0.0,0.0,0.0,0.0
+paytm_transactions,FS_Offer_Fee,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,FS_Offer_GST,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Response_code,VARCHAR,907342,1,0,0.0,'01','01','01'
+paytm_transactions,Customer_VPA,VARCHAR,907342,404563,23,0.0,'-ybl-ybl@ybl','zzzz....@ybl','9205528986-4@axl' | 'rohitkumarmaurya995@oksbi' | 'fahim.123456@okicici'
+paytm_transactions,Card_BIN,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Customer_Details,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Link_Name,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Link_Notes,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Response_message,VARCHAR,907342,1,0,0.0,'Txn Success','Txn Success','Txn Success'
+paytm_transactions,Promo_discount_type,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Promo_Amount,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Original_txn_value_before_promo,DOUBLE,907342,884,0,0.0,1.0,998.0,564.0 | 450.0 | 561.0
+paytm_transactions,Total_Bill_Amount,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Instant_Discount,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,MLV_Amount,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Auth_Code,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,RRN,VARCHAR,907342,838987,68352,7.5,'000000031859','PAYTM602218016594800650252026022106','117677842376' | '941877544687' | '650803416571'
+paytm_transactions,Prepaid_Card,VARCHAR,907342,1,0,0.0,'false','false','false'
+paytm_transactions,AdditionalComments,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Charge_Target,VARCHAR,907342,1,0,0.0,'RECEIVER','RECEIVER','RECEIVER'
+paytm_transactions,Fee_Factor,VARCHAR,907342,30,0,0.0,'NET_BANKING|BOB|API|BOB','UPI|UPI|PTYBLS','NET_BANKING|HDFC|API|HDFC' | 'UPI|UPIPUSH|API|UPI_CREDIT_CARD|PTYBLI|Platinum|upiCc' | 'UPI|UPI|API|UPI_CREDIT_CARD|PTYBLC|RuPay Select|upiCc'
+paytm_transactions,Bank/Gateway,VARCHAR,907342,6,0,0.0,'BOB','PTYBLS','PTYBLI' | 'ICICI' | 'HDFC'
+paytm_transactions,Card_Scheme,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,ACQUIRING_SERVICE_FEE,DOUBLE,907342,335,0,0.0,0.0,90.0,11.81 | 12.85 | 13.39
+paytm_transactions,ACQUIRING_SERVICE_TAX,DOUBLE,907342,213,0,0.0,0.0,81.0,0.04 | 1.72 | 0.89
+paytm_transactions,PLATFORM_SERVICE_FEE,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,PLATFORM_SERVICE_TAX,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Promo_Cart_Amount,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Reseller_ID,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Reseller_Name,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Employee_Id,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Employee_Name,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Employee_PhoneNo,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Employee_Email,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,User_Expected_Credit_Date,VARCHAR,907342,2,0,0.0,'NET_BANKING:null','UPI:null','UPI:null' | 'NET_BANKING:null'
+paytm_transactions,Order_Reason,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Customer_Account_Number,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Customer_BANK_IFSC,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,TEMPLATE_ID,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,TEMPLATE_NAME,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Foreign_Currency,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Foreign_Currency_Name,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Foreign_Amount,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Exchange_Rate,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,User_Markup_Rate,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Refund_Source,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Sub_Order_Status,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Refund_Reversal_Id,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Refund_Reversal_Status,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Refund_Reversal_TimeStamp,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Capture_Id,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Pos_Date,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Pos_Time,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Add_Money_Type,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,ARN,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Gateway_Response_Code,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Gateway_Response_Message,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,ARN_AVAILABILITY,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Split_Reference_Id,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,UDF2,VARCHAR,907342,5,62885,6.9,'UDF2','stage','qa' | 'dev' | 'stage'
+paytm_transactions,UDF3,VARCHAR,907342,8,62885,6.9,'Booking','WiomNet','Mobile_Recharges' | 'UDF3' | 'WiomNet'
+paytm_transactions,IS_REVERSAL,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Settle_Type,VARCHAR,907342,1,0,0.0,'ONLINE_AWS','ONLINE_AWS','ONLINE_AWS'
+paytm_transactions,Merchant_Payment_Detail_1,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Auto_Refund_Type,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Settlement_Bundle_Id,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Settle_Factors,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Is_Dqr_True,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,SKU_ITEM,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Item_Id,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Is_Multi_Item,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,Customer_Convenience_Fee,VARCHAR,907342,0,907342,100.0,,,
+paytm_transactions,filename,VARCHAR,907342,3,0,0.0,csv\paytm-transactions\Paytm- Payment Report - 01 Dec 2025 - 31 Dec 2025.csv,csv\paytm-transactions\Paytm- Payment Report - 01 Jan 2026 - 31 Jan 2026.csv,csv\paytm-transactions\Paytm- Payment Report - 01 Jan 2026 - 31 Jan 2026.csv | csv\paytm-transactions\Paytm- Payment Report - 01 Dec 2025 - 31 Dec 2025.csv | csv\paytm-transactions\Paytm- Payment Report - 01 Feb 2026 - 28 Feb 2026.csv
+payu_settlements,AddedOn,VARCHAR,94663,91413,0,0.0,2025-02-13 13:50:34,2026-02-27 02:21:46,2025-11-29 02:39:34 | 2025-11-29 07:41:56 | 2025-11-29 22:26:52
+payu_settlements,Additional Charges,DOUBLE,94663,1,96,0.1,0.0,0.0,0.0
+payu_settlements,Additional Service Fee,DOUBLE,94663,95,0,0.0,-1138.46,4.0,-1497.09 | -1872.68 | -1675.64
+payu_settlements,Additional Service Tax,DOUBLE,94663,95,0,0.0,-204.92,2.7,-266.15 | -329.43 | -321.74
+payu_settlements,Address Line1,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Address Line2,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Amount,DOUBLE,94663,620,0,0.0,-1343.38,992.0,5.0 | 538.0 | 25.0
+payu_settlements,Amount(INR),DOUBLE,94663,620,0,0.0,-1343.38,992.0,50.0 | 600.0 | 492.0
+payu_settlements,Bank ARN,VARCHAR,94663,54141,39907,42.2,000003129957,PH602091878571475,622489640159 | 561231605917 | 746601091012
+payu_settlements,Bank Name,VARCHAR,94663,23,96,0.1,Airtel Payments Bank,Yes Bank,MasterCard Debit Cards (All Banks) | ICICI Bank | Yes Bank
+payu_settlements,Bank Reference No,VARCHAR,94663,93171,96,0.1,'534924504884,PPPL26654260327311225223123695556e3,694709920644 | 876173986472 | 284799178124
+payu_settlements,Card Number,VARCHAR,94663,3056,88708,93.7,XXXXXXXXXXXX0000,XXXXXXXXXXXX9995,XXXXXXXXXXXX9397 | XXXXXXXXXXXX1898 | XXXXXXXXXXXX6280
+payu_settlements,CGST,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,City,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Convenience Fee,DOUBLE,94663,1,0,0.0,0.0,0.0,0.0
+payu_settlements,Convenience Tax,DOUBLE,94663,1,0,0.0,0.0,0.0,0.0
+payu_settlements,Country,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Customer Name,VARCHAR,94663,2,22594,23.9,Firstname,WIOM,WIOM | Firstname
+payu_settlements,Discount,DOUBLE,94663,1,96,0.1,0.0,0.0,0.0
+payu_settlements,Customer Email,VARCHAR,94663,2,0,0.0,contact@wiom.in,rutuj.dodal@wiom.in,rutuj.dodal@wiom.in | contact@wiom.in
+payu_settlements,Error Code,VARCHAR,94663,1,96,0.1,E000,E000,E000
+payu_settlements,Field 1,VARCHAR,94663,7348,86909,91.8,009871625682@ybl,yuvrajpal113@oksbi,jonwaltushar7992@axl | 11292025 104505 | 7370965152@ptyes
+payu_settlements,Field 2,VARCHAR,94663,52621,39156,41.4,000012,ZAWF2R,763952 | 464947 | 098675
+payu_settlements,Field 3,VARCHAR,94663,68354,6150,6.5,-ybl-ybl@axl,zzaidansari83@oksbi,875077162200@ybl | shilpaashvinpatel@oksbi | sadikshaikh3524-2@oksbi
+payu_settlements,Field 4,VARCHAR,94663,1420,86909,91.8,1,suyaib,NAMAN YADAV | Ankita Rai Chamling | GHANSHYAM RAJMAN KEWAT
+payu_settlements,Field 5,VARCHAR,94663,70590,6153,6.5,000098cfd946447eb706f1c11971a1a4@okicici,omniainformationprivat-12432608.payu@indus,PPPL26207841235291125101432692a7a30 | 842167e0301b47ce9b29bf682ce2d82e@ybl | 404a5993a643c2b5e0634bcee10afa9b@okhdfcbank
+payu_settlements,Field 6,VARCHAR,94663,36041,40160,42.4,00,zishan khan || PPIW0884509,SHIVAM || KKBK0000190 | RAHUL KUMAR || PUNB0MBGB06 | REEMA  DEVI || CNRB0000033
+payu_settlements,Field 7,VARCHAR,94663,16,161,0.2,00|APPROVED OR COMPLETED SUCCESSFULLY,transactionId=27328397355&amount=575.00&bankTxnId=20260216717150&status=S&checkSum=704434299b4cf3823,0|SUCCESS | transactionId=27328397355&amount=575.00&bankTxnId=20260216717150&status=S&checkS | 00|APPROVED OR COMPLETED SUCCESSFULLY
+payu_settlements,Field 8,VARCHAR,94663,11,24407,25.8,00 | Successful approval/completion or that V.I.P. PIN verification is valid,whatsapp,whatsapp | phonepe | paytm
+payu_settlements,IGST,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,International/Domestic,VARCHAR,94663,4,88647,93.6,corporate,signature_premium,domestic | signature_premium | prepaid
+payu_settlements,Issuing Bank,VARCHAR,94663,53,88707,93.7,ALLBD,ZSBMEERUT,PNB | ESFB | NSDL
+payu_settlements,Last Name,VARCHAR,94663,2,41391,43.7,LastName,User,User | LastName
+payu_settlements,Merchant Email,VARCHAR,94663,1,0,0.0,rutuj.dodal@wiom.in,rutuj.dodal@wiom.in,rutuj.dodal@wiom.in
+payu_settlements,Merchant ID,BIGINT,94663,1,0,0.0,12432608,12432608,12432608
+payu_settlements,Merchant Name,VARCHAR,94663,1,0,0.0,Wiom,Wiom,Wiom
+payu_settlements,Merchant Subvention Amount,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Merchant Txn ID,VARCHAR,94663,92429,0,0.0,ADJ_3084359,wiom-wiomWall_9999779956_188314157_1-1,wiom-custGen_9999247969_186578267_1-1 | wiom-cusSubs_9818761351_186578857_0-1 | wiom-custWgSubs_8920606166_186461353_0-1
+payu_settlements,Merchant UTR,VARCHAR,94663,68,0,0.0,HDFCR52025120189725967,HDFCR52026022775410990,HDFCR52025120290156713 | HDFCR52026010955265851 | HDFCR52026011457141688
+payu_settlements,Name on Card,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Net Amount,DOUBLE,94663,1033,0,0.0,-1343.38,98.0,474.0 | 445.0 | 528.65
+payu_settlements,Offer Availed,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Offer Failure Reason,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Offer Key,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Offer Type,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Payment Gateway,VARCHAR,94663,16,0,0.0,ICICI UPI SI/ICICI_UPI_SI,UPI/AIRTEL UPI,PAYU/AIRNB | Payu/IOBNB | PAYU/CABB
+payu_settlements,Payment Processing Fee,DOUBLE,94663,501,0,0.0,-1138.46,95.46,11.44 | 11.5 | 16.32
+payu_settlements,Payment Source,VARCHAR,94663,4,96,0.1,payuPureS2S,sist,payuS2S | sist | payuPureS2S
+payu_settlements,Payment Type,VARCHAR,94663,10,0,0.0,Credit Card,adjustment,UPISI | Debit Card | UPIPPI
+payu_settlements,PayU ID,VARCHAR,94663,92429,0,0.0,22472317746,ADJ_3754064,26205282592 | 26214646461 | 26205853955
+payu_settlements,PG MID,VARCHAR,94663,14,206,0.2,000000010138,PAYUPAYMENT,CBIBIBO | IOBIBIBO | 000000010138
+payu_settlements,PG Response,VARCHAR,94663,32,96,0.1,00|APPROVED OR COMPLETED SUCCESSFULLY|Completed Using Verify API,success,Success|Completed Using Callback | Success/Failure of capture after reconciliation via payments | marked from faile | No ErrorUpdated card type from international to corporate via Recon 
+payu_settlements,Phone Number,BIGINT,94663,60941,0,0.0,1112223291,9999994760,9650590847 | 9873982670 | 9999763277
+payu_settlements,Priority Settlement Fee,DOUBLE,94663,1,0,0.0,0.0,0.0,0.0
+payu_settlements,Priority Settlement Tax,DOUBLE,94663,1,0,0.0,0.0,0.0,0.0
+payu_settlements,Product Info,VARCHAR,94663,99,0,0.0,Adhoc Adjustment-settlement_Reversal of Fail transactions indusU PayUID-26141802063,SI,Description not provided | Platform fees_daily_2025-12-16 | Platform fees_daily_2026-01-02
+payu_settlements,Recon Ref Number,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Refund Mode,VARCHAR,94663,3,96,0.1,-,Instant Credit through UPI,Instant Credit through UPI | Back to Source | -
+payu_settlements,Request ID,DOUBLE,94663,93425,96,0.1,19088272428.0,20184549415.0,19109184254.0 | 19101756158.0 | 19105745514.0
+payu_settlements,Requested Action,VARCHAR,94663,6,0,0.0,Adjustment_Credit,refundreversal,Adjustment_debit | refund | refundreversal
+payu_settlements,Requested Amount,DOUBLE,94663,530,96,0.1,1.0,992.0,10.0 | 491.0 | 489.0
+payu_settlements,Service Tax,DOUBLE,94663,209,0,0.0,-204.92,9.72,3.08 | 2.05 | 6.16
+payu_settlements,Settlement,VARCHAR,94663,1,0,0.0,approved,approved,approved
+payu_settlements,Settlement Currency,VARCHAR,94663,1,0,0.0,INR,INR,INR
+payu_settlements,Settlement Date,VARCHAR,94663,69,0,0.0,2025-12-01 15:20:12,2026-02-27 15:20:12,2025-12-04 15:20:08 | 2025-12-12 17:00:09 | 2026-01-17 17:00:14
+payu_settlements,SGST,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Shipping Firstname,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Shipping Lastname,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Shipping Phone,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Customer IP Address,VARCHAR,94663,9508,96,0.1,1.187.165.27,94.232.247.248,103.158.171.160 | 106.192.197.56 | 27.59.78.130
+payu_settlements,Shipping Address1,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Shipping Address2,VARCHAR,94663,1,94612,99.9,CMCX,CMCX,CMCX
+payu_settlements,Shipping City,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,State,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Shipping Country,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Shipping Zipcode,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Amount(Net),DOUBLE,94663,1154,0,0.0,-10.0,98.0,50.0 | 600.0 | 492.0
+payu_settlements,Total Processing fees,DOUBLE,94663,501,0,0.0,-1138.46,95.46,11.38 | 9.26 | 0.27
+payu_settlements,Total Service Tax,DOUBLE,94663,209,0,0.0,-204.92,9.72,3.01 | 2.97 | 9.69
+payu_settlements,Merchant Requested Fee,DOUBLE,94663,652,0,0.0,-1343.38,992.0,50.0 | 600.0 | 492.0
+payu_settlements,Shipping State,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,Status,VARCHAR,94663,2,0,0.0,SUCCESS,success,success | SUCCESS
+payu_settlements,SucceedOn,VARCHAR,94663,92645,3,0.0,2025-11-28 02:01:52,2026-03-07 17:54:20,2025-11-29 15:17:26 | 2025-11-29 16:47:11 | 2025-11-29 21:02:51
+payu_settlements,Token,VARCHAR,94663,1313,93329,98.6,1764586805,wgBook_8318738503_173864341_0_1769678880720,custGen_9560362582_166361922_0_1769686213751 | custGen_9899593531_179977660_0_1769678420574 | custGen_7088843134_188024964_1_1769691792771
+payu_settlements,Transaction Currency,VARCHAR,94663,1,96,0.1,INR,INR,INR
+payu_settlements,UDF 1,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,UDF 2,VARCHAR,94663,1,22594,23.9,prod,prod,prod
+payu_settlements,UDF 3,VARCHAR,94663,6,22728,24.0,Booking,WiomNet,WiomNet | Booking | Mobile_Recharges
+payu_settlements,UDF 4,VARCHAR,94663,12,34202,36.1,App,link,QR_checkout | App | Executed Verified
+payu_settlements,UDF 5,DOUBLE,94663,12867,72165,76.2,23374060737.0,27061581499.0,23540907262.0 | 25425792226.0 | 24262559877.0
+payu_settlements,Zipcode,DOUBLE,94663,0,94663,100.0,,,
+payu_settlements,source_month,VARCHAR,94663,3,0,0.0,Dec25,Jan26,Feb26 | Jan26 | Dec25
+payu_transactions,status,VARCHAR,295095,8,0,0.0,Chargebacked,userCancelled,userCancelled | captured | Partially Refunded
+payu_transactions,txnid,VARCHAR,295095,295095,0,0.0,wiom-cusSubs_6000171008_189587681_1-1,wiom-wiomWall_internal_190821260_0-1,wiom-cusSubs_7217509997_188045187_1-1 | wiom-w_9528562057_188046023_1-1 | wiom-custGen_7669276534_188046091_0-1
+payu_transactions,addedon,VARCHAR,295095,105568,0,0.0,01-01-2026 00:00,31-12-2025 23:59,16-12-2025 15:59 | 16-12-2025 16:06 | 16-12-2025 16:08
+payu_transactions,id,BIGINT,295095,295095,0,0.0,26232502189,27497034052,26444891907 | 26445108006 | 26445126998
+payu_transactions,amount,BIGINT,295095,592,0,0.0,0,9998,456 | 425 | 12
+payu_transactions,productinfo,VARCHAR,295095,4,0,0.0,Complete your payment,SI,SI | Credits towards Wiom Partners Wallet | Description not provided
+payu_transactions,firstname,VARCHAR,295095,2,75590,25.6,Firstname,WIOM,Firstname | WIOM
+payu_transactions,lastname,VARCHAR,295095,2,134479,45.6,LastName,User,User | LastName
+payu_transactions,email,VARCHAR,295095,1,0,0.0,contact@wiom.in,contact@wiom.in,contact@wiom.in
+payu_transactions,phone,BIGINT,295095,124094,1,0.0,1111151783,9999994760,9911559884 | 7011637364 | 9780265275
+payu_transactions,ip,VARCHAR,295095,17641,0,0.0,1.187.165.27,94.232.247.248,27.97.218.85 | 152.58.118.137 | 103.216.140.188
+payu_transactions,city,VARCHAR,295095,0,295095,100.0,,,
+payu_transactions,merchant_name,VARCHAR,295095,1,0,0.0,Wiom,Wiom,Wiom
+payu_transactions,merchant_id,BIGINT,295095,1,0,0.0,12432608,12432608,12432608
+payu_transactions,bank_name,VARCHAR,295095,48,3,0.0,AU Small Finance Bank,Yes Bank,Allahabad Bank | AU Small Finance Bank - Corporate | RuPay Debit Cards
+payu_transactions,bank_ref_no,VARCHAR,295095,38582,143861,48.8,0,PH602091878571475,5.35006E+11 | 5.35076E+11 | 5.35016E+11
+payu_transactions,cardtype,VARCHAR,295095,5,286983,97.3,corporate,signature_premium,corporate | international | prepaid
+payu_transactions,mode,VARCHAR,295095,9,0,0.0,CC,UPISI,UPIPPI | DC | NB
+payu_transactions,error_code,VARCHAR,295095,64,5,0.0,E000,EA11,E4179 | E1702 | E214
+payu_transactions,errorDescription,VARCHAR,295095,61,5,0.0,Alt ID timeout at StoreCard. Please raise this to PayU support team,Unable to Dispense,Transaction declined due to technical failure | Transaction failed due to invalid PIN | Transaction declined due to either incorrect cvv/expiry or card validation failu
+payu_transactions,error_message,VARCHAR,295095,210,1,0.0, either the card is newly issued or has not been used for any online transaction during last 12 mont,|Curl Call Failure|Completed Using Verify API,U30|DEBIT HAS BEEN FAILED|B1|REGISTERED MOBILE NUMBER LINKED TO THE ACCOUNT HAS  | U29|ADDRESS RESOLUTION IS FAILED|NU|Unable to Notify the Customer|Completed Usin | U19|RECEIVED REQUEST AUTHORISATION IS DECLINED|Completed Using Callback
+payu_transactions,pgmid,VARCHAR,295095,30,1028,0.3,000000000008,c4dd2bc93ce161e040763607173dadca,000000000020 | 000000000008 | IBIBO
+payu_transactions,pg_response,VARCHAR,295095,208,1,0.0,00|APPROVED OR COMPLETED SUCCESSFULLY|Completed Using Verify API,|Curl Call Failure|Completed Using Verify API,Success|Completed Using Callback | U28|REMITTER BANK NOT AVAILABLE|Completed Using Callback | The details posted are incorrect
+payu_transactions,issuing_bank,VARCHAR,295095,72,286843,97.2, DECLINE / TRANSACTIONS DECLINED BASED ON RISK SCORE BY REMITTER|Completed Using Callback,ZSBMEERUT,RBL | INDUSIND | UNITYFBL
+payu_transactions,payment_source,VARCHAR,295095,6,25,0.0, LEGAL CASE AGAINST THIS ACCOUNT ETC.,sist,sirecurring | payuPureS2S |  either the card is newly issued or has not been used for any online transaction
+payu_transactions,name_on_card,VARCHAR,295095,7,295000,100.0, NRE (AS PER BANK?S POLICY))|Completed Using Callback,sirecurring,INDUSIND | YES |  NRE (AS PER BANK?S POLICY))|Completed Using Callback
+payu_transactions,card_number,VARCHAR,295095,3599,287000,97.3,XXXXXXXXXXXX0000,payuS2S,XXXXXXXXXXXX4186 | XXXXXXXXXXXX3619 | XXXXXXXXXXXX6568
+payu_transactions,address_line1,VARCHAR,295095,2,295030,100.0,sirecurring,sist,sirecurring | sist
+payu_transactions,address_line2,VARCHAR,295095,4,295090,100.0,XXXXXXXXXXXX0458,XXXXXXXXXXXX7115,XXXXXXXXXXXX3071 | XXXXXXXXXXXX7115 | XXXXXXXXXXXX0819
+payu_transactions,state,VARCHAR,295095,0,295095,100.0,,,
+payu_transactions,country,VARCHAR,295095,0,295095,100.0,,,
+payu_transactions,zipcode,VARCHAR,295095,0,295095,100.0,,,
+payu_transactions,shipping_firstname,VARCHAR,295095,0,295095,100.0,,,
+payu_transactions,shipping_lastname,VARCHAR,295095,0,295095,100.0,,,
+payu_transactions,shipping_address1,VARCHAR,295095,0,295095,100.0,,,
+payu_transactions,shipping_address2,VARCHAR,295095,1,294995,100.0,CMCX,CMCX,CMCX
+payu_transactions,shipping_city,VARCHAR,295095,0,295095,100.0,,,
+payu_transactions,shipping_state,VARCHAR,295095,0,295095,100.0,,,
+payu_transactions,shipping_country,VARCHAR,295095,0,295095,100.0,,,
+payu_transactions,shipping_zipcode,VARCHAR,295095,0,295095,100.0,,,
+payu_transactions,shipping_phone,VARCHAR,295095,0,295095,100.0,,,
+payu_transactions,transaction_fee,BIGINT,295095,570,95,0.0,1,9998,535 | 540 | 555
+payu_transactions,discount,BIGINT,295095,14,70,0.0,0,9,566 | 465 | 568
+payu_transactions,additional_charges,BIGINT,295095,4,65,0.0,0,575,0 | 524 | 566
+payu_transactions,amount(inr),BIGINT,295095,507,203438,68.9,0,992,555 | 539 | 200
+payu_transactions,udf1,BIGINT,295095,1,295025,100.0,0,0,0
+payu_transactions,udf2,VARCHAR,295095,4,75554,25.6,0,stage,prodi2e11 | prod | stage
+payu_transactions,udf3,VARCHAR,295095,7,75769,25.7,Booking,prod,Installation | OTT_WiomNet | Mobile_Recharges
+payu_transactions,udf4,VARCHAR,295095,17,124479,42.2,App,prod,WiomNet | Executed Callback | QR_checkout
+payu_transactions,udf5,VARCHAR,295095,16656,219548,74.4,23374060737,prod,24894748852 | 24110885976 | 25694331248
+payu_transactions,field0,VARCHAR,295095,8,295077,100.0,24491790649,Web_Link,Renewal | 25780574151 | 26112026182
+payu_transactions,field1,VARCHAR,295095,9040,285521,96.8,009871625682@ybl,zeecal02@ptyes,12162025 160754 | 12162025 193034 | 12162025 221817
+payu_transactions,field2,VARCHAR,295095,83614,205947,69.8,++9319865506@ptsbi,vivek9115@ybl+,ICI593ed2a6a9cd4705a15d38a3ffc0be80 | 934079 | 085148
+payu_transactions,field3,VARCHAR,295095,75694,151032,51.2,-ybl-ybl@axl,zzaidansari83@oksbi,5f0481a5aab844ecaa8ea948b766ff8b@ybl | 26c6e1b9f6d44270a6f246d5a09dcc8a@naviaxis | 3b901bddc3f94497b115da356bf22747@axl
+payu_transactions,field4,VARCHAR,295095,2027,285579,96.8,060879f3baa844fa848fa7f02d328d33@ptyes,umesh,JASPREET KAUR | Sunny Pal | Siddharth
+payu_transactions,field5,VARCHAR,295095,77085,150504,51.0,000098cfd946447eb706f1c11971a1a4@okicici,nfaevfi2f90945c69526e298362f553d@nyes,PPPL264449664381612251602476941354f | 1addd9f9fb2c44c7a5d4719718c0d7d3@ibl | 11ad659526d44a09af397926f9189b4c@ybl
+payu_transactions,field6,VARCHAR,295095,38067,133629,45.3,00,zishan khan || PPIW0884509,Mr Sachin Mandal || IDIB000J016 | RUKSANA  BEGUM || SBIN0008079 | AARAV  SINGH || KKBK0000958
+payu_transactions,field7,VARCHAR,295095,78,135570,45.9,00|APPROVED OR COMPLETED SUCCESSFULLY,transactionId=27328397355&amount=575.00&bankTxnId=20260216717150&status=S&checkSum=704434299b4cf3823,UM8|RESPMANDATE DECLINED BY REMITTER BANK | DEBIT TIMEOUT|U67 | U91|BENEFICIARY BANK DEEMED HIGH RESPONSE TIME CHECK DECLINE
+payu_transactions,field8,VARCHAR,295095,122,79143,26.8,00 | Successful approval/completion or that V.I.P. PIN verification is valid,whatsapp,Verification | failed | encryptionOutput to as Record. | N7 | Customer selected negative file reason | 05 | Do not honour
+payu_transactions,device_info,VARCHAR,295095,6,88,0.0,0_|_0,failed | Empty or null response,0_|_4 | 0_|_0 | 1_|_0
+payu_transactions,merchant_subvention_amount,VARCHAR,295095,5,295003,100.0,0_|_0,U30|DEBIT HAS BEEN FAILED,"1_|_4 | 0_|_0 | 78 | ’Blocked, first used’—The transaction is from a new cardholder, and the car"
+payu_transactions,utr,VARCHAR,295095,71,203522,69.0,1_|_0,phonepe,1_|_4 | HDFCR52026020566069098 | HDFCR52026021068110889
+payu_transactions,recon_ref_number,VARCHAR,295095,1,295030,100.0,0_|_0,0_|_0,0_|_0
+payu_transactions,settlement_amount,DOUBLE,295095,915,203533,69.0,1.0,98.0,539.0 | 52.92 | 520.0
+payu_transactions,settlement_date,VARCHAR,295095,68,203533,69.0,01-01-2026 15:40,31-12-2025 15:20,19-12-2025 16:40 | 06-02-2026 16:00 | 13-02-2026 16:34
+payu_transactions,service_fees,DOUBLE,295095,409,203533,69.0,0.0,95.46,10.0 | 10.7 | 9.5
+payu_transactions,tsp_charges,BIGINT,295095,1,203533,69.0,0,0,0
+payu_transactions,convenience_fee,BIGINT,295095,1,203533,69.0,0,0,0
+payu_transactions,cgst,BIGINT,295095,1,203533,69.0,0,0,0
+payu_transactions,sgst,BIGINT,295095,1,203533,69.0,0,0,0
+payu_transactions,igst,DOUBLE,295095,117,203533,69.0,0.0,9.72,2.59 | 22.98 | 3.04
+payu_transactions,token_bin,BIGINT,295095,1609,287990,97.6,353902789,81987501,486636591 | 442262771 | 438861078
+payu_transactions,last_four_digits,VARCHAR,295095,3597,287006,97.3,0000,9995,3572 | 5768 | 0868
+payu_transactions,arn,VARCHAR,295095,38073,242182,82.1,000003129957,PH602091878571475,5.35E+11 | 3.93886E+11 | 5.71669E+11
+payu_transactions,auth_code,VARCHAR,295095,83572,206017,69.8,000012,ZAWF2R,ICI233e9fcf6ddb42a68f3bfdc6b8877fe3 | ICI5e5366ce965c4d129385a8aca389c8a8 | 911590
+payu_transactions,conversion_status,VARCHAR,295095,0,295095,100.0,,,
+payu_transactions,conversion_date,VARCHAR,295095,0,295095,100.0,,,
+payu_transactions,conversion_remarks,VARCHAR,295095,3,295092,100.0,ICI50acf80e4ea54269a7bd377ab5b68c4f,ICId553e24c3b7c4aacb833d4542f59e321,ICIa6ac551b47fe47e78dda9ac670feffe1 | ICId553e24c3b7c4aacb833d4542f59e321 | ICI50acf80e4ea54269a7bd377ab5b68c4f
+payu_transactions,mer_service_fee,DOUBLE,295095,451,203533,69.0,0.0,99.98,12.0 | 11.5 | 10.48
+payu_transactions,currency_type,VARCHAR,295095,1,95,0.0,INR,INR,INR
+payu_transactions,network_type,VARCHAR,295095,5,286876,97.2,INR,VISA,MAST | INR | VISA
+payu_transactions,category,VARCHAR,295095,10,93,0.0,INR,upippi,INR | upi | debitcard
+payu_transactions,sub_category,VARCHAR,295095,7,292928,99.3,Corporate,upi,INR | Corporate | standinginstruction
+payu_transactions,column83,VARCHAR,295095,3,295087,100.0,RUPAYCC,creditcard,Retail | RUPAYCC | creditcard
+payu_transactions,column84,VARCHAR,295095,3,295030,100.0,standinginstruction,upicc,upi | standinginstruction | upicc
+phonepe_refunds,Merchant Id,VARCHAR,982,1,0,0.0,OMNIAINFORMATIONONLINE,OMNIAINFORMATIONONLINE,OMNIAINFORMATIONONLINE
+phonepe_refunds,Transaction Type,VARCHAR,982,1,0,0.0,REFUND_TRANSACTION,REFUND_TRANSACTION,REFUND_TRANSACTION
+phonepe_refunds,Reversal Category,VARCHAR,982,1,0,0.0,ORDER_REVERSAL,ORDER_REVERSAL,ORDER_REVERSAL
+phonepe_refunds,Merchant Order Id,VARCHAR,982,982,0,0.0,wiom-custGen_1112223298_191529249_1-1,wiom-w_9953317186_184406096_0-1,wiom-custGen_9315703993_189075835_0-1 | wiom-custGen_9560101909_188203541_0-1 | wiom-custGen_8595056536_188568739_1-1
+phonepe_refunds,Merchant Reference Id,VARCHAR,982,982,0,0.0,ARnQTTxPMLCunc1v,mr_9953093527_187427877_1_1765264698148,custGen_8810335659_189073686_1_1766995686948 | custGen_9971098200_188655109_0_1766994579531 | custGen_7091426524_188654438_0_1766836871734
+phonepe_refunds,PhonePe Reference Id,VARCHAR,982,982,0,0.0,OMR2512010142512945429804V,OMR2602271600223703575730W,OMR2512281801024992905329W | OMR2512241647184170323122W | OMR2512221744396280261178W
+phonepe_refunds,Transaction Amount,DOUBLE,982,40,1,0.1,10.0,9.0,11.0 | 192.0 | 279.0
+phonepe_refunds,Total Refund Amount,DOUBLE,982,47,1,0.1,10.0,9.0,50.0 | 35.0 | 329.0
+phonepe_refunds,Offer Adjustment,DOUBLE,982,6,968,98.6,1.0,4.0,3.0 | 4.0 | 2.0
+phonepe_refunds,Transaction Date,TIMESTAMP,982,977,0,0.0,2025-12-01 01:42:51,2026-02-27 16:00:22,2025-12-28 14:34:41 | 2025-12-26 14:47:56 | 2025-12-23 22:43:31
+phonepe_refunds,Transaction Status,VARCHAR,982,2,0,0.0,COMPLETED,ERRORED,ERRORED | COMPLETED
+phonepe_refunds,UPI Amount,DOUBLE,982,47,1,0.1,10.0,9.0,11.0 | 50.0 | 35.0
+phonepe_refunds,Wallet Amount,VARCHAR,982,0,982,100.0,,,
+phonepe_refunds,Credit card Amount,VARCHAR,982,0,982,100.0,,,
+phonepe_refunds,Debit card Amount,VARCHAR,982,0,982,100.0,,,
+phonepe_refunds,EGV Amount,VARCHAR,982,0,982,100.0,,,
+phonepe_refunds,Forward Merchant Transaction Id,VARCHAR,982,982,0,0.0,wiom-custGen_1112223298_191529249_1-1,wiom-w_9953317186_184406096_0-1,wiom-custGen_9315703993_189075835_0-1 | wiom-custGen_9560101909_188203541_0-1 | wiom-custGen_8595056536_188568739_1-1
+phonepe_refunds,Forward Transaction Reference Id,VARCHAR,982,982,0,0.0,OMO2508061303334316482626,OMO2602231822513144488580W,OMO2512301208548484842860W | OMO2512131636555207981310V | OMO2512291741504657257881W
+phonepe_refunds,ARN,VARCHAR,982,0,982,100.0,,,
+phonepe_refunds,Store Id,VARCHAR,982,0,982,100.0,,,
+phonepe_refunds,Terminal Id,VARCHAR,982,0,982,100.0,,,
+phonepe_refunds,Transaction UTR,VARCHAR,982,981,1,0.1,008008467234,977813724861,536490774690 | 536284967978 | 536284703631
+phonepe_refunds,Notes,VARCHAR,982,0,982,100.0,,,
+phonepe_refunds,filename,VARCHAR,982,3,0,0.0,csv\phonepe-refunds\PHONEPE_REFUND_DEC25.csv,csv\phonepe-refunds\PHONEPE_REFUND_JAN26.csv,csv\phonepe-refunds\PHONEPE_REFUND_DEC25.csv | csv\phonepe-refunds\PHONEPE_REFUND_FEB26.csv | csv\phonepe-refunds\PHONEPE_REFUND_JAN26.csv
+phonepe_settlements,Merchant ID,VARCHAR,49832,1,0,0.0,OMNIAINFORMATIONONLINE,OMNIAINFORMATIONONLINE,OMNIAINFORMATIONONLINE
+phonepe_settlements,Merchant Order Id,VARCHAR,49832,49831,0,0.0,ARnQTTxPMLCunc1v,wiom-wiomWall_9999805543_189340131_1-1,wiom-w_8109075128_187965765_1-1 | wiom-custGen_8423016686_187946985_0-1 | wiom-w_9102668894_187970122_0-1
+phonepe_settlements,Merchant Reference ID,VARCHAR,49832,49829,3,0.0,ARnQTTxPMLCunc1v,wiom-wiomWall_9999805543_189340131_1-1,wiom-w_8109075128_187965765_1-1 | wiom-custGen_8423016686_187946985_0-1 | wiom-w_9102668894_187970122_0-1
+phonepe_settlements,PhonePe Order ID,VARCHAR,49832,49830,2,0.0,CUSTOM_2602051841395926223387,OMR2602262340536947464933W,OMO2512151659558210713645V | OMR2512151711435394652137V | OMO2512151431010700217320V
+phonepe_settlements,PhonePe Transaction ID,VARCHAR,49832,48798,1034,2.1,OM2511290000489620496277V,OM2602262353135717464892W,OM2512150859579695984677V | OM2512151222161812102958V | OM2512151659558440713732V
+phonepe_settlements,PhonePe Reference ID,VARCHAR,49832,48989,3,0.0,T2508061303451124544728,T2602262353456553265607,T2512152312559360055425 | T2512151258232428718095 | T2512151354279871207410
+phonepe_settlements,Payment Type,VARCHAR,49832,2,0,0.0,PAYMENT,REFUND,PAYMENT | REFUND
+phonepe_settlements,Product Type,VARCHAR,49832,1,1034,2.1,PG,PG,PG
+phonepe_settlements,Transaction Type,VARCHAR,49832,1,1033,2.1,FORWARD_TRANSACTION,FORWARD_TRANSACTION,FORWARD_TRANSACTION
+phonepe_settlements,Transaction Date,TIMESTAMP,49832,49584,0,0.0,2025-11-29 00:01:29,2026-02-26 23:53:46,2025-12-15 10:32:37 | 2025-12-15 13:14:06 | 2025-12-15 11:06:19
+phonepe_settlements,Creation Date,TIMESTAMP,49832,49584,3,0.0,2025-11-29 00:00:48,2026-02-26 23:53:13,2025-12-15 22:35:33 | 2025-12-15 00:17:54 | 2025-12-15 23:12:37
+phonepe_settlements,Transaction Amount,DOUBLE,49832,389,0,0.0,-10.0,950.0,5.0 | 9.0 | 25.0
+phonepe_settlements,Instrument,VARCHAR,49832,1,1033,2.1,UPI,UPI,UPI
+phonepe_settlements,Mode,VARCHAR,49832,4,1033,2.1,Bank Account,Rupay Credit Card,Lite | PPI | Bank Account
+phonepe_settlements,Transaction Status,VARCHAR,49832,1,3,0.0,COMPLETED,COMPLETED,COMPLETED
+phonepe_settlements,UPI Amount,DOUBLE,49832,349,1033,2.1,1.0,950.0,50.0 | 492.0 | 546.0
+phonepe_settlements,Net Banking Amount,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Credit Card Amount,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Debit Card Amount,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Wallet Amount,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,EGV Amount,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Settlement Date,TIMESTAMP,49832,67,0,0.0,2025-12-01 15:07:47,2026-02-27 20:00:08,2025-12-18 15:04:12 | 2025-12-04 15:04:09 | 2026-02-18 15:04:55
+phonepe_settlements,Settlement UTR,VARCHAR,49832,67,0,0.0,YESAP53355234798,YESAP60585940322,YESAP53355234798 | YESAP53445475029 | YESAP53575465481
+phonepe_settlements,VPA,VARCHAR,49832,41142,1033,2.1,-ybl-ybl@ybl,zx4xyhun@axl,vighneshkamble2003@okhdfcbank | ashokalka416@ptyes | 9210822912@ptsbi
+phonepe_settlements,Card Network,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Card AuthCode,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Corporate Network,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Bank,VARCHAR,49832,136,1033,2.1,ABHY,ZCBL,AIRP | RATN | KKCC
+phonepe_settlements,Fee,DOUBLE,49832,167,0,0.0,-0.01,0.0,-0.31 | -11.15 | -11.1
+phonepe_settlements,IGST,DOUBLE,49832,84,0,0.0,-0.01,0.0,-0.05 | -1.72 | -1.89
+phonepe_settlements,CGST,BIGINT,49832,1,0,0.0,0,0,0
+phonepe_settlements,SGST,BIGINT,49832,1,0,0.0,0,0,0
+phonepe_settlements,Total Tax,DOUBLE,49832,84,0,0.0,-0.01,0.0,-1.91 | -0.28 | -0.06
+phonepe_settlements,Total Fees,DOUBLE,49832,172,0,0.0,-0.01,0.0,-12.2 | -0.31 | -12.96
+phonepe_settlements,Net Amount,DOUBLE,49832,526,3,0.0,1.0,999.17,449.62 | 517.8 | 484.6
+phonepe_settlements,Field-1,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Field-2,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Field-3,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Field-4,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Field-5,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Original Merchant Order ID,VARCHAR,49832,1033,48799,97.9,wiom-custGen_1112223298_191529249_1-1,wiom-w_9953317186_184406096_0-1,wiom-custGen_8076512119_186216912_1-1 | wiom-custGen_9310333000_186220019_1-1 | wiom-custGen_7503081526_187004856_1-1
+phonepe_settlements,Original Merchant Reference ID,VARCHAR,49832,1033,48799,97.9,wiom-custGen_1112223298_191529249_1-1,wiom-w_9953317186_184406096_0-1,wiom-custGen_9034187665_186819058_1-1 | wiom-custGen_9769639272_185803178_1-1 | wiom-custGen_8929705771_185806105_1-1
+phonepe_settlements,Original PhonePe Order ID,VARCHAR,49832,1033,48799,97.9,OMO2508061303334316482626,OMO2602221209076778877279W,OMO2511200941266102726421W | OMO2512062206000541080800V | OMO2511251310085487316112V
+phonepe_settlements,Original PhonePe Transaction ID,VARCHAR,49832,1033,48799,97.9,OM2508061303334436482522,OM2602221209076888877130W,OM2511201345587979685320W | OM2511201729393494172109W | OM2512041240380877662581V
+phonepe_settlements,Original Transaction Date,DATE,49832,106,48799,97.9,2025-08-06,2026-02-22,2025-11-23 | 2025-12-20 | 2026-02-22
+phonepe_settlements,Original Transaction Amount,DOUBLE,49832,35,48799,97.9,10.0,9.0,50.0 | 329.0 | 492.0
+phonepe_settlements,Currency,VARCHAR,49832,1,0,0.0,INR,INR,INR
+phonepe_settlements,Notes,VARCHAR,49832,8825,4160,8.3,-,wifi,Payment for wiom-custGen_7294027795_187981532_0-1 | Payment for wiom-custGen_8076825490_187976071_1-1 | Payment for wiomcustGen858690574318794484311
+phonepe_settlements,From,VARCHAR,49832,1,0,0.0,Phonepe Private Limited,Phonepe Private Limited,Phonepe Private Limited
+phonepe_settlements,Subscription Setup ID,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Subscription Setup Transaction Status,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Max Amount,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Frequency,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Authentication Type,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,UPI_UTR,VARCHAR,49832,49797,18,0.0,000000058091,999877001187,571583660842 | 463221486923 | 393828716687
+phonepe_settlements,Card_ARN,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Card_BRN,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Card_Auth_Code,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Net_Banking_Brn,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Field-6,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Field-7,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Field-8,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Field-9,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Field-10,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Field-11,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Field-12,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Field-13,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Field-14,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,Field-15,VARCHAR,49832,0,49832,100.0,,,
+phonepe_settlements,filename,VARCHAR,49832,3,0,0.0,csv\PG-settlements\phonePe\PHONEPE_SETTLEMENT_REPORT_DEC25.csv,csv\PG-settlements\phonePe\PHONEPE_SETTLEMENT_REPORT_JAN26.csv,csv\PG-settlements\phonePe\PHONEPE_SETTLEMENT_REPORT_DEC25.csv | csv\PG-settlements\phonePe\PHONEPE_SETTLEMENT_REPORT_FEB26.csv | csv\PG-settlements\phonePe\PHONEPE_SETTLEMENT_REPORT_JAN26.csv
+phonepe_transactions,Merchant Id,VARCHAR,120926,1,0,0.0,OMNIAINFORMATIONONLINE,OMNIAINFORMATIONONLINE,OMNIAINFORMATIONONLINE
+phonepe_transactions,Merchant Order Id,VARCHAR,120926,120926,0,0.0,wiom-custGen_1111151702_192872651_0-1,wiom-wiomWall_9999805543_189340131_1-1,wiom-custGen_9953607591_194463427_1-1 | wiom-w_9999860134_194460579_0-1 | wiom-w_9548025596_194460284_1-1
+phonepe_transactions,Merchant Reference Id,VARCHAR,120926,120926,0,0.0,wiom-custGen_1111151702_192872651_0-1,wiom-wiomWall_9999805543_189340131_1-1,wiom-custGen_8882465163_194464105_0-1 | wiom-w_9354603750_194461561_0-1 | wiom-w_9971634491_194461525_1-1
+phonepe_transactions,PhonePe Order Id,VARCHAR,120926,120926,0,0.0,OMO2512010003463794879757V,OMO2602282359263893575731W,OMO2602282312241422502291W | OMO2602282310048370208869W | OMO2602282308311646292612W
+phonepe_transactions,PhonePe Transaction Id,VARCHAR,120926,51866,69060,57.1,OM2601010000496444879267W,OMO2512312354243344550746W,OM2602282353205731223546W | OM2602282331362612502653W | OM2602282308311786292762W
+phonepe_transactions,PhonePe Reference Id,VARCHAR,120926,51866,69060,57.1,T2601010001056546790310,wiom-wiomWall_9999805543_189340131_1-1,T2602282324584322986169 | T2602282302242762250646 | T2602282247486536544610
+phonepe_transactions,Product Type,VARCHAR,120926,1,18666,15.4,PG,PG,PG
+phonepe_transactions,Transaction Type,VARCHAR,120926,1,0,0.0,FORWARD_TRANSACTION,FORWARD_TRANSACTION,FORWARD_TRANSACTION
+phonepe_transactions,Transaction Date,TIMESTAMP,120926,119393,0,0.0,2025-12-01 00:04:03,2026-02-28 23:59:36,2026-02-28 23:50:38 | 2026-02-28 22:32:12 | 2026-02-28 22:14:32
+phonepe_transactions,Order Creation Date,TIMESTAMP,120926,33036,87726,72.5,2026-01-01 00:00:49,2026-02-28 23:59:26,2026-02-28 23:59:26 | 2026-02-28 23:35:39 | 2026-02-28 22:59:37
+phonepe_transactions,Transaction Amount,BIGINT,120926,400,0,0.0,1,9998,100 | 550 | 23
+phonepe_transactions,Instrument,VARCHAR,120926,2,87726,72.5,CARD,UPI,UPI | CARD
+phonepe_transactions,Mode,VARCHAR,120926,5,87726,72.5,Bank Account,Rupay Credit Card,Rupay Credit Card | Debit Card | PPI
+phonepe_transactions,Transaction Status,VARCHAR,120926,4,0,0.0,COMPLETED,SUCCESS,SUCCESS | FAILED | ERRORED
+phonepe_transactions,UPI Amount,BIGINT,120926,354,69061,57.1,1,950,445 | 481 | 548
+phonepe_transactions,Net Banking Amount,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Credit card Amount,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Debit card Amount,VARCHAR,120926,1,120925,100.0,500,500,500
+phonepe_transactions,Phonepe Wallet Amount,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Phonepe EGV Amount,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Transaction UTR,BIGINT,120926,51860,69066,57.1,100010150772,999974810993,605923071248 | 605988183676 | 656251414596
+phonepe_transactions,ARN,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,BRN,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,VPA,VARCHAR,120926,28712,87727,72.5,-ybl-ybl@ybl,zzoya0303@okaxis,918447169402@wahdfcbank | anubhavsinghrajpoot2002-1@okhdfcbank | 8126061954-2@ibl
+phonepe_transactions,UPI Flow Type,VARCHAR,120926,4,18666,15.4,Other,UPI_QR,UPI_INTENT | UPI_QR | UPI_COLLECT
+phonepe_transactions,Card Network,VARCHAR,120926,1,120925,100.0,RUPAY,RUPAY,RUPAY
+phonepe_transactions,Card AuthCode,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Card Variant,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Corporate Network,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,International,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Card Number,VARCHAR,120926,1,120925,100.0,"""[""""XXXXXXXXXXXX8753""""]""","""[""""XXXXXXXXXXXX8753""""]""","""[""""XXXXXXXXXXXX8753""""]"""
+phonepe_transactions,Bank Id,VARCHAR,120926,128,87726,72.5,ABHY,ZISB,IOBA | BUGB | UCBA
+phonepe_transactions,Field 1,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Field 2,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Field 3,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Field 4,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Field 5,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Field 6,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Field 7,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Field 8,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Field 9,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Field 10,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Field 11,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Field 12,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Field 13,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Field 14,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Field 15,VARCHAR,120926,0,120926,100.0,,,
+phonepe_transactions,Error Code,VARCHAR,120926,25,48572,40.2,ACCOUNT_BLOCKED,VALIDATION_ERROR,TXN_NOT_COMPLETED | ACCOUNT_INACTIVE | ACCOUNT_DOES_NOT_EXIST
+phonepe_transactions,Detailed Error Code,VARCHAR,120926,71,48572,40.2,ALL-SITE-DOWN-FOR-ROUTE,ZX,ZA | U90 | XS
+phonepe_transactions,Error Description,VARCHAR,120926,27,48572,40.2,Amount exceeds the limit set by the customer's bank.,Transaction could not be processed,Payment request timed-out. | Customer's bank account is blocked or frozen. | Customer's bank declined the payment for security reasons.
+phonepe_transactions,Error Source,VARCHAR,120926,5,48572,40.2,BUSINESS,OTHERS,NPCI | OTHERS | ISSUING_BANK
+phonepe_transactions,Error Stage,VARCHAR,120926,4,48572,40.2,AUTHENTICATION,PRE_AUTHENTICATION,OTHERS | AUTHORIZATION | PRE_AUTHENTICATION
+phonepe_transactions,Currency,VARCHAR,120926,1,18666,15.4,INR,INR,INR
+phonepe_transactions,Notes,VARCHAR,120926,4681,90302,74.7,-,wifi,Payment for wiomcustGen962522187619226227201 | Payment for wiomcustGen971105353519225148011 | Payment for wiom-custGen_9650249909_192213695_1-1
+razorpay_transactions,entity_id,VARCHAR,53644,51835,0,0.0,adj_RqfUtpFKKldD78,setl_SL2T91C93Thsmq,pay_S9o9Z3wh452Gym | pay_S9uNuz9x6qhy1x | pay_S9varJNlJNNnpd
+razorpay_transactions,type,VARCHAR,53644,4,0,0.0,adjustment,settlement,payment | settlement | adjustment
+razorpay_transactions,debit,DOUBLE,53644,108,0,0.0,0.0,99621.84,25.0 | 477.0 | 91140.53
+razorpay_transactions,credit,DOUBLE,53644,573,0,0.0,0.0,996.46,548.05 | 541.9 | 99.64
+razorpay_transactions,amount,DOUBLE,53644,450,0,0.0,10.0,99621.84,492.0 | 1793.0 | 600.0
+razorpay_transactions,currency,VARCHAR,53644,1,0,0.0,INR,INR,INR
+razorpay_transactions,fee,DOUBLE,53644,383,0,0.0,0.0,9.9,2.36 | 1.98 | 1.86
+razorpay_transactions,tax,DOUBLE,53644,87,0,0.0,0.0,9.46,0.28 | 0.02 | 1.64
+razorpay_transactions,on_hold,BIGINT,53644,1,0,0.0,0,0,0
+razorpay_transactions,settled,BIGINT,53644,1,0,0.0,1,1,1
+razorpay_transactions,created_at,TIMESTAMP,53644,51581,0,0.0,2025-11-28 00:00:31,2026-02-28 23:59:41,2026-01-30 00:16:40 | 2026-01-30 00:27:27 | 2026-01-30 06:59:13
+razorpay_transactions,settled_at,DATE,53644,70,0,0.0,2025-12-01,2026-03-04,2026-02-05 | 2026-02-25 | 2026-01-31
+razorpay_transactions,settlement_id,VARCHAR,53644,70,68,0.1,setl_RmDTLLpnfMVUlR,setl_SN19pu1ie31CUV,setl_SF6RuYKrd1ieFi | setl_SFUz3QsB7gHB2i | setl_SME4q8NFsarhMR
+razorpay_transactions,description,VARCHAR,53644,2,68,0.1,Complete your payment,Credits towards Wiom Partners Wallet,Credits towards Wiom Partners Wallet | Complete your payment
+razorpay_transactions,notes,VARCHAR,53644,51766,68,0.1,"{""transaction_id"":""wiom-custGen_+44919717958126_193315362_1-1"", ""txn_uuid"":""mozfMM98tZoEqUnVvmE""}","{""unique_request_id"":""mr_9953093527_187429322_0_1765266147658""}","{""transaction_id"":""wiom-w_9639535843_191875855_0-1"",""txn_uuid"":""mozbamRtDXm7iExb | {""transaction_id"":""wiom-w_8588035224_191879472_0-1"",""txn_uuid"":""mozn3NBZ4VCr36BA | {""transaction_id"":""wiom-w_9322015823_191902522_1-1"",""txn_uuid"":""mozd2V7zpT3eNPPG"
+razorpay_transactions,payment_id,VARCHAR,53644,1066,52568,98.0,pay_PvEkOEIqmyL41Y,pay_SJQogfiNo2blyT,pay_Rqd8PaKX3iX9Wi | pay_R6cujSZVJ8hibO | pay_RHSMXVGVWmEFLl
+razorpay_transactions,arn,DOUBLE,53644,1066,52568,98.0,114850083721.0,72283767077.0,602811177127.0 | 602914479804.0 | 602915218136.0
+razorpay_transactions,settlement_utr,VARCHAR,53644,68,53576,99.9,AXISCN1172034965,UTIBR72026021700054481,AXISCN1227243838 | AXISCN1184473488 | AXISCN1192110071
+razorpay_transactions,order_id,VARCHAR,53644,50867,68,0.1,order_PvEkNV05gDqERI,order_SLfHUFeOoIEpVY,order_S9o1AGv89djPgE | order_S9o72uXe1Sz8by | order_S9u5o7iPcsU19j
+razorpay_transactions,order_receipt,VARCHAR,53644,50867,68,0.1,custGen_+44919717958126_193315362_1,wiomWall_9999779956_188731962_1,w_9821149721_191876707_1 | custGen_9284208144_191877018_1 | w_7838773781_191881067_1
+razorpay_transactions,method,VARCHAR,53644,3,68,0.1,card,upi,upi | netbanking | card
+razorpay_transactions,upi_flow,VARCHAR,53644,0,53644,100.0,,,
+razorpay_transactions,card_network,VARCHAR,53644,3,53247,99.3,MasterCard,Visa,RuPay | MasterCard | Visa
+razorpay_transactions,card_issuer,VARCHAR,53644,24,53247,99.3,AUBL,YESB,IOBA | DBSS | UCBA
+razorpay_transactions,card_type,VARCHAR,53644,3,53247,99.3,credit,prepaid,prepaid | credit | debit
+razorpay_transactions,dispute_id,VARCHAR,53644,2,53642,100.0,disp_RqfUtohXxaMJOf,disp_S61iX9lSeoskrO,disp_RqfUtohXxaMJOf | disp_S61iX9lSeoskrO
+razorpay_transactions,additional_utr,VARCHAR,53644,68,53576,99.9,UTIBN62025120173006234,UTIBR72026021700054481,UTIBN62026020312301832 | UTIBN62025120409080594 | UTIBN62025121875424320
+wiom_booking_transactions,PAYMENT_FLAG,VARCHAR,20785,1,0,0.0,ONLINE,ONLINE,ONLINE
+wiom_booking_transactions,BOOKING_TXN_ID,VARCHAR,20785,20784,0,0.0,custGen_1111154643_192368771_1,custGen_9999993556_188375998_0,custGen_8130613989_190012945_0 | custGen_9319055065_188983170_0 | custGen_9289695106_187519909_1
+wiom_booking_transactions,CREATED_ON,VARCHAR,20785,90,0,0.0,"Dec 1, 2025","Mar 9, 2026","Dec 25, 2025 | Feb 11, 2026 | Jan 27, 2026"
+wiom_booking_transactions,PAYMENT_GATEWAY_TXN_ID,VARCHAR,20785,20784,0,0.0,OMO2512011029313414651331V,wiom-custGen_9999993556_188375998_0-1,wiom-custGen_9899905527_187772319_0-1 | wiom-custGen_7678643335_187267835_1-1 | wiom-custGen_9654543835_188369252_1-1
+wiom_booking_transactions,PAYMENT_GATEWAY_NAME,VARCHAR,20785,2,3187,15.3,PTYBLC,PTYBLI,PTYBLI | PTYBLC
+wiom_booking_transactions,RESULTSTATUS,VARCHAR,20785,1,3187,15.3,TXN_SUCCESS,TXN_SUCCESS,TXN_SUCCESS
+wiom_booking_transactions,BOOKING_FEE,BIGINT,20785,3,0,0.0,100,50,100 | 25 | 50
+wiom_booking_transactions,ACCOUNT_ID,BIGINT,20785,19728,1056,5.1,274877916668,281749855034515,281749855021908 | 281749855020449 | 281749855023136
+wiom_booking_transactions,NASID,BIGINT,20785,19728,1056,5.1,281474977388293,699965,281474977406217 | 281474977397224 | 281474977394331
+wiom_booking_transactions,PLAN_START_TIME,VARCHAR,20785,106,1063,5.1,"Dec 1, 2025","Nov 3, 2025","Jan 7, 2026 | Feb 4, 2026 | Mar 6, 2026"
+wiom_booking_transactions,NAME,VARCHAR,20785,13665,2,0.0, Zeeshan ,हरिदास vaishnav,Deepak | Ankush goel | Manoj
+wiom_booking_transactions,MOBILE,BIGINT,20785,20784,0,0.0,1111154643,9999993556,9718532072 | 9990832204 | 9654312284
+wiom_booking_transactions,DEVICE_ID,VARCHAR,20785,15866,4919,23.7,100481,sy078181,SY34566 | GX164325 | GX37170
+wiom_booking_transactions,PARTNER_ACCOUNT_ID,BIGINT,20785,1034,12,0.1,274877908745,281749855031856,281749854674788 | 281749854662748 | 281749855022004
+wiom_booking_transactions,PARTNER_NAME,VARCHAR,20785,1030,44,0.2, Aura Connect Group Of Company,yash broadband internet service,Shree Shyam Internet Service | LAVISH ENTERTAINMENT | Shree Sai Net
+wiom_booking_transactions,PARTNER_MOBILE,BIGINT,20785,1031,44,0.2,6391209551,9999962999,9818451976 | 8010101061 | 9997148921
+wiom_booking_transactions,ZONE,VARCHAR,20785,18,44,0.2,Agra,West Delhi,West Delhi | Gorakhpur | Prayagraj
+wiom_booking_transactions,CITY,VARCHAR,20785,23,44,0.2,Agra,Shikohabad,Moradabad | Gorakhpur | Mumbai
+wiom_booking_transactions,MIS_CITY,VARCHAR,20785,4,44,0.2,Bharat,Mumbai,Bharat | Delhi | Mumbai
+wiom_booking_transactions,PINCODE,VARCHAR,20785,293,44,0.2, 10059,ziabad, 22001 | 201206 | 110086
+wiom_booking_transactions,PAN,VARCHAR,20785,995,44,0.2,AAACU9691C,SJAPS8204M,ATNPY8565A | BRKPS2537J | ADSPV7461P
+wiom_booking_transactions,GST,VARCHAR,20785,400,44,0.2,06AAHCC0534D1Z8,Unregistered,09BEEPS2425C1ZP | 07ANCPC9492R1Z9 | 07AUVPM3020F1ZN
+wiom_customer_security_deposit,MOBILE,BIGINT,1501,1501,0,0.0,6200851355,9999930834,8449680660 | 8745091263 | 9899076571
+wiom_customer_security_deposit,ACCOUNT_ID,BIGINT,1501,1490,0,0.0,274878067831,281749855034161,281749855033833 | 281749855032978 | 281749855034065
+wiom_customer_security_deposit,NASID,BIGINT,1501,1490,0,0.0,281474977408442,699526,281474977409512 | 698861 | 281474977408550
+wiom_customer_security_deposit,LCO_ACCOUNT_ID,BIGINT,1501,443,0,0.0,274877909018,281749855031856,274877950793 | 281749854617780 | 281749854627511
+wiom_customer_security_deposit,SD_AMOUNT,BIGINT,1501,3,0,0.0,0,300,200 | 0 | 300
+wiom_customer_security_deposit,SD_TXN_ID,VARCHAR,1501,1490,0,0.0,custGen_6200851355_192261610_0,custWall_9999138232_192266715_0,custGen_8882885584_193410261_0 | custGen_9650536585_191915759_0 | custGen_9315379110_191752720_0
+wiom_customer_security_deposit,ADDED_DATE,VARCHAR,1501,40,24,1.6,"Feb 1, 2026","Mar 5, 2026","Jan 30, 2026 | Feb 3, 2026 | Feb 19, 2026"
+wiom_customer_security_deposit,TRANSACTION_ID,VARCHAR,1501,1490,0,0.0,custGen_6200851355_192261610_0,custWall_9999138232_192266715_0,custGen_8586822419_193231066_0 | custGen_8766352146_193151360_1 | custGen_9289402257_193140699_1
+wiom_customer_security_deposit,PAYMENT_MODE,VARCHAR,1501,2,0,0.0,OFFLINE,ONLINE,OFFLINE | ONLINE
+wiom_customer_security_deposit,REFUND_STATUS,BIGINT,1501,1,1485,98.9,1,1,1
+wiom_customer_security_deposit,PAYMENT_GATEWAY_TXN_ID,VARCHAR,1501,1430,61,4.1,OMO2601281702425804607661W,wiom-custGen_9999930834_191752588_0-1,wiom-custGen_9315312549_193580736_0-1 | wiom-custGen_8586822419_193231066_0-1 | wiom-custGen_9289402257_193140699_1-1
+wiom_customer_security_deposit,PAYMENT_GATEWAY_NAME,VARCHAR,1501,2,301,20.1,PTYBLC,PTYBLI,PTYBLC | PTYBLI
+wiom_customer_security_deposit,RESULTSTATUS,VARCHAR,1501,1,301,20.1,TXN_SUCCESS,TXN_SUCCESS,TXN_SUCCESS
+wiom_customer_security_deposit,CREATED_ON,VARCHAR,1501,39,0,0.0,"Feb 1, 2026","Mar 5, 2026","Feb 11, 2026 | Jan 27, 2026 | Mar 3, 2026"
+wiom_customer_security_deposit,DEVICE_ID,VARCHAR,1501,1390,101,6.7,162223,SY9259,GX154207 | GX151260 | SY23349
+wiom_customer_security_deposit,PLAN_START_TIME,VARCHAR,1501,1434,3,0.2,"Feb 1, 2026, 05:21","Mar 5, 2026, 16:10","Feb 21, 2026, 07:14 | Feb 2, 2026, 11:38 | Feb 5, 2026, 09:12"
+wiom_net_income,TXN_TIME,VARCHAR,744685,133288,0,0.0,"Dec 1, 2025, 00:00","Mar 9, 2026, 23:59","Dec 7, 2025, 06:12 | Dec 7, 2025, 22:48 | Feb 2, 2026, 20:34"
+wiom_net_income,TXN_DT,VARCHAR,744685,105,0,0.0,"Dec 1, 2025","Mar 9, 2026","Jan 9, 2026 | Dec 5, 2025 | Dec 19, 2025"
+wiom_net_income,YR_MNTH,VARCHAR,744685,4,0,0.0,2025-12,2026-03,2026-02 | 2026-01 | 2025-12
+wiom_net_income,STATE,VARCHAR,744685,5,0,0.0,DL,UP,MH | DL | UP
+wiom_net_income,CITY,VARCHAR,744685,24,0,0.0,Agra,Shikohabad,Shamli | Bijnor | Gorakhpur
+wiom_net_income,MIS_CITY,VARCHAR,744685,4,0,0.0,Bharat,Mumbai,Mumbai | Meerut | Delhi
+wiom_net_income,ZONE,VARCHAR,744685,45,187,0.0,Agra,West Delhi + Gurgaon,Meerut++_Baraut | Delisted_East Delhi | Agra++_Aligarh
+wiom_net_income,PARTNER_ID,BIGINT,744685,1301,175,0.0,274877908745,281749855031856,281749854629541 | 274877930305 | 274877939357
+wiom_net_income,MOBILE,BIGINT,744685,152421,0,0.0,6000092272,9999999645,9650836497 | 8860029158 | 8709464607
+wiom_net_income,NAS_ID,BIGINT,744685,84530,0,0.0,1,99885,281474977293230 | 352416 | 666781
+wiom_net_income,TXN_ID,VARCHAR,744685,744685,0,0.0,w_6000092272_186907592_1,w_9999999645_194095353_1,w_8826049363_193465942_1 | w_8882071673_187337654_0 | w_6392290682_188932824_1
+wiom_net_income,MODE,VARCHAR,744685,1,0,0.0,online,online,online
+wiom_net_income,AMOUNT,BIGINT,744685,6,0,0.0,10,9,18 | 4 | 10
+wiom_net_income,OTP,VARCHAR,744685,1,0,0.0,DONE,DONE,DONE
+wiom_net_income,PARTNER,VARCHAR,744685,1298,187,0.0, Aura Connect Group Of Company,yash broadband internet service,Aditi cable tv network | Skynet Communication | Colours Net-2
+wiom_net_income,RECHARGE_NUMBER,BIGINT,744685,594,0,0.0,1,99,45 | 11 | 89
+wiom_net_income,REV_MODE,VARCHAR,744685,2,0,0.0,Installs,Retentions,Installs | Retentions
+wiom_net_income,DUPS,BIGINT,744685,1,0,0.0,1,1,1
+wiom_ott_transactions,BILL_ID,BIGINT,381,1,0,0.0,0,0,0
+wiom_ott_transactions,NASID,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,UPDATEDATE,TIMESTAMP,381,381,0,0.0,2025-12-01 06:33:22,2026-03-14 07:59:42,2026-01-24 17:57:39 | 2025-12-02 19:58:40 | 2026-02-10 01:38:31
+wiom_ott_transactions,DISCOUNT,BIGINT,381,1,0,0.0,0,0,0
+wiom_ott_transactions,PID,BIGINT,381,1,0,0.0,0,0,0
+wiom_ott_transactions,RSP_MSG,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,SOURCE,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,WEB_PAYMENT_FLOW,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,PAYMENTDETAIL,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,GST_NO,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,DELIVERYADDRESS,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,PLAN_END_DATE,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,PAID_BY,VARCHAR,381,1,0,0.0,CX_TEAM_LINK,CX_TEAM_LINK,CX_TEAM_LINK
+wiom_ott_transactions,PLAN_START_DATE,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,PAYMENTSTATUS,BIGINT,381,1,0,0.0,1,1,1
+wiom_ott_transactions,CREATEDATE,TIMESTAMP,381,381,0,0.0,2025-12-01 06:33:02.259,2026-03-14 07:59:12.407,2025-12-10 11:18:20.019 | 2026-02-19 16:52:53.992 | 2026-02-14 03:44:33.644
+wiom_ott_transactions,TRANSACTION_ID,VARCHAR,381,381,0,0.0,cxTeam_6201358356_186899272_0,cxTeam_9990901899_190819082_0,cxTeam_7037607080_189361177_0 | cxTeam_6394077489_188409285_0 | cxTeam_9821991804_193254417_0
+wiom_ott_transactions,COUPON_CODE,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,REFUND_STATUS,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,QUANTITY,BIGINT,381,1,0,0.0,0,0,0
+wiom_ott_transactions,TOTAL_PRICE,BIGINT,381,14,0,0.0,1,77,7 | 5 | 1
+wiom_ott_transactions,INVOICE_NO,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,PAYMENT_STATUS,BIGINT,381,1,0,0.0,1,1,1
+wiom_ott_transactions,MOBILE,BIGINT,381,291,0,0.0,6201358356,9990901899,9821423657 | 9310101381 | 8279494809
+wiom_ott_transactions,UNIT_PRICE,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,PAY_AMMOUNT,BIGINT,381,14,0,0.0,1,77,15 | 21 | 77
+wiom_ott_transactions,PAYMENT_TYPE,BIGINT,381,1,0,0.0,12,12,12
+wiom_ott_transactions,BILLINGADDRESS,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,ORDER_ID,VARCHAR,381,381,0,0.0,ordeh_0010dccc55aa4bfc974a0875a5af3376,ordeh_fd490cbcfbc14f6eaaedb6dcea9fb8ac,ordeh_e1d87d2150934ecd9676548c43cb0990 | ordeh_5b70a6044eda428c9d9d7b678bcb93cc | ordeh_436db1ef828d44e696d804a680eace9e
+wiom_ott_transactions,TXN_STATUS,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,EXTRA_PARAM,VARCHAR,381,381,0,0.0,"{
+  ""epg_txn_id"": ""20251201210400000202375032870217009"",
+  ""network_error_code"": null,
+  ""auth_ref_n","{
+  ""epg_txn_id"": ""pay_SR22026Mwrb3U6"",
+  ""network_error_code"": null,
+  ""debit_amount"": ""14.0"",
+  ""a","{
+  ""epg_txn_id"": ""20260124210520000221964173114696184"",
+  ""network_error_code"": | {
+  ""epg_txn_id"": ""20260212210630000228650182976423835"",
+  ""network_error_code"": | {
+  ""epg_txn_id"": ""20260118210570000219704416123424525"",
+  ""network_error_code"":"
+wiom_ott_transactions,STATUS,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,PAYMENT_MODE,VARCHAR,381,0,381,100.0,,,
+wiom_ott_transactions,DT,DATE,381,96,0,0.0,2025-12-01,2026-03-14,2026-01-31 | 2026-02-19 | 2026-01-18
+wiom_primary_revenue,TRANSACTION_ID,VARCHAR,660895,660895,0,0.0,BILL_PAID_10025_2025-11-27T07:35:28.6904296Z,wg_9871185163_142005616_1_11,cusSubs_7466004307_185172603_1 | cusSubs_9891664733_185183416_1 | custGen_7827495360_185218178_0
+wiom_primary_revenue,RECHARGE_DT,VARCHAR,660895,305,0,0.0,"Apr 1, 2024","Sep 9, 2025","Jan 8, 2026 | Dec 31, 2025 | Dec 21, 2025"
+wiom_primary_revenue,MOBILE,VARCHAR,660895,183038,0,0.0,6000094929,9999997480,7559498080 | 8851526546 | 9368730027
+wiom_primary_revenue,NAS_ID,VARCHAR,660895,179319,0,0.0,100129,99899,480939 | 281474977218464 | 281474977205274
+wiom_primary_revenue,CUST_ID,VARCHAR,660895,179318,0,0.0,274877907586,281749855034529,274878011193 | 281749854823509 | 281749854853584
+wiom_primary_revenue,PLAN_STRT_TIME,VARCHAR,660895,155672,0,0.0,"Apr 1, 2026, 00:02","Sep 9, 2026, 21:08","Nov 13, 2025, 17:59 | Nov 13, 2025, 08:50 | Nov 13, 2025, 09:00"
+wiom_primary_revenue,PLAN_END_TIME,VARCHAR,660895,164132,0,0.0,"Apr 1, 2026, 00:01","Sep 9, 2026, 21:08","Dec 12, 2025, 01:06 | Dec 12, 2025, 19:44 | Dec 12, 2025, 08:25"
+wiom_primary_revenue,PARTNER_ID,VARCHAR,660895,1394,0,0.0,274877908745,281749855031856,274877933774 | 281749854671378 | 281749854684550
+wiom_primary_revenue,PARTNER_NAME,VARCHAR,660895,1392,0,0.0, Aura Connect Group Of Company,yash broadband internet service,P.M Enterprises | Mauli I Net Pvt Ltd | JMD Technology
+wiom_primary_revenue,STATE,VARCHAR,660895,4,0,0.0,DL,UP,DL | MH | HR
+wiom_primary_revenue,CITY,VARCHAR,660895,23,0,0.0,Agra,Shikohabad,Firozabad | Shamli | Agra
+wiom_primary_revenue,MIS_CITY,VARCHAR,660895,4,0,0.0,Bharat,Mumbai,Delhi | Mumbai | Meerut
+wiom_primary_revenue,ZONE,VARCHAR,660895,53,0,0.0,Agra,West Delhi + Gurgaon,Vasai Virar Mumbai | Navi Mumbai | Bareilly++_Budaun
+wiom_primary_revenue,PAN,VARCHAR,660895,1340,0,0.0,AAACU7647L,SJAPS8204M,ALGPR0439K | ASQPC6164K | ELKPK0300J
+wiom_primary_revenue,GST,VARCHAR,660895,538,19297,2.9,06AAFFI9568N1ZL,Unregistered,07BFPPS1438R1ZI | 07ANCPC9492R1Z9 | 07AMRPS7701H3ZJ
+wiom_primary_revenue,PLAN_TAKEN,BIGINT,660895,52,0,0.0,0,7714,200 | 540 | 449
+wiom_primary_revenue,TOTALBILL,BIGINT,660895,51,0,0.0,0,7714,540 | 200 | 1596
+wiom_primary_revenue,PENALTY,BIGINT,660895,62,0,0.0,0,98,32 | 23 | 82
+wiom_primary_revenue,DISCOUNT,BIGINT,660895,251,0,0.0,0,99,55 | 8 | 16
+wiom_primary_revenue,TOTALPAID,BIGINT,660895,652,0,0.0,0,9,0 | 466 | 449
+wiom_primary_revenue,MODE,VARCHAR,660895,2,0,0.0,cash,online,cash | online
+wiom_primary_revenue,PLAN_TYPE,VARCHAR,660895,2,0,0.0,delight,non-delight,non-delight | delight
+wiom_primary_revenue,LTP_FLAG,VARCHAR,660895,2,0,0.0,ltp,non-ltp,non-ltp | ltp
+wiom_primary_revenue,FIXED_BONUS_DT,VARCHAR,660895,118,148175,22.4,"Dec 1, 2025","Mar 9, 2026","Jan 21, 2026 | Dec 7, 2025 | Feb 9, 2026"
+wiom_primary_revenue,FIXED_BONUS,DOUBLE,660895,19,0,0.0,0.0,882.0,294.0 | 323.4 | 15.92
+wiom_primary_revenue,RATING_BONUS1_DT,VARCHAR,660895,0,660895,100.0,,,
+wiom_primary_revenue,RATING_BONUS1,VARCHAR,660895,0,660895,100.0,,,
+wiom_primary_revenue,RATING_BONUS2_DT,VARCHAR,660895,12,372324,56.3,"Apr 1, 2025","Oct 16, 2024","Nov 16, 2025 | May 1, 2025 | Feb 16, 2026"
+wiom_primary_revenue,RATING_BONUS2,DOUBLE,660895,13,372324,56.3,0.0,66.0,12.0 | 58.8 | 66.0
+wiom_primary_revenue,WORK_BONUS_DT,VARCHAR,660895,9,279156,42.2,"Apr 1, 2025","Nov 1, 2025","Mar 1, 2026 | Mar 1, 2025 | Jun 1, 2025"
+wiom_primary_revenue,WORK_BONUS,BIGINT,660895,2,279156,42.2,0,30,30 | 0
+wiom_primary_revenue,DEVICE_BONUS_DT,VARCHAR,660895,8,279293,42.3,"Apr 1, 2025","Nov 1, 2025","Apr 1, 2025 | Jun 1, 2025 | Feb 1, 2026"
+wiom_primary_revenue,DEVICE_BONUS,BIGINT,660895,2,279293,42.3,0,30,30 | 0
+wiom_primary_revenue,TOTAL_COMMISSION,DOUBLE,660895,133,0,0.0,0.0,990.0,294.0 | 390.0 | 336.6
+wiom_primary_revenue,ROUTER_RENT_MINLOGIC,DOUBLE,660895,607,0,0.0,-1.0,99.4,189.4 | -293.8 | -241.6
+wiom_primary_revenue,ROUTER_RENT_200,BIGINT,660895,5,0,0.0,0,800,2400 | 800 | 0
+wiom_primary_revenue,ROUTER_RENT_TOTALPAIDNETOFFTOTALCOMM,DOUBLE,660895,3208,0,0.0,-0.6,999.4,380.0 | 422.0 | 329.0
+wiom_primary_revenue,ROUTER_RENT_TOTALPAIDNETOFFFIXEDBONUS,DOUBLE,660895,1854,0,0.0,-1.0,99.4,466.0 | 540.0 | 484.0
+wiom_primary_revenue,PASS_ON_REVENUE,DOUBLE,660895,633,0,0.0,0.0,999.0,647.0 | 800.0 | 249.0
+wiom_primary_revenue,SPL_INCENTIVE,DOUBLE,660895,2260,0,0.0,-0.4,99.6,-230.0 | -263.0 | -243.0
+wiom_primary_revenue,RECHARGE_COUNT,BIGINT,660895,72,0,0.0,1,9,11 | 45 | 12
+wiom_primary_revenue,REV_TYPE,VARCHAR,660895,2,0,0.0,Installs,Retentions,Retentions | Installs
+wiom_primary_revenue,MIGRATION_FLAG,VARCHAR,660895,1,655019,99.1,migration,migration,migration
+wiom_primary_revenue,NEGATIVE_ROUTER_RENT_FLAG,BIGINT,660895,2,0,0.0,0,1,0 | 1
+wiom_topup_income,DATETIME,VARCHAR,625184,114503,0,0.0,"Dec 1, 2025, 00:01","Mar 9, 2026, 23:59","Mar 13, 2026, 12:18 | Mar 13, 2026, 12:31 | Mar 13, 2026, 12:35"
+wiom_topup_income,TRANSACTION_ID,VARCHAR,625184,598992,0,0.0,ADDED_TO_WALLET_2026-02-19 08:13:46,wiomWall_9999862747_188371427_1,ISP-281749854641551-20260311T154052Z | ISP-274877929625-20260313T052156Z | ISP-281749854834476-20260313T070402Z
+wiom_topup_income,ACTION,VARCHAR,625184,12,0,0.0,ADD_BALANCE,WORK_BONUS_ADDED,ADD_BALANCE | RATING_BONUS_ADDED_V2 | DEVICE_BONUS_ADDED
+wiom_topup_income,REMARK,VARCHAR,625184,376996,5771,0.9,(Finance 25-26 Partner Withdrawl Failed_281749854680059),verified booking payment,"264.60, for 9506194910, for DeviceId GX100000 | 294.00, for 9350150988, for DeviceId SY052323 | 264.60, for 9305936950, for DeviceId GX95963"
+wiom_topup_income,AMOUNT,DOUBLE,625184,9255,0,0.0,-1.0,9996.0,323.4 | -265.0 | -100.0
+wiom_topup_income,LNG_ID,BIGINT,625184,1389,0,0.0,274877908745,281749855031856,281749854617611 | 281749854657881 | 281749854726622
+wiom_topup_income,FINANCE_REMARKS,VARCHAR,625184,17,0,0.0,Amount Withdrawn,Withdrawal Failure,Lottery | Reversals | Cash Collected by Partner Reversal
+wiom_topup_income,PARTNER_NAME,VARCHAR,625184,1386,0,0.0, Aura Connect Group Of Company,yash broadband internet service,yash broadband internet service | Angel Fibernet | Sunny Cable Broadband service 
+wiom_topup_income,MIS_CITY,VARCHAR,625184,4,0,0.0,Bharat,Mumbai,Delhi | Mumbai | Meerut
+wiom_topup_income,STATE,VARCHAR,625184,4,0,0.0,DL,UP,MH | HR | UP
