@@ -65,10 +65,19 @@ _Three-layer reconciliation: Wiom DB → Juspay → PGs → Bank_
 - [x] Total inflow analysis → `docs/_total_inflow_jan26.py`
 - [ ] Layer 1 reconciliation HTML visualization
 
-### Layer 2 — Juspay vs PG Gateways (Paytm/PhonePe/PayU/Razorpay)
-- [ ] Match juspay_transactions → PG transaction tables by gateway
-- [ ] Mismatch analysis per gateway
-- [ ] Refund reconciliation (juspay_refunds vs PG refund tables)
+### Layer 2 — Juspay vs PG Gateways (Paytm/PhonePe/PayU/Razorpay) ✅ DONE
+- [x] Match juspay_transactions → PG transaction tables by gateway → `docs/_layer2_recon.py`
+- [x] Mismatch analysis per gateway (all 4 gateways)
+- [x] Refund reconciliation (juspay_refunds vs phonepe_refunds + paytm_refunds)
+- Key findings (Jan 2026):
+  - **100% transaction match rate across all 4 gateways** — every Juspay SUCCESS txn found in PG table
+  - PAYTM_V2 (314,833 txns): exact amount match, 35 Paytm-only txns (Rs 2,787) — date edge cases
+  - PHONEPE (16,792 txns): exact match on both count and amount
+  - PAYU (33,242 txns): count match but amount diff Rs 54,160 (Juspay > PG) — needs investigation
+  - RAZORPAY (16,494 txns): count match, amount anomaly due to duplicate order_receipts in PG table
+  - **No Juspay-only orphans** — all Juspay Jan26 SUCCESS txns appear in PG tables
+  - Join keys confirmed: PAYTM/PhonePe/PayU use juspay_txn_id; Razorpay uses order_id = order_receipt
+  - Refunds: 3,196 Juspay refunds — Paytm (2,656/2,656 matched), PhonePe (158/158 matched), PayU/Razorpay (no separate PG table)
 
 ### Layer 3 — PG Settlements vs Bank Receipts
 - [ ] Match PG settlement reports → bank_receipt_from_pg
