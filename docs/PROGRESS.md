@@ -80,9 +80,35 @@ _Three-layer reconciliation: Wiom DB → Juspay → PGs → Bank_
   - Join keys confirmed: PAYTM/PhonePe/PayU use juspay_txn_id; Razorpay uses order_id = order_receipt
   - Refunds: 3,196 Juspay refunds — Paytm (2,656/2,656 matched), PhonePe (158/158 matched), PayU/Razorpay (no separate PG table)
 
-### Layer 3 — PG Settlements vs Bank Receipts
-- [ ] Match PG settlement reports → bank_receipt_from_pg
-- [ ] Settlement amount reconciliation
+### Layer 3 — PG Transactions vs PG Settlements ✅ DONE
+- [x] Reconcile PG transactions → PG settlement records → `docs/_layer3_recon.py`
+- [x] Per-gateway settlement analysis (Paytm, PhonePe, PayU, Razorpay)
+- [x] Settlement batch / UTR breakdown per gateway
+- Key findings (Jan 2026):
+  - **100% settlement rate across all 4 gateways** — all Juspay Jan26 SUCCESS txns are settled
+  - PAYTM_V2: 314,833 txns, gross Rs 5.84Cr, fees Rs 64,858 (commission+GST), 58 UTR batches (daily)
+  - PHONEPE: 16,792 txns, gross Rs 25.46L, fees Rs -4,677 (negative sign = Rs 4,677 MDR charged)
+  - PAYU: 33,242 txns, gross Rs 1.10Cr, fees Rs 27,592, 32 UTR batches
+  - RAZORPAY: 16,494 txns, gross Rs 24.44L, **fees Rs 13,732 (MDR Rs 12,084 + GST Rs 1,648)** — fee/tax embedded in razorpay_transactions
+  - **Total net settled across all gateways: Rs 7.43Cr | Total fees deducted: Rs ~1.02L**
+  - **CORRECTION:** Razorpay Layer 3 originally reported Rs 0 fees — fixed after discovering fee/tax columns exist in razorpay_transactions
+
+### PG Fee Deep-Dives
+- [x] PhonePe negative fees investigation → `docs/_phonepe_fee_deepdive.py`
+  - Root cause: PhonePe stores MDR as NEGATIVE numbers (sign convention). `-Rs 4,677` = normal Rs 4,677 fee
+  - 7,929 fee-bearing txns: standard UPI = 0% MDR (RBI mandate); Bank Account + RuPay Credit via UPI = MDR charged
+  - Effective MDR: 0.190%; largest single fee Rs 1,150 on Rs 50K wallet top-up (RuPay Credit Card)
+  - Exported: `docs/phonepe_fee_charged_trace.csv` (7,929 rows, traced to Wiom DB)
+- [x] Razorpay fee investigation → `docs/_razorpay_fee_deepdive.py`
+  - **ALL 16,494 Jan26 Razorpay txns have fee > 0** — Razorpay charges MDR on ALL payment methods incl. UPI
+  - Total: Rs 12,084 MDR + Rs 1,648 GST = Rs 13,732 total fees; Effective MDR: 0.4944%
+  - Methods: UPI (99.2% of txns, 0.4566% MDR), Visa/MC/RuPay credit cards (~1.85-1.94% MDR), netbanking (1.95%)
+  - By order pattern: custGen_* (WiFi recharges, Rs 2.31Cr gross, Rs 12,452 fee) + w_* (wallet topups, Rs 1.04L gross)
+  - Exported: `docs/razorpay_fee_trace_jan26.csv` (16,495 rows, traced to Wiom DB)
+
+### Layer 3b — PG Settlements vs Bank Receipts
+- [ ] Match PG settlement UTRs → bank_receipt_from_pg
+- [ ] Settlement amount reconciliation (daily aggregate level)
 
 ## Phase 5: Data Dictionary
 - [x] Profile all 916 columns (nulls, distinct counts, sample values) → `docs/_column_stats.csv`

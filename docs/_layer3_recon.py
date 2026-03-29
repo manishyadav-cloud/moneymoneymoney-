@@ -220,7 +220,10 @@ rzp_settled = con.execute("""
         COALESCE(SUM(CASE WHEN r.settled=1 THEN r.amount ELSE 0 END), 0) AS settled_amt,
         COUNT(DISTINCT r.settlement_id)    AS settlement_batches,
         MIN(r.settled_at)                  AS earliest_settle,
-        MAX(r.settled_at)                  AS latest_settle
+        MAX(r.settled_at)                  AS latest_settle,
+        COALESCE(SUM(r.fee), 0)            AS total_fee,
+        COALESCE(SUM(r.tax), 0)            AS total_tax,
+        COALESCE(SUM(r.amount) - SUM(r.fee) - SUM(r.tax), 0) AS net_settled
     FROM juspay_transactions j
     INNER JOIN razorpay_transactions r
         ON j.order_id = r.order_receipt AND r.type='payment'
@@ -234,12 +237,16 @@ settle_rate_rzp = 100 * rzp_settled[4] / rzp_j[0] if rzp_j[0] else 0
 print(f'{"Metric":55s} {"Count":>10s}  {"Amount (Rs)":>16s}')
 print(SEP2)
 print(f'{"Juspay SUCCESS txns (RAZORPAY, Jan26)":55s} {rzp_j[0]:>10,}  Rs {rzp_j[1]:>12,.0f}')
-print(f'{"Matched in razorpay_transactions (type=payment)":55s} {rzp_settled[2]:>10,}  Rs {rzp_settled[3]:>12,.0f}')
-print(f'{"Settled (settled=1)":55s} {rzp_settled[4]:>10,}  Rs {rzp_settled[5]:>12,.0f}')
+print(f'{"Matched in razorpay_transactions (type=payment)":55s} {rzp_settled[2]:>10,}  Rs {rzp_settled[3]:>12,.0f}  (gross)')
+print(f'{"Settled (settled=1)":55s} {rzp_settled[4]:>10,}  Rs {rzp_settled[5]:>12,.0f}  (gross)')
+print(f'{"  Net settled (after fee+tax)":55s} {"":>10s}  Rs {rzp_settled[11]:>12,.0f}')
+print(f'{"  MDR fee (razorpay.fee)":55s} {"":>10s}  Rs {rzp_settled[9]:>12,.2f}')
+print(f'{"  GST on fee (razorpay.tax)":55s} {"":>10s}  Rs {rzp_settled[10]:>12,.2f}')
+print(f'{"  Total fees incl GST":55s} {"":>10s}  Rs {rzp_settled[9]+rzp_settled[10]:>12,.2f}')
+print(f'{"  Effective MDR %":55s} {rzp_settled[9]/rzp_settled[3]*100:>9.4f}%')
 print(f'{"Settlement rate":55s} {settle_rate_rzp:>9.2f}%')
 print(f'{"Distinct settlement batches (settlement_id)":55s} {rzp_settled[6]:>10,}')
 print(f'{"Settlement date range (settled_at)":55s} {str(rzp_settled[7])} to {str(rzp_settled[8])}')
-print(f'{"Note: fees not available in Razorpay transactions table":55s}')
 
 
 # ================================================================
@@ -253,20 +260,18 @@ rows = [
     ('PAYTM_V2',  ptm_j[0],  paytm_settled[4],   paytm_settled[5],   paytm_settled[6],   paytm_settled[7]+paytm_settled[8], paytm_unsettled[0],  paytm_unsettled[1]),
     ('PHONEPE',   pp_j[0],   phonepe_settled[4],  phonepe_settled[5], phonepe_settled[6], phonepe_settled[7],                phonepe_unsettled[0],phonepe_unsettled[1]),
     ('PAYU',      payu_j[0], payu_settled[4],     payu_settled[5],    payu_settled[6],    payu_settled[7],                   payu_unsettled[0],   payu_unsettled[1]),
-    ('RAZORPAY',  rzp_j[0],  rzp_settled[4],      rzp_settled[5],     rzp_settled[5],     0,                                 rzp_j[0]-rzp_settled[4], rzp_j[1]-rzp_settled[5]),
+    ('RAZORPAY',  rzp_j[0],  rzp_settled[4],      rzp_settled[5],     rzp_settled[11],    rzp_settled[9]+rzp_settled[10],    rzp_j[0]-rzp_settled[4], rzp_j[1]-rzp_settled[5]),
 ]
 
 t_j=t_s=t_g=t_n=t_f=t_ut=t_ua = 0
 for gw, j_cnt, s_cnt, g_amt, n_amt, fees, ut_cnt, ut_amt in rows:
     rate = 100*s_cnt/j_cnt if j_cnt else 0
-    note = ' *' if gw=='RAZORPAY' else ''
-    print(f'{gw:12s} {j_cnt:>10,} {s_cnt:>10,} {rate:>6.1f}% Rs {g_amt:>12,.0f} Rs {n_amt:>10,.0f} Rs {fees:>8,.0f} {ut_cnt:>15,} Rs {ut_amt:>10,.0f}{note}')
+    print(f'{gw:12s} {j_cnt:>10,} {s_cnt:>10,} {rate:>6.1f}% Rs {g_amt:>12,.0f} Rs {n_amt:>10,.0f} Rs {fees:>8,.0f} {ut_cnt:>15,} Rs {ut_amt:>10,.0f}')
     t_j+=j_cnt; t_s+=s_cnt; t_g+=g_amt; t_n+=n_amt; t_f+=fees; t_ut+=ut_cnt; t_ua+=ut_amt
 
 print('=' * 120)
 t_rate = 100*t_s/t_j if t_j else 0
 print(f'{"TOTAL":12s} {t_j:>10,} {t_s:>10,} {t_rate:>6.1f}% Rs {t_g:>12,.0f} Rs {t_n:>10,.0f} Rs {t_f:>8,.0f} {t_ut:>15,} Rs {t_ua:>10,.0f}')
-print('\n  * Razorpay: fees not available in transactions table (deducted at settlement_id level)')
 
 
 # ================================================================
