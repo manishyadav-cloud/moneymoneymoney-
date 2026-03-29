@@ -106,9 +106,19 @@ _Three-layer reconciliation: Wiom DB → Juspay → PGs → Bank_
   - By order pattern: custGen_* (WiFi recharges, Rs 2.31Cr gross, Rs 12,452 fee) + w_* (wallet topups, Rs 1.04L gross)
   - Exported: `docs/razorpay_fee_trace_jan26.csv` (16,495 rows, traced to Wiom DB)
 
-### Layer 3b — PG Settlements vs Bank Receipts
-- [ ] Match PG settlement UTRs → bank_receipt_from_pg
-- [ ] Settlement amount reconciliation (daily aggregate level)
+### Layer 3b — PG Settlements vs Bank Receipts ✅ DONE
+- [x] UTR investigation → Paytm UTR (`UTIBR6*`) ≠ bank RTGS UTR (`UTIBH*`) — different systems, no key join; use date-level matching
+- [x] Confirmed bank_receipt_from_pg = Paytm-only (all 358 rows: "PAYTM PAYMENTS SERVICES LIMI" via RTGS)
+- [x] 1 UTR/day on both sides — perfect 1:1 date mapping confirmed
+- [x] Daily reconciliation: settlement net − refund deductions = bank deposit → `docs/_bank_recon.py`
+- Key findings (Jan 2026):
+  - **Paytm recon CLEAN: 0.68% residual gap** (Rs 3.94L after refund netting) — likely TDS/platform charges
+  - Paytm Jan26: settlement net Rs 5.84Cr − refunds Rs 3.89L = expected Rs 5.80Cr; bank Rs 5.76Cr; gap Rs -3.94L (-0.68%)
+  - Paytm Dec25: gap Rs -4.50L (-0.74%); Paytm Feb26: gap Rs -2.73L (-0.52%)
+  - Worst single day: 2026-01-30, gap Rs -1,00,642 (large refund batch on that day)
+  - **Non-Paytm gap: Rs 4.44Cr (Dec25-Feb26) unreconciled** — PhonePe/PayU/Razorpay bank accounts not in provided file
+- [ ] Investigate residual gap (~0.6%): TDS deductions, security deposit holdbacks, Paytm platform charges
+- [ ] Obtain PhonePe/PayU/Razorpay bank statements to complete full bank recon
 
 ## Phase 5: Data Dictionary
 - [x] Profile all 916 columns (nulls, distinct counts, sample values) → `docs/_column_stats.csv`
