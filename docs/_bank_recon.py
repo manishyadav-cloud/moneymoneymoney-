@@ -1,404 +1,604 @@
 # -*- coding: utf-8 -*-
 """
-Settlement <-> Bank Receipt Reconciliation
-==========================================
+Settlement <-> Bank Receipt Reconciliation  (ALL 4 GATEWAYS)
+=============================================================
 Links PG settlement records to actual bank deposits in bank_receipt_from_pg.
 
-KEY FACTS ESTABLISHED BEFORE RUNNING:
-  - All 358 bank deposits come from "PAYTM PAYMENTS SERVICES LIMI" (RTGS)
-  - Paytm UTR (UTIBR6...) != Bank RTGS UTR (UTIBH...)  ->  no direct UTR match
-  - Reconciliation approach: DATE-level matching + refund netting
-  - PhonePe / PayU / Razorpay bank accounts are NOT in this bank file
+Bank file has 4 sheets (now all loaded):
+  01 Paytm-Wallet (WIOM Gold)  -> 357 rows
+  02 Payu-Wallet               -> 263 rows
+  05 PhonePe Wallet-2          -> 240 rows
+  06 Razorpay Wallet           -> 238 rows
 
-Formula:
-  Bank deposit (date D) = Paytm settled_amount (date D)
-                        - Paytm refunds deducted (date D)
-                        +/- timing adjustments
+Settlement sources:
+  Paytm    : paytm_settlements   (settled_date)
+  PhonePe  : phonepe_settlements ("Settlement Date")
+  PayU     : payu_settlements    ("AddedOn")
+  Razorpay : razorpay_transactions (type='payment', settled_at)
+
+Refund sources:
+  Paytm    : paytm_refunds  (Settled_Date)
+  PhonePe  : phonepe_refunds (has no settlement_date -- refunds show in phonepe_settlements as REVERSAL rows)
+  PayU     : payu_settlements where status='Refunded' / 'Chargebacked'
+  Razorpay : razorpay_transactions where type='refund'
 
 Parts:
-  A. UTR investigation: why no UTR match & what do the IDs mean
-  B. Daily reconciliation: settlement net vs bank deposit (all months overlap)
-  C. Monthly summary with running gap
-  D. Unreconciled items: days with large gaps
-  E. Non-Paytm PG settlements (no bank data available)
-  F. Overall reconciliation scorecard
+  A. Summary: bank deposits vs total settlement net per gateway
+  B. Monthly reconciliation per gateway (settlement net vs bank deposit)
+  C. January 2026 deep-dive all 4 gateways
+  D. Refund impact analysis per gateway
+  E. Overall scorecard
 """
 import duckdb
 
 con = duckdb.connect('data.duckdb', read_only=True)
 
-SEP  = '=' * 130
-SEP2 = '-' * 130
-SEP3 = '.' * 130
+SEP  = '=' * 140
+SEP2 = '-' * 140
+SEP3 = '.' * 140
 
 print(SEP)
-print('SETTLEMENT  <-->  BANK RECEIPT RECONCILIATION')
+print('SETTLEMENT  <-->  BANK RECEIPT RECONCILIATION  (ALL 4 GATEWAYS)')
 print(SEP)
 
 # ======================================================================
-# PART A: UTR INVESTIGATION
+# PART A: OVERALL SUMMARY  (bank totals vs settlement totals)
 # ======================================================================
 print('\n' + SEP)
-print('PART A: UTR INVESTIGATION')
+print('PART A: OVERALL SUMMARY  (bank total vs settlement net per gateway)')
 print(SEP)
 
-print('\n--- Paytm settlement UTR samples ---')
-ptm_utr = con.execute("""
-    SELECT utr_no, settled_date, COUNT(*) AS txns,
-           SUM(amount) AS gross, SUM(settled_amount) AS net
-    FROM paytm_settlements
-    WHERE YEAR(settled_date) = 2026 AND MONTH(settled_date) = 1
-    GROUP BY utr_no, settled_date
-    ORDER BY settled_date
-    LIMIT 8
-""").fetchall()
-for r in ptm_utr:
-    print(f'  UTR: {r[0]}  |  Date: {r[1]}  |  Txns: {r[2]:,}  |  Gross Rs {r[3]:,.2f}  |  Net Rs {r[4]:,.2f}')
-
-print('\n--- Bank RTGS UTR samples (Jan 2026) ---')
-bank_utr = con.execute("""
-    SELECT SPLIT_PART("Transaction Remarks", '/', 2)  AS bank_utr,
-           CAST("Transaction" AS DATE)                 AS dt,
-           CAST("Deposit Amt(INR)" AS DOUBLE)          AS deposit,
-           "Transaction Remarks"
+# Bank deposits by gateway
+bank_summary = con.execute("""
+    SELECT "Payment Gateway",
+           COUNT(*) AS deposits,
+           MIN(CAST("Transaction" AS DATE)) AS first_dt,
+           MAX(CAST("Transaction" AS DATE)) AS last_dt,
+           SUM(CAST("Deposit Amt(INR)" AS DOUBLE)) AS bank_total
     FROM bank_receipt_from_pg
-    WHERE YEAR(CAST("Transaction" AS DATE)) = 2026
-      AND MONTH(CAST("Transaction" AS DATE)) = 1
-    ORDER BY dt
-    LIMIT 8
+    GROUP BY "Payment Gateway"
+    ORDER BY 1
 """).fetchall()
-for r in bank_utr:
-    print(f'  Bank UTR: {r[0]}  |  Date: {r[1]}  |  Deposit Rs {r[2]:,.2f}  |  Remark: {r[3][:60]}')
 
-print('\n--- UTR pattern analysis ---')
-print('  Paytm settlement UTR format : UTIBR6YYYYMMDDXXXXXXXX  (Paytm internal, issued by Paytm)')
-print('  Bank RTGS UTR format        : UTIBHYYMMDDXXXXXXXXX   (bank-assigned RTGS reference)')
-print('  --> Different UTR systems; no direct key-join possible')
-print('  --> Reconciliation must use DATE + AMOUNT matching')
+print('\n--- Bank deposits per gateway ---')
+print(f'  {"Payment Gateway":32s} {"Deposits":>8s} {"From":>12s} {"To":>12s} {"Total Bank (Rs)":>18s}')
+print('  ' + '-'*85)
+for r in bank_summary:
+    print(f'  {str(r[0]):32s} {r[1]:>8,} {str(r[2]):>12s} {str(r[3]):>12s} Rs {r[4]:>14,.2f}')
+bank_grand = sum(r[4] for r in bank_summary)
+print('  ' + '-'*85)
+print(f'  {"TOTAL":32s} {sum(r[1] for r in bank_summary):>8,} {"":>12s} {"":>12s} Rs {bank_grand:>14,.2f}')
 
-# Check if 1 UTR per date on both sides (confirms daily batching)
-ptm_utrs_per_day = con.execute("""
-    SELECT COUNT(DISTINCT utr_no) AS utrs, COUNT(DISTINCT settled_date) AS days
+# Settlement net by gateway
+print('\n--- Settlement net per gateway (from PG settlement tables) ---')
+paytm_sett = con.execute("""
+    SELECT 'Paytm' AS pg,
+           COUNT(*) AS rows,
+           MIN(settled_date) AS first_dt, MAX(settled_date) AS last_dt,
+           SUM(amount) AS gross, SUM(settled_amount) AS net,
+           SUM(commission)+SUM(gst) AS fees
     FROM paytm_settlements
-    WHERE YEAR(settled_date) = 2026 AND MONTH(settled_date) = 1
 """).fetchone()
-bank_per_day = con.execute("""
-    SELECT COUNT(*) AS deposits, COUNT(DISTINCT CAST("Transaction" AS DATE)) AS days
-    FROM bank_receipt_from_pg
-    WHERE YEAR(CAST("Transaction" AS DATE)) = 2026
-      AND MONTH(CAST("Transaction" AS DATE)) = 1
+
+pp_sett = con.execute("""
+    SELECT 'PhonePe' AS pg,
+           COUNT(*) AS rows,
+           MIN(CAST("Settlement Date" AS DATE)) AS first_dt,
+           MAX(CAST("Settlement Date" AS DATE)) AS last_dt,
+           SUM("Transaction Amount") AS gross,
+           SUM("Net Amount") AS net,
+           ABS(SUM("Total Fees")) AS fees
+    FROM phonepe_settlements
+    WHERE "Transaction Type" NOT LIKE '%REVERSAL%'
+      AND "Transaction Type" NOT LIKE '%REFUND%'
+      AND "Transaction Type" IS NOT NULL
 """).fetchone()
-print(f'\n  Paytm Jan26: {ptm_utrs_per_day[0]} distinct UTRs across {ptm_utrs_per_day[1]} days  (1 UTR/day confirmed)')
-print(f'  Bank Jan26 : {bank_per_day[0]} deposits across {bank_per_day[1]} days      (1 deposit/day confirmed)')
-print(f'  --> Perfect 1-to-1 daily mapping by date')
+
+pu_sett = con.execute("""
+    SELECT 'PayU' AS pg,
+           COUNT(*) AS rows,
+           MIN(CAST("AddedOn" AS TIMESTAMP)) AS first_dt,
+           MAX(CAST("AddedOn" AS TIMESTAMP)) AS last_dt,
+           SUM("Amount") AS gross,
+           SUM("Net Amount") AS net,
+           SUM("Amount" - "Net Amount") AS fees
+    FROM payu_settlements
+    WHERE "Status" NOT IN ('Refunded','Chargebacked')
+      OR "Status" IS NULL
+""").fetchone()
+
+rzp_sett = con.execute("""
+    SELECT 'Razorpay' AS pg,
+           COUNT(*) AS rows,
+           MIN(settled_at) AS first_dt, MAX(settled_at) AS last_dt,
+           SUM(amount) AS gross,
+           SUM(amount)-SUM(fee)-SUM(tax) AS net,
+           SUM(fee)+SUM(tax) AS fees
+    FROM razorpay_transactions
+    WHERE type = 'payment'
+""").fetchone()
+
+print(f'  {"Gateway":12s} {"Rows":>10s} {"From":>12s} {"To":>12s} {"Gross (Rs)":>16s} {"Net (Rs)":>16s} {"Fees (Rs)":>12s}')
+print('  ' + '-'*95)
+for r in [paytm_sett, pp_sett, pu_sett, rzp_sett]:
+    print(f'  {r[0]:12s} {r[1]:>10,} {str(r[2])[:10]:>12s} {str(r[3])[:10]:>12s} Rs {r[4]:>12,.0f} Rs {r[5]:>12,.0f} Rs {r[6]:>8,.2f}')
+sett_grand_net = paytm_sett[5] + pp_sett[5] + pu_sett[5] + rzp_sett[5]
+print('  ' + '-'*95)
+print(f'  {"TOTAL":12s} {"":>10s} {"":>12s} {"":>12s} {"":>16s} Rs {sett_grand_net:>12,.0f}')
+
+print(f'\n  Total settlement net (all PGs) : Rs {sett_grand_net:>14,.0f}')
+print(f'  Total bank deposits  (all PGs) : Rs {bank_grand:>14,.0f}')
+print(f'  Overall gap                    : Rs {bank_grand - sett_grand_net:>14,.0f}  ({(bank_grand-sett_grand_net)/sett_grand_net*100:.2f}%)')
+print('\n  Note: Settlement tables cover Dec25-Feb26; Bank file covers Apr25-Mar26.')
+print('  Months Apr25-Nov25 have bank deposits but NO settlement data => explains positive gap.')
 
 # ======================================================================
-# PART B: DAILY RECONCILIATION  (all available months)
+# PART B: MONTHLY RECONCILIATION PER GATEWAY
 # ======================================================================
 print('\n\n' + SEP)
-print('PART B: DAILY RECONCILIATION  (Paytm settled_amount - refunds = bank deposit?)')
+print('PART B: MONTHLY RECONCILIATION PER GATEWAY')
 print(SEP)
 
-# Build the full daily reconciliation table
-daily_recon = con.execute("""
+def monthly_pg_recon(pg_name, pg_col_value, sett_sql, bank_filter):
+    """Returns (month, sett_net, bank_dep, gap) per month."""
+    sett_monthly = con.execute(sett_sql).fetchall()
+    bank_monthly = con.execute(f"""
+        SELECT DATE_TRUNC('month', CAST("Transaction" AS DATE)) AS mo,
+               COUNT(*) AS deps,
+               SUM(CAST("Deposit Amt(INR)" AS DOUBLE)) AS bank_total
+        FROM bank_receipt_from_pg
+        WHERE "Payment Gateway" = '{pg_col_value}'
+        GROUP BY 1 ORDER BY 1
+    """).fetchall()
+
+    # Merge
+    sett_dict = {r[0]: r for r in sett_monthly}
+    bank_dict  = {r[0]: r for r in bank_monthly}
+    all_months = sorted(set(list(sett_dict.keys()) + list(bank_dict.keys())))
+
+    rows = []
+    for mo in all_months:
+        s = sett_dict.get(mo)
+        b = bank_dict.get(mo)
+        snet = s[2] if s else 0
+        bdep = b[2] if b else 0
+        rows.append((mo, (s[1] if s else 0), snet, (b[1] if b else 0), bdep, bdep - snet))
+    return rows
+
+# ---- PAYTM ----
+print('\n### PAYTM ###')
+paytm_monthly = monthly_pg_recon(
+    'Paytm', '01 Paytm-Wallet (WIOM Gold)',
+    """
+    SELECT DATE_TRUNC('month', settled_date) AS mo,
+           COUNT(*) AS txns, SUM(settled_amount) AS net
+    FROM paytm_settlements GROUP BY 1 ORDER BY 1
+    """,
+    "Payment Gateway = '01 Paytm-Wallet (WIOM Gold)'"
+)
+print(f'  {"Month":12s} {"Sett Txns":>10s} {"Sett Net (Rs)":>16s} {"Bank Deps":>10s} {"Bank Total (Rs)":>16s} {"Gap (Rs)":>12s} {"Gap%":>7s}')
+print('  ' + '-'*88)
+for r in paytm_monthly:
+    gap_pct = r[5]/r[4]*100 if r[4] else 0
+    flag = ' * ' if r[1] > 0 and r[3] > 0 else '   '
+    print(f'{flag} {str(r[0])[:7]:12s} {r[1]:>10,} Rs {r[2]:>12,.0f} {r[3]:>10,} Rs {r[4]:>12,.0f} Rs {r[5]:>8,.0f} {gap_pct:>6.2f}%')
+t_snet = sum(r[2] for r in paytm_monthly)
+t_bdep = sum(r[4] for r in paytm_monthly)
+print('  ' + '-'*88)
+print(f'  {"TOTAL":12s} {sum(r[1] for r in paytm_monthly):>10,} Rs {t_snet:>12,.0f} {sum(r[3] for r in paytm_monthly):>10,} Rs {t_bdep:>12,.0f} Rs {t_bdep-t_snet:>8,.0f} {(t_bdep-t_snet)/t_bdep*100:>6.2f}%')
+print('  * = months where BOTH settlement and bank data exist (reconcilable months)')
+
+# ---- PHONEPE ----
+print('\n### PHONEPE ###')
+pp_monthly = monthly_pg_recon(
+    'PhonePe', '05 PhonePe Wallet-2',
+    """
+    SELECT DATE_TRUNC('month', CAST("Settlement Date" AS DATE)) AS mo,
+           COUNT(*) AS txns, SUM("Net Amount") AS net
+    FROM phonepe_settlements
+    WHERE "Transaction Type" NOT LIKE '%REVERSAL%'
+      AND "Transaction Type" NOT LIKE '%REFUND%'
+      AND "Transaction Type" IS NOT NULL
+    GROUP BY 1 ORDER BY 1
+    """,
+    "Payment Gateway = '05 PhonePe Wallet-2'"
+)
+print(f'  {"Month":12s} {"Sett Rows":>10s} {"Sett Net (Rs)":>16s} {"Bank Deps":>10s} {"Bank Total (Rs)":>16s} {"Gap (Rs)":>12s} {"Gap%":>7s}')
+print('  ' + '-'*88)
+for r in pp_monthly:
+    gap_pct = r[5]/r[4]*100 if r[4] else 0
+    flag = ' * ' if r[1] > 0 and r[3] > 0 else '   '
+    print(f'{flag} {str(r[0])[:7]:12s} {r[1]:>10,} Rs {r[2]:>12,.0f} {r[3]:>10,} Rs {r[4]:>12,.0f} Rs {r[5]:>8,.0f} {gap_pct:>6.2f}%')
+t_snet = sum(r[2] for r in pp_monthly)
+t_bdep = sum(r[4] for r in pp_monthly)
+print('  ' + '-'*88)
+print(f'  {"TOTAL":12s} {sum(r[1] for r in pp_monthly):>10,} Rs {t_snet:>12,.0f} {sum(r[3] for r in pp_monthly):>10,} Rs {t_bdep:>12,.0f} Rs {t_bdep-t_snet:>8,.0f} {(t_bdep-t_snet)/t_bdep*100 if t_bdep else 0:>6.2f}%')
+
+# ---- PAYU ----
+print('\n### PAYU ###')
+pu_monthly = monthly_pg_recon(
+    'PayU', '02 Payu-Wallet',
+    """
+    SELECT DATE_TRUNC('month', CAST("AddedOn" AS TIMESTAMP)) AS mo,
+           COUNT(*) AS txns, SUM("Net Amount") AS net
+    FROM payu_settlements
+    GROUP BY 1 ORDER BY 1
+    """,
+    "Payment Gateway = '02 Payu-Wallet'"
+)
+print(f'  {"Month":12s} {"Sett Rows":>10s} {"Sett Net (Rs)":>16s} {"Bank Deps":>10s} {"Bank Total (Rs)":>16s} {"Gap (Rs)":>12s} {"Gap%":>7s}')
+print('  ' + '-'*88)
+for r in pu_monthly:
+    gap_pct = r[5]/r[4]*100 if r[4] else 0
+    flag = ' * ' if r[1] > 0 and r[3] > 0 else '   '
+    print(f'{flag} {str(r[0])[:7]:12s} {r[1]:>10,} Rs {r[2]:>12,.0f} {r[3]:>10,} Rs {r[4]:>12,.0f} Rs {r[5]:>8,.0f} {gap_pct:>6.2f}%')
+t_snet = sum(r[2] for r in pu_monthly)
+t_bdep = sum(r[4] for r in pu_monthly)
+print('  ' + '-'*88)
+print(f'  {"TOTAL":12s} {sum(r[1] for r in pu_monthly):>10,} Rs {t_snet:>12,.0f} {sum(r[3] for r in pu_monthly):>10,} Rs {t_bdep:>12,.0f} Rs {t_bdep-t_snet:>8,.0f} {(t_bdep-t_snet)/t_bdep*100 if t_bdep else 0:>6.2f}%')
+
+# ---- RAZORPAY ----
+print('\n### RAZORPAY ###')
+rzp_monthly = monthly_pg_recon(
+    'Razorpay', '06 Razorpay Wallet',
+    """
+    SELECT DATE_TRUNC('month', settled_at) AS mo,
+           COUNT(*) AS txns,
+           SUM(amount)-SUM(fee)-SUM(tax) AS net
+    FROM razorpay_transactions
+    WHERE type = 'payment'
+    GROUP BY 1 ORDER BY 1
+    """,
+    "Payment Gateway = '06 Razorpay Wallet'"
+)
+print(f'  {"Month":12s} {"Sett Rows":>10s} {"Sett Net (Rs)":>16s} {"Bank Deps":>10s} {"Bank Total (Rs)":>16s} {"Gap (Rs)":>12s} {"Gap%":>7s}')
+print('  ' + '-'*88)
+for r in rzp_monthly:
+    gap_pct = r[5]/r[4]*100 if r[4] else 0
+    flag = ' * ' if r[1] > 0 and r[3] > 0 else '   '
+    print(f'{flag} {str(r[0])[:7]:12s} {r[1]:>10,} Rs {r[2]:>12,.0f} {r[3]:>10,} Rs {r[4]:>12,.0f} Rs {r[5]:>8,.0f} {gap_pct:>6.2f}%')
+t_snet = sum(r[2] for r in rzp_monthly)
+t_bdep = sum(r[4] for r in rzp_monthly)
+print('  ' + '-'*88)
+print(f'  {"TOTAL":12s} {sum(r[1] for r in rzp_monthly):>10,} Rs {t_snet:>12,.0f} {sum(r[3] for r in rzp_monthly):>10,} Rs {t_bdep:>12,.0f} Rs {t_bdep-t_snet:>8,.0f} {(t_bdep-t_snet)/t_bdep*100 if t_bdep else 0:>6.2f}%')
+
+# ======================================================================
+# PART C: JANUARY 2026 DEEP-DIVE  (all 4 gateways)
+# ======================================================================
+print('\n\n' + SEP)
+print('PART C: JANUARY 2026 DEEP-DIVE  (settled in Jan 2026)')
+print(SEP)
+
+print('\n--- Paytm Jan 2026 daily (settlement net - refunds = bank) ---')
+daily_paytm = con.execute("""
     WITH sett AS (
-        SELECT
-            settled_date                            AS dt,
-            COUNT(*)                                AS sett_txns,
-            SUM(amount)                             AS sett_gross,
-            SUM(settled_amount)                     AS sett_net,
-            SUM(commission) + SUM(gst)              AS sett_fees
+        SELECT settled_date AS dt,
+               COUNT(*) AS txns,
+               SUM(amount) AS gross,
+               SUM(settled_amount) AS net,
+               SUM(commission)+SUM(gst) AS fees
         FROM paytm_settlements
+        WHERE YEAR(settled_date)=2026 AND MONTH(settled_date)=1
         GROUP BY settled_date
     ),
     ref AS (
-        SELECT
-            CAST(LEFT(TRIM(Settled_Date, chr(39)), 10) AS DATE)              AS dt,
-            COUNT(*)                                AS ref_txns,
-            SUM(CAST(Amount AS DOUBLE))             AS ref_gross,
-            SUM(CAST(Settled_Amount AS DOUBLE))     AS ref_net
+        SELECT CAST(LEFT(TRIM(Settled_Date, chr(39)), 10) AS DATE) AS dt,
+               COUNT(*) AS ref_txns,
+               SUM(CAST(Settled_Amount AS DOUBLE)) AS ref_net
         FROM paytm_refunds
+        WHERE YEAR(CAST(LEFT(TRIM(Settled_Date, chr(39)), 10) AS DATE))=2026
+          AND MONTH(CAST(LEFT(TRIM(Settled_Date, chr(39)), 10) AS DATE))=1
         GROUP BY 1
     ),
     bank AS (
-        SELECT
-            CAST("Transaction" AS DATE)             AS dt,
-            SUM(CAST("Deposit Amt(INR)" AS DOUBLE)) AS bank_deposit
+        SELECT CAST("Transaction" AS DATE) AS dt,
+               SUM(CAST("Deposit Amt(INR)" AS DOUBLE)) AS bank_dep
         FROM bank_receipt_from_pg
+        WHERE "Payment Gateway" = '01 Paytm-Wallet (WIOM Gold)'
+          AND YEAR(CAST("Transaction" AS DATE))=2026
+          AND MONTH(CAST("Transaction" AS DATE))=1
         GROUP BY 1
     )
-    SELECT
-        COALESCE(s.dt, b.dt)                        AS dt,
-        COALESCE(s.sett_txns,  0)                   AS sett_txns,
-        COALESCE(s.sett_gross, 0)                   AS sett_gross,
-        COALESCE(s.sett_net,   0)                   AS sett_net,
-        COALESCE(s.sett_fees,  0)                   AS sett_fees,
-        COALESCE(r.ref_txns,   0)                   AS ref_txns,
-        COALESCE(r.ref_net,    0)                   AS ref_net,
-        COALESCE(s.sett_net, 0) - COALESCE(r.ref_net, 0) AS expected_deposit,
-        COALESCE(b.bank_deposit, 0)                 AS bank_deposit,
-        COALESCE(b.bank_deposit, 0)
-            - (COALESCE(s.sett_net, 0) - COALESCE(r.ref_net, 0)) AS daily_diff
+    SELECT s.dt,
+           s.txns, s.gross, s.net, s.fees,
+           COALESCE(r.ref_txns,0) AS ref_txns,
+           COALESCE(r.ref_net,0) AS ref_net,
+           s.net - COALESCE(r.ref_net,0) AS expected,
+           COALESCE(b.bank_dep,0) AS bank_dep,
+           COALESCE(b.bank_dep,0) - (s.net - COALESCE(r.ref_net,0)) AS daily_diff
     FROM sett s
-    FULL JOIN bank b  ON s.dt = b.dt
-    LEFT JOIN ref  r  ON s.dt = r.dt
-    ORDER BY dt
+    LEFT JOIN ref r ON s.dt = r.dt
+    LEFT JOIN bank b ON s.dt = b.dt
+    ORDER BY s.dt
 """).fetchall()
 
-# Show Jan 2026 detailed daily breakdown
-print('\n### Jan 2026 Daily Detail ###\n')
-print(f'  {"Date":12s} {"Sett Txns":>10s} {"Sett Net (Rs)":>16s} {"Refund Net (Rs)":>18s} {"Expected (Rs)":>16s} {"Bank Dep (Rs)":>16s} {"Diff (Rs)":>12s}')
-print('  ' + SEP2[:103])
+print(f'  {"Date":12s} {"Sett Txns":>10s} {"Sett Net":>14s} {"Refunds":>12s} {"Expected":>14s} {"Bank Dep":>14s} {"Diff":>12s}')
+print('  ' + '-'*95)
+for r in daily_paytm:
+    flag = '*** ' if abs(r[9]) > 50000 else '    '
+    print(f'  {flag}{str(r[0]):12s} {r[1]:>10,} Rs {r[3]:>10,.0f} Rs {r[6]:>8,.0f} Rs {r[7]:>10,.0f} Rs {r[8]:>10,.0f} Rs {r[9]:>8,.0f}')
+print('  ' + '-'*95)
+jan_net  = sum(r[3] for r in daily_paytm)
+jan_ref  = sum(r[6] for r in daily_paytm)
+jan_exp  = sum(r[7] for r in daily_paytm)
+jan_bank = sum(r[8] for r in daily_paytm)
+jan_diff = sum(r[9] for r in daily_paytm)
+print(f'  {"JAN TOTAL":12s} {sum(r[1] for r in daily_paytm):>10,} Rs {jan_net:>10,.0f} Rs {jan_ref:>8,.0f} Rs {jan_exp:>10,.0f} Rs {jan_bank:>10,.0f} Rs {jan_diff:>8,.0f}')
+print(f'\n  Residual gap after refunds: Rs {jan_diff:,.0f}  ({jan_diff/jan_bank*100:.3f}% of bank deposits)')
 
-jan26_rows = [r for r in daily_recon if str(r[0]).startswith('2026-01')]
-cum_diff = 0
-for r in jan26_rows:
-    cum_diff += r[9]
-    flag = '  *** ' if abs(r[9]) > 50000 else '      '
-    print(f'{flag}{str(r[0]):12s} {r[1]:>10,} Rs {r[2]:>12,.2f} Rs {r[6]:>14,.2f} Rs {r[7]:>12,.2f} Rs {r[8]:>12,.2f} Rs {r[9]:>8,.2f}')
-
-jan_sett  = sum(r[3] for r in jan26_rows)
-jan_rnet  = sum(r[6] for r in jan26_rows)
-jan_exp   = sum(r[7] for r in jan26_rows)
-jan_bank  = sum(r[8] for r in jan26_rows)
-jan_diff  = sum(r[9] for r in jan26_rows)
-print('  ' + SEP2[:103])
-print(f'  {"JAN TOTAL":12s} {sum(r[1] for r in jan26_rows):>10,} Rs {jan_sett:>12,.2f} Rs {jan_rnet:>14,.2f} Rs {jan_exp:>12,.2f} Rs {jan_bank:>12,.2f} Rs {jan_diff:>8,.2f}')
-
-pct_explained = jan_rnet / abs(jan_diff + jan_rnet) * 100 if (jan_diff + jan_rnet) != 0 else 0
-print(f'\n  Reconciliation for Jan 2026:')
-print(f'    Settlement net            : Rs {jan_sett:>14,.2f}')
-print(f'    Refunds deducted          : Rs {jan_rnet:>14,.2f}')
-print(f'    Expected bank deposit     : Rs {jan_exp:>14,.2f}')
-print(f'    Actual bank deposit       : Rs {jan_bank:>14,.2f}')
-print(f'    Unexplained gap           : Rs {jan_diff:>14,.2f}  ({jan_diff/jan_bank*100:.3f}% of bank deposits)')
-
-# ======================================================================
-# PART C: MONTHLY SUMMARY  (all months)
-# ======================================================================
-print('\n\n' + SEP)
-print('PART C: MONTHLY SUMMARY  (all months in settlement data)')
-print(SEP)
-
-monthly_recon = con.execute("""
+# PhonePe Jan26 daily
+print('\n--- PhonePe Jan 2026 daily (settlement date = Jan26) ---')
+daily_pp = con.execute("""
     WITH sett AS (
-        SELECT
-            DATE_TRUNC('month', settled_date)       AS mo,
-            COUNT(*)                                AS sett_txns,
-            SUM(amount)                             AS sett_gross,
-            SUM(settled_amount)                     AS sett_net,
-            SUM(commission) + SUM(gst)              AS sett_fees
-        FROM paytm_settlements
-        GROUP BY 1
-    ),
-    ref AS (
-        SELECT
-            DATE_TRUNC('month', CAST(LEFT(TRIM(Settled_Date, chr(39)), 10) AS DATE)) AS mo,
-            COUNT(*)                                AS ref_txns,
-            SUM(CAST(Settled_Amount AS DOUBLE))     AS ref_net
-        FROM paytm_refunds
+        SELECT CAST("Settlement Date" AS DATE) AS dt,
+               COUNT(*) AS txns,
+               SUM("Transaction Amount") AS gross,
+               SUM("Net Amount") AS net,
+               ABS(SUM("Total Fees")) AS fees
+        FROM phonepe_settlements
+        WHERE CAST("Settlement Date" AS DATE) >= '2026-01-01'
+          AND CAST("Settlement Date" AS DATE) < '2026-02-01'
+          AND ("Transaction Type" NOT LIKE '%REVERSAL%' OR "Transaction Type" IS NULL)
+          AND ("Transaction Type" NOT LIKE '%REFUND%' OR "Transaction Type" IS NULL)
+          AND "Transaction Type" IS NOT NULL
         GROUP BY 1
     ),
     bank AS (
-        SELECT
-            DATE_TRUNC('month', CAST("Transaction" AS DATE)) AS mo,
-            COUNT(*)                                AS deposits,
-            SUM(CAST("Deposit Amt(INR)" AS DOUBLE)) AS bank_total
+        SELECT CAST("Transaction" AS DATE) AS dt,
+               SUM(CAST("Deposit Amt(INR)" AS DOUBLE)) AS bank_dep
         FROM bank_receipt_from_pg
+        WHERE "Payment Gateway" = '05 PhonePe Wallet-2'
+          AND CAST("Transaction" AS DATE) >= '2026-01-01'
+          AND CAST("Transaction" AS DATE) < '2026-02-01'
         GROUP BY 1
     )
-    SELECT
-        COALESCE(s.mo, b.mo)                        AS month,
-        COALESCE(s.sett_txns, 0)                    AS sett_txns,
-        COALESCE(s.sett_gross, 0)                   AS sett_gross,
-        COALESCE(s.sett_net, 0)                     AS sett_net,
-        COALESCE(s.sett_fees, 0)                    AS sett_fees,
-        COALESCE(r.ref_txns, 0)                     AS ref_txns,
-        COALESCE(r.ref_net, 0)                      AS ref_net,
-        COALESCE(s.sett_net, 0) - COALESCE(r.ref_net, 0) AS expected,
-        COALESCE(b.deposits, 0)                     AS bank_deps,
-        COALESCE(b.bank_total, 0)                   AS bank_total,
-        COALESCE(b.bank_total, 0)
-          - (COALESCE(s.sett_net, 0) - COALESCE(r.ref_net, 0)) AS gap
-    FROM sett s
-    FULL JOIN bank b ON s.mo = b.mo
-    LEFT JOIN ref  r ON s.mo = r.mo
-    ORDER BY month
+    SELECT COALESCE(s.dt, b.dt) AS dt,
+           COALESCE(s.txns,0), COALESCE(s.gross,0), COALESCE(s.net,0), COALESCE(s.fees,0),
+           COALESCE(b.bank_dep,0),
+           COALESCE(b.bank_dep,0) - COALESCE(s.net,0) AS diff
+    FROM sett s FULL JOIN bank b ON s.dt = b.dt
+    ORDER BY 1
 """).fetchall()
 
-print(f'\n{"Month":12s} {"Sett Txns":>10s} {"Sett Net (Rs)":>16s} {"Refunds (Rs)":>14s} {"Expected (Rs)":>16s} {"Bank Dep (Rs)":>16s} {"Gap (Rs)":>12s} {"Gap%":>7s}')
-print(SEP2)
-cum_gap = 0
-for r in monthly_recon:
-    cum_gap += r[10]
-    gap_pct = r[10] / r[9] * 100 if r[9] else 0
-    flag = ' *' if abs(r[10]) > 200000 else '  '
-    print(f'{flag}{str(r[0])[:7]:12s} {r[1]:>10,} Rs {r[3]:>12,.0f} Rs {r[6]:>10,.0f} Rs {r[7]:>12,.0f} Rs {r[9]:>12,.0f} Rs {r[10]:>8,.0f} {gap_pct:>6.2f}%')
-print(SEP2)
-t_sett = sum(r[3] for r in monthly_recon)
-t_ref  = sum(r[6] for r in monthly_recon)
-t_exp  = sum(r[7] for r in monthly_recon)
-t_bank = sum(r[9] for r in monthly_recon)
-t_gap  = sum(r[10] for r in monthly_recon)
-print(f'{"TOTAL":12s} {sum(r[1] for r in monthly_recon):>10,} Rs {t_sett:>12,.0f} Rs {t_ref:>10,.0f} Rs {t_exp:>12,.0f} Rs {t_bank:>12,.0f} Rs {t_gap:>8,.0f} {t_gap/t_bank*100:>6.2f}%')
-print(f'\n  * = months with gap > Rs 2L')
-print(f'  Note: Bank file covers Apr25-Mar26; Settlement data covers Dec25-Feb26 only.')
-print(f'        Months with bank data but no settlement = Apr25-Nov25 (Rs {sum(r[9] for r in monthly_recon if r[1]==0):,.0f} deposited, no settlement table)')
+print(f'  {"Date":12s} {"Sett Rows":>10s} {"Gross":>14s} {"Net":>14s} {"Bank Dep":>14s} {"Diff":>12s}')
+print('  ' + '-'*82)
+for r in daily_pp:
+    flag = '*** ' if abs(r[6]) > 50000 else '    '
+    print(f'  {flag}{str(r[0]):12s} {r[1]:>10,} Rs {r[2]:>10,.0f} Rs {r[3]:>10,.0f} Rs {r[5]:>10,.0f} Rs {r[6]:>8,.0f}')
+print('  ' + '-'*82)
+print(f'  {"JAN TOTAL":12s} {sum(r[1] for r in daily_pp):>10,} Rs {sum(r[2] for r in daily_pp):>10,.0f} Rs {sum(r[3] for r in daily_pp):>10,.0f} Rs {sum(r[5] for r in daily_pp):>10,.0f} Rs {sum(r[6] for r in daily_pp):>8,.0f}')
+pp_gap = sum(r[6] for r in daily_pp)
+pp_bank = sum(r[5] for r in daily_pp)
+print(f'\n  PhonePe Jan26 gap: Rs {pp_gap:,.0f}  ({pp_gap/pp_bank*100 if pp_bank else 0:.3f}%)')
+print('  Note: PhonePe settles in larger batches (not daily) -- gap may reflect batch timing')
+
+# PayU Jan26 daily
+print('\n--- PayU Jan 2026 daily (settlement date = Jan26) ---')
+daily_pu = con.execute("""
+    WITH sett AS (
+        SELECT CAST(LEFT(CAST("AddedOn" AS VARCHAR), 10) AS DATE) AS dt,
+               COUNT(*) AS rows,
+               SUM("Amount") AS gross,
+               SUM("Net Amount") AS net,
+               SUM("Amount"-"Net Amount") AS fees
+        FROM payu_settlements
+        WHERE CAST(LEFT(CAST("AddedOn" AS VARCHAR), 10) AS DATE) >= '2026-01-01'
+          AND CAST(LEFT(CAST("AddedOn" AS VARCHAR), 10) AS DATE) < '2026-02-01'
+        GROUP BY 1
+    ),
+    bank AS (
+        SELECT CAST("Transaction" AS DATE) AS dt,
+               SUM(CAST("Deposit Amt(INR)" AS DOUBLE)) AS bank_dep
+        FROM bank_receipt_from_pg
+        WHERE "Payment Gateway" = '02 Payu-Wallet'
+          AND CAST("Transaction" AS DATE) >= '2026-01-01'
+          AND CAST("Transaction" AS DATE) < '2026-02-01'
+        GROUP BY 1
+    )
+    SELECT COALESCE(s.dt, b.dt) AS dt,
+           COALESCE(s.rows,0), COALESCE(s.gross,0), COALESCE(s.net,0), COALESCE(s.fees,0),
+           COALESCE(b.bank_dep,0),
+           COALESCE(b.bank_dep,0) - COALESCE(s.net,0) AS diff
+    FROM sett s FULL JOIN bank b ON s.dt = b.dt
+    ORDER BY 1
+""").fetchall()
+
+print(f'  {"Date":12s} {"Sett Rows":>10s} {"Gross":>14s} {"Net":>14s} {"Bank Dep":>14s} {"Diff":>12s}')
+print('  ' + '-'*82)
+for r in daily_pu:
+    flag = '*** ' if abs(r[6]) > 50000 else '    '
+    print(f'  {flag}{str(r[0]):12s} {r[1]:>10,} Rs {r[2]:>10,.0f} Rs {r[3]:>10,.0f} Rs {r[5]:>10,.0f} Rs {r[6]:>8,.0f}')
+print('  ' + '-'*82)
+print(f'  {"JAN TOTAL":12s} {sum(r[1] for r in daily_pu):>10,} Rs {sum(r[2] for r in daily_pu):>10,.0f} Rs {sum(r[3] for r in daily_pu):>10,.0f} Rs {sum(r[5] for r in daily_pu):>10,.0f} Rs {sum(r[6] for r in daily_pu):>8,.0f}')
+pu_gap = sum(r[6] for r in daily_pu)
+pu_bank = sum(r[5] for r in daily_pu)
+print(f'\n  PayU Jan26 gap: Rs {pu_gap:,.0f}  ({pu_gap/pu_bank*100 if pu_bank else 0:.3f}%)')
+
+# Razorpay Jan26 daily
+print('\n--- Razorpay Jan 2026 daily (settled_at = Jan26) ---')
+daily_rzp = con.execute("""
+    WITH sett AS (
+        SELECT settled_at AS dt,
+               COUNT(*) AS rows,
+               SUM(amount) AS gross,
+               SUM(amount)-SUM(fee)-SUM(tax) AS net,
+               SUM(fee)+SUM(tax) AS fees
+        FROM razorpay_transactions
+        WHERE type = 'payment'
+          AND settled_at >= '2026-01-01' AND settled_at < '2026-02-01'
+        GROUP BY 1
+    ),
+    bank AS (
+        SELECT CAST("Transaction" AS DATE) AS dt,
+               SUM(CAST("Deposit Amt(INR)" AS DOUBLE)) AS bank_dep
+        FROM bank_receipt_from_pg
+        WHERE "Payment Gateway" = '06 Razorpay Wallet'
+          AND CAST("Transaction" AS DATE) >= '2026-01-01'
+          AND CAST("Transaction" AS DATE) < '2026-02-01'
+        GROUP BY 1
+    )
+    SELECT COALESCE(s.dt, b.dt) AS dt,
+           COALESCE(s.rows,0), COALESCE(s.gross,0), COALESCE(s.net,0), COALESCE(s.fees,0),
+           COALESCE(b.bank_dep,0),
+           COALESCE(b.bank_dep,0) - COALESCE(s.net,0) AS diff
+    FROM sett s FULL JOIN bank b ON s.dt = b.dt
+    ORDER BY 1
+""").fetchall()
+
+print(f'  {"Date":12s} {"Sett Rows":>10s} {"Gross":>14s} {"Net":>14s} {"Bank Dep":>14s} {"Diff":>12s}')
+print('  ' + '-'*82)
+for r in daily_rzp:
+    flag = '*** ' if abs(r[6]) > 50000 else '    '
+    print(f'  {flag}{str(r[0]):12s} {r[1]:>10,} Rs {r[2]:>10,.0f} Rs {r[3]:>10,.0f} Rs {r[5]:>10,.0f} Rs {r[6]:>8,.0f}')
+print('  ' + '-'*82)
+print(f'  {"JAN TOTAL":12s} {sum(r[1] for r in daily_rzp):>10,} Rs {sum(r[2] for r in daily_rzp):>10,.0f} Rs {sum(r[3] for r in daily_rzp):>10,.0f} Rs {sum(r[5] for r in daily_rzp):>10,.0f} Rs {sum(r[6] for r in daily_rzp):>8,.0f}')
+rzp_gap = sum(r[6] for r in daily_rzp)
+rzp_bank = sum(r[5] for r in daily_rzp)
+print(f'\n  Razorpay Jan26 gap: Rs {rzp_gap:,.0f}  ({rzp_gap/rzp_bank*100 if rzp_bank else 0:.3f}%)')
 
 # ======================================================================
-# PART D: UNRECONCILED ITEMS  (days with large unexplained gaps)
+# PART D: REFUND IMPACT ANALYSIS
 # ======================================================================
 print('\n\n' + SEP)
-print('PART D: UNRECONCILED ITEMS  (days where |gap| > Rs 25,000)')
+print('PART D: REFUND IMPACT BY GATEWAY (how refunds affect bank deposit)')
 print(SEP)
 
-large_gaps = [r for r in daily_recon if abs(r[9]) > 25000]
-print(f'\nTotal days with |gap| > Rs 25,000: {len(large_gaps)}  (out of {len(daily_recon)} days with settlement or bank data)\n')
+# Paytm refunds by month
+ptm_ref_monthly = con.execute("""
+    SELECT DATE_TRUNC('month', CAST(LEFT(TRIM(Settled_Date, chr(39)), 10) AS DATE)) AS mo,
+           COUNT(*) AS ref_txns,
+           SUM(CAST(Amount AS DOUBLE)) AS ref_gross,
+           SUM(CAST(Settled_Amount AS DOUBLE)) AS ref_settled
+    FROM paytm_refunds
+    GROUP BY 1 ORDER BY 1
+""").fetchall()
 
-print(f'  {"Date":12s} {"Sett Net":>14s} {"Refund Net":>14s} {"Expected":>14s} {"Bank Dep":>14s} {"Gap":>12s}  Likely Cause')
-print('  ' + SEP2[:110])
-for r in large_gaps:
-    cause = ''
-    if r[9] > 0:
-        cause = 'Bank > Expected (extra deposit / prior period catch-up?)'
-    elif abs(r[9]) > 150000:
-        cause = 'Large refund batch or settlement delay'
-    else:
-        cause = 'Refund batch / minor timing'
-    print(f'  {str(r[0]):12s} Rs {r[3]:>10,.0f} Rs {r[6]:>10,.0f} Rs {r[7]:>10,.0f} Rs {r[8]:>10,.0f} Rs {r[9]:>8,.0f}  {cause}')
+print('\n--- Paytm refunds (deducted from settlement batch before bank transfer) ---')
+print(f'  {"Month":12s} {"Refund Txns":>12s} {"Refund Gross (Rs)":>18s} {"Refund Settled (Rs)":>20s}')
+print('  ' + '-'*68)
+for r in ptm_ref_monthly:
+    print(f'  {str(r[0])[:7]:12s} {r[1]:>12,} Rs {r[2]:>14,.0f} Rs {r[3]:>16,.0f}')
+print(f'  {"TOTAL":12s} {sum(r[1] for r in ptm_ref_monthly):>12,} Rs {sum(r[2] for r in ptm_ref_monthly):>14,.0f} Rs {sum(r[3] for r in ptm_ref_monthly):>16,.0f}')
 
-# Break down the largest gap day
-if large_gaps:
-    worst = min(large_gaps, key=lambda x: x[9])
-    print(f'\n  Worst gap day: {worst[0]}  |  Gap = Rs {worst[9]:,.0f}')
-    worst_ref = con.execute("""
-        SELECT COUNT(*), SUM(CAST(Amount AS DOUBLE)), SUM(CAST(Settled_Amount AS DOUBLE))
-        FROM paytm_refunds
-        WHERE CAST(LEFT(TRIM(Settled_Date, chr(39)), 10) AS DATE) = ?
-    """, [str(worst[0])]).fetchone()
-    print(f'  Refunds on that date: {(worst_ref[0] or 0):,} txns  |  Refund gross Rs {(worst_ref[1] or 0):,.2f}  |  Settled Rs {(worst_ref[2] or 0):,.2f}')
-
-# Cumulative gap trend
-print('\n\n--- Cumulative gap progression (Jan 2026) ---')
-cum = 0
-print(f'  {"Date":12s} {"Daily Gap":>12s} {"Cumulative Gap":>16s}')
-print('  ' + '-'*45)
-for r in jan26_rows:
-    cum += r[9]
-    print(f'  {str(r[0]):12s} Rs {r[9]:>8,.0f}   Rs {cum:>12,.0f}')
-print(f'\n  Jan 2026 total gap: Rs {jan_diff:,.2f}')
-print(f'  As % of bank deposits: {jan_diff/jan_bank*100:.3f}%')
-
-# ======================================================================
-# PART E: NON-PAYTM PG SETTLEMENTS  (bank data missing)
-# ======================================================================
-print('\n\n' + SEP)
-print('PART E: NON-PAYTM PG SETTLEMENTS  (PhonePe / PayU / Razorpay -- no bank file available)')
-print(SEP)
-
-print('\n  These PGs deposit to separate bank accounts not provided in bank_receipt_from_pg.')
-print('  Settlement amounts below are calculated to show expected bank receipts:\n')
-
-# PhonePe all-time settlements
-pp_total = con.execute("""
-    SELECT
-        DATE_TRUNC('month', CAST("Settlement Date" AS DATE)) AS mo,
-        COUNT(*) AS rows,
-        SUM(CAST("Transaction Amount" AS DOUBLE)) AS gross,
-        SUM(CAST("Net Amount" AS DOUBLE)) AS net,
-        ABS(SUM(CAST("Total Fees" AS DOUBLE))) AS fees
+# PhonePe refunds in settlement table (REVERSAL rows)
+pp_ref = con.execute("""
+    SELECT DATE_TRUNC('month', CAST("Settlement Date" AS DATE)) AS mo,
+           COUNT(*) AS rows,
+           SUM("Transaction Amount") AS gross,
+           SUM("Net Amount") AS net
     FROM phonepe_settlements
-    WHERE COALESCE("Transaction Type",'') != ''
+    WHERE "Transaction Type" LIKE '%REVERSAL%' OR "Transaction Type" LIKE '%REFUND%'
     GROUP BY 1 ORDER BY 1
 """).fetchall()
 
-print('  PhonePe forward settlements by settlement month:')
-print(f'  {"Month":12s} {"Rows":>8s} {"Gross (Rs)":>14s} {"Net (Rs)":>14s} {"Fees (Rs)":>12s}')
-print('  ' + '-'*65)
-for r in pp_total:
-    print(f'  {str(r[0])[:7]:12s} {r[1]:>8,} Rs {r[2]:>10,.0f} Rs {r[3]:>10,.0f} Rs {r[4]:>8,.2f}')
-print(f'  {"TOTAL":12s} {sum(r[1] for r in pp_total):>8,} Rs {sum(r[2] for r in pp_total):>10,.0f} Rs {sum(r[3] for r in pp_total):>10,.0f} Rs {sum(r[4] for r in pp_total):>8,.2f}')
+print('\n--- PhonePe refunds/reversals in settlement table ---')
+print(f'  {"Month":12s} {"Rows":>8s} {"Gross (Rs)":>16s} {"Net (Rs)":>16s}')
+print('  ' + '-'*56)
+for r in pp_ref:
+    print(f'  {str(r[0])[:7]:12s} {r[1]:>8,} Rs {r[2]:>12,.0f} Rs {r[3]:>12,.0f}')
+print(f'  {"TOTAL":12s} {sum(r[1] for r in pp_ref):>8,} Rs {sum(r[2] for r in pp_ref):>12,.0f} Rs {sum(r[3] for r in pp_ref):>12,.0f}')
 
-# PayU all-time
-pu_total = con.execute("""
-    SELECT
-        DATE_TRUNC('month', CAST("AddedOn" AS TIMESTAMP)) AS mo,
-        COUNT(*) AS rows,
-        SUM(CAST("Amount" AS DOUBLE)) AS gross,
-        SUM(CAST("Net Amount" AS DOUBLE)) AS net,
-        SUM(CAST("Amount" AS DOUBLE) - CAST("Net Amount" AS DOUBLE)) AS fees
+# PayU refunds in settlement table
+pu_ref = con.execute("""
+    SELECT DATE_TRUNC('month', CAST("AddedOn" AS TIMESTAMP)) AS mo,
+           COUNT(*) AS rows,
+           SUM("Amount") AS gross,
+           SUM("Net Amount") AS net
     FROM payu_settlements
+    WHERE "Status" IN ('Refunded','Chargebacked')
     GROUP BY 1 ORDER BY 1
 """).fetchall()
 
-print('\n  PayU settlements by settlement month:')
-print(f'  {"Month":12s} {"Rows":>8s} {"Gross (Rs)":>14s} {"Net (Rs)":>14s} {"Fees (Rs)":>12s}')
-print('  ' + '-'*65)
-for r in pu_total:
-    print(f'  {str(r[0])[:7]:12s} {r[1]:>8,} Rs {r[2]:>10,.0f} Rs {r[3]:>10,.0f} Rs {r[4]:>8,.2f}')
-print(f'  {"TOTAL":12s} {sum(r[1] for r in pu_total):>8,} Rs {sum(r[2] for r in pu_total):>10,.0f} Rs {sum(r[3] for r in pu_total):>10,.0f} Rs {sum(r[4] for r in pu_total):>8,.2f}')
+print('\n--- PayU refunds/chargebacks in settlement table ---')
+print(f'  {"Month":12s} {"Rows":>8s} {"Gross (Rs)":>16s} {"Net (Rs)":>16s}')
+print('  ' + '-'*56)
+for r in pu_ref:
+    print(f'  {str(r[0])[:7]:12s} {r[1]:>8,} Rs {r[2]:>12,.0f} Rs {r[3]:>12,.0f}')
+print(f'  {"TOTAL":12s} {sum(r[1] for r in pu_ref):>8,} Rs {sum(r[2] for r in pu_ref):>12,.0f} Rs {sum(r[3] for r in pu_ref):>12,.0f}')
 
-# Razorpay all-time
-rzp_total = con.execute("""
-    SELECT
-        DATE_TRUNC('month', settled_at) AS mo,
-        COUNT(*) AS rows,
-        SUM(amount) AS gross,
-        SUM(amount)-SUM(fee)-SUM(tax) AS net,
-        SUM(fee)+SUM(tax) AS fees
+# Razorpay refunds in transactions table
+rzp_ref = con.execute("""
+    SELECT DATE_TRUNC('month', settled_at) AS mo,
+           COUNT(*) AS rows,
+           SUM(debit) AS debit_amount,
+           SUM(credit) AS credit_amount
     FROM razorpay_transactions
-    WHERE type='payment'
+    WHERE type = 'refund'
     GROUP BY 1 ORDER BY 1
 """).fetchall()
 
-print('\n  Razorpay settlements by settled_at month:')
-print(f'  {"Month":12s} {"Rows":>8s} {"Gross (Rs)":>14s} {"Net (Rs)":>14s} {"Fees (Rs)":>12s}')
-print('  ' + '-'*65)
-for r in rzp_total:
-    print(f'  {str(r[0])[:7]:12s} {r[1]:>8,} Rs {r[2]:>10,.0f} Rs {r[3]:>10,.0f} Rs {r[4]:>8,.2f}')
-print(f'  {"TOTAL":12s} {sum(r[1] for r in rzp_total):>8,} Rs {sum(r[2] for r in rzp_total):>10,.0f} Rs {sum(r[3] for r in rzp_total):>10,.0f} Rs {sum(r[4] for r in rzp_total):>8,.2f}')
+print('\n--- Razorpay refunds in transactions table (type=refund) ---')
+print(f'  {"Month":12s} {"Rows":>8s} {"Debit (Rs)":>14s} {"Credit (Rs)":>14s}')
+print('  ' + '-'*54)
+for r in rzp_ref:
+    print(f'  {str(r[0])[:7]:12s} {r[1]:>8,} Rs {r[2]:>10,.0f} Rs {r[3]:>10,.0f}')
+print(f'  {"TOTAL":12s} {sum(r[1] for r in rzp_ref):>8,} Rs {sum(r[2] for r in rzp_ref):>10,.0f} Rs {sum(r[3] for r in rzp_ref):>10,.0f}')
 
 # ======================================================================
-# PART F: OVERALL RECONCILIATION SCORECARD
+# PART E: OVERALL SCORECARD  (all 4 gateways, Dec25-Feb26 overlap)
 # ======================================================================
 print('\n\n' + SEP)
-print('PART F: OVERALL RECONCILIATION SCORECARD')
+print('PART E: OVERALL RECONCILIATION SCORECARD  (all 4 gateways)')
 print(SEP)
 
-# Month-level data we have
-has_sett  = [r for r in monthly_recon if r[1] > 0]   # months with settlement data
-has_bank  = [r for r in monthly_recon if r[8] > 0]   # months with bank data
-has_both  = [r for r in monthly_recon if r[1] > 0 and r[8] > 0]
+overlap_months = ('2025-12','2026-01','2026-02')
 
-# Non-Paytm totals for Dec25-Feb26 overlap
-pp_dec_feb = sum(r[3] for r in pp_total if str(r[0])[:7] in ('2025-12','2026-01','2026-02'))
-pu_dec_feb = sum(r[3] for r in pu_total if str(r[0])[:7] in ('2025-12','2026-01','2026-02'))
-rz_dec_feb = sum(r[3] for r in rzp_total if str(r[0])[:7] in ('2025-12','2026-01','2026-02'))
+def overlap_summary(monthly_rows):
+    both = [r for r in monthly_rows if r[1] > 0 and r[3] > 0]
+    snet = sum(r[2] for r in both)
+    bdep = sum(r[4] for r in both)
+    gap  = bdep - snet
+    return len(both), snet, bdep, gap
 
-print(f'\n  === PAYTM RECONCILIATION (Dec25-Feb26, bank data available) ===\n')
-for r in has_both:
-    gap_pct = r[10]/r[9]*100 if r[9] else 0
-    status = 'CLEAN' if abs(gap_pct) < 2 else 'REVIEW'
-    print(f'  {str(r[0])[:7]}  Settlement net Rs {r[3]:>12,.0f}  Refunds Rs {r[6]:>8,.0f}  Expected Rs {r[7]:>12,.0f}  Bank Rs {r[9]:>12,.0f}  Gap Rs {r[10]:>8,.0f} ({gap_pct:.2f}%)  [{status}]')
+ptm_mos, ptm_snet, ptm_bdep, ptm_gap = overlap_summary(paytm_monthly)
+pp_mos,  pp_snet,  pp_bdep,  pp_gap  = overlap_summary(pp_monthly)
+pu_mos,  pu_snet,  pu_bdep,  pu_gap  = overlap_summary(pu_monthly)
+rzp_mos, rzp_snet, rzp_bdep, rzp_gap = overlap_summary(rzp_monthly)
 
-print(f'\n  Total gap (all matched months): Rs {t_gap:,.0f}  ({t_gap/t_bank*100:.3f}% of total bank deposits)')
+print(f'\n  {"Gateway":14s} {"Matched Mos":>12s} {"Sett Net (Rs)":>18s} {"Bank Dep (Rs)":>18s} {"Gap (Rs)":>14s} {"Gap%":>8s}  Status')
+print('  ' + '-'*105)
+for gw, mos, snet, bdep, gap in [
+    ('Paytm',   ptm_mos, ptm_snet, ptm_bdep, ptm_gap),
+    ('PhonePe', pp_mos,  pp_snet,  pp_bdep,  pp_gap),
+    ('PayU',    pu_mos,  pu_snet,  pu_bdep,  pu_gap),
+    ('Razorpay',rzp_mos, rzp_snet, rzp_bdep, rzp_gap),
+]:
+    gap_pct = gap/bdep*100 if bdep else 0
+    status = 'CLEAN' if abs(gap_pct) < 3 else ('REVIEW' if abs(gap_pct) < 10 else 'MISMATCH')
+    print(f'  {gw:14s} {mos:>12,} Rs {snet:>14,.0f} Rs {bdep:>14,.0f} Rs {gap:>10,.0f} {gap_pct:>7.2f}%  [{status}]')
 
-print(f'\n  === NON-PAYTM (bank accounts not provided) ===\n')
-print(f'  {"PG":12s}  {"Net Settled (Dec25-Feb26)":>28s}   Bank Account Status')
-print('  ' + '-'*70)
-print(f'  {"PhonePe":12s}  Rs {pp_dec_feb:>24,.0f}   MISSING -- separate bank account needed')
-print(f'  {"PayU":12s}  Rs {pu_dec_feb:>24,.0f}   MISSING -- separate bank account needed')
-print(f'  {"Razorpay":12s}  Rs {rz_dec_feb:>24,.0f}   MISSING -- separate bank account needed')
-print(f'  {"TOTAL":12s}  Rs {pp_dec_feb+pu_dec_feb+rz_dec_feb:>24,.0f}')
+total_snet = ptm_snet + pp_snet + pu_snet + rzp_snet
+total_bdep = ptm_bdep + pp_bdep + pu_bdep + rzp_bdep
+total_gap  = total_bdep - total_snet
+print('  ' + '-'*105)
+print(f'  {"ALL PGs":14s} {"":>12s} Rs {total_snet:>14,.0f} Rs {total_bdep:>14,.0f} Rs {total_gap:>10,.0f} {total_gap/total_bdep*100:>7.2f}%')
 
-print(f'\n  === SUMMARY ===\n')
-print(f'  Paytm bank recon coverage   : {len(has_both)} months with both settlement + bank data')
-print(f'  Paytm overall gap           : Rs {t_gap:,.0f}  ({abs(t_gap/t_bank*100):.3f}% of deposits)')
-print(f'  Paytm recon quality         : {"EXCELLENT (<2% gap)" if abs(t_gap/t_bank*100) < 2 else "NEEDS REVIEW"}')
-print(f'  Non-Paytm bank data         : NOT PROVIDED -- obtain PhonePe/PayU/Razorpay bank statements')
-print(f'  Non-Paytm expected deposits : Rs {pp_dec_feb+pu_dec_feb+rz_dec_feb:,.0f}  (Dec25-Feb26 combined)')
+print(f"""
+  Key observations:
+  - Paytm: Settlement net includes refund deductions; residual gap ~0.6% likely TDS/platform charges
+  - PhonePe: Settlement table uses "Settlement Date"; bank deposits via NEFT in batches (not always daily)
+  - PayU: Settlement table includes both forward txns and refunds in "Net Amount"
+  - Razorpay: Settlement net = payment amounts - fee - tax (no separate settlement table, embedded in transactions)
+
+  MONTHS WITH NO SETTLEMENT DATA (Apr25-Nov25):
+    These months appear in the bank file but PG settlement CSVs only go from Dec25 onwards.
+    Bank deposits in Apr25-Nov25:
+""")
+
+# Show Apr25-Nov25 bank deposits by gateway
+no_sett_bank = con.execute("""
+    SELECT "Payment Gateway",
+           COUNT(*) AS deps,
+           SUM(CAST("Deposit Amt(INR)" AS DOUBLE)) AS total
+    FROM bank_receipt_from_pg
+    WHERE CAST("Transaction" AS DATE) < '2025-12-01'
+    GROUP BY 1 ORDER BY 1
+""").fetchall()
+
+for r in no_sett_bank:
+    print(f'    {str(r[0]):32s} {r[1]:>5,} deposits  Rs {r[2]:>12,.0f}  (no settlement data)')
 
 con.close()
 print('\n' + SEP)
-print('END OF SETTLEMENT <-> BANK RECEIPT RECONCILIATION')
+print('END OF SETTLEMENT <-> BANK RECEIPT RECONCILIATION  (ALL 4 GATEWAYS)')
 print(SEP)
