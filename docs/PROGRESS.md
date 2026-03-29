@@ -119,6 +119,21 @@ _Three-layer reconciliation: Wiom DB → Juspay → PGs → Bank_
   - Apr25–Nov25: bank deposits exist (Rs 52.6Cr total) but PG settlement CSVs not available for that period
 - [ ] Investigate Paytm residual gap (~0.6%/month): TDS deductions, platform charges not in paytm_refunds table
 
+### Reverse Reconciliation (Bank -> Settlement -> Juspay -> Wiom DB) ✅ DONE
+- [x] Built persistent DuckDB base table `recon_jan26_base` (382,253 rows, all 4 gateways) → `docs/_jan26_reverse_recon.py`
+- [x] Comprehensive gap analysis at every layer (Gap A/B/C/D)
+- [x] Exported gap CSVs: `docs/gap_settlement_no_juspay_jan26.csv`, `docs/gap_juspay_no_wiom_jan26.csv`
+- Key findings (Jan 2026 settlements, reverse direction):
+  - **recon_jan26_base**: 382,253 rows — PAYTM_V2: 314,907 | PAYU: 33,510 | PHONEPE: 16,812 | RAZORPAY: 17,024
+  - **FULLY_TRACED: 98.35%** (375,946 rows, Rs 7.11Cr)  |  MISSING_WIOM: 1.63% (6,244 rows, Rs 29.95L)  |  MISSING_JUSPAY: 0.02% (63 rows, Rs -66.7K)
+  - **Amount waterfall**: Settlement gross Rs 7.40Cr → net Rs 7.39Cr → Juspay matched Rs 7.41Cr → Wiom Rs 7.11Cr
+  - **Juspay vs Wiom gap Rs 29.99L** = 6,244 rows not in Wiom DB (custGen_* 4,179 Paytm + 303 Razorpay + 648 total, wiomWall_* 259 rows, cusSubs_* 376 rows, custWgSubs_* 385 rows)
+  - **Gap A (Bank vs Settlement net)**: All 4 gateways within -0.40% to -0.67% — CLEAN
+  - **Gap B (Sett not in Juspay)**: 63 rows, Rs -66.7K gross — Paytm: 31 tiny rows (~Rs 292); PayU: 32 ADJ rows (Rs -67K adjustments)
+  - **Gap D (Amount mismatch)**: Only 27 rows across all gateways, Rs 3,460 total diff — negligible
+  - **Source month**: Jan26 settlements are mostly Jan26 txns; Dec25 carryover: PAYTM 10,921 rows Rs 19.6L, RAZORPAY 1,165 rows Rs 1.73L, PHONEPE 612 rows Rs 91K
+  - **Note**: `paytm_settlements.transaction_type` uses `'ACQUIRING'` (not `'SALE'`) for forward payment rows
+
 ## Phase 5: Data Dictionary
 - [x] Profile all 916 columns (nulls, distinct counts, sample values) → `docs/_column_stats.csv`
 - [x] Generate draft data dictionary (916/916 defined) → `docs/DATA_DICTIONARY_DRAFT.csv`

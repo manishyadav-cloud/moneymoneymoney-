@@ -1,6 +1,8 @@
 # Wiom Payment Reconciliation — Keys & Join Conditions
 
 > **Purpose:** This document captures every primary key, foreign key, and join condition discovered during the end-to-end January 2026 reconciliation exercise. It is the single reference for writing any reconciliation query across all 4 layers of the money inflow chain.
+>
+> **Updated 2026-03-29 (reverse recon findings):** `wiomWall_*` prefix confirmed → `wiom_topup_income`; `wiom_refunded_transactions` is universal fallback; `paytm_settlements.transaction_type = 'ACQUIRING'` (not 'SALE') for forward payments.
 
 ---
 
@@ -59,9 +61,11 @@ The `order_id` in Juspay is the **same value** as the transaction ID created in 
 | `cusSubs_*` | `wiom_primary_revenue` | `TRANSACTION_ID` | Subscription payment |
 | `custWgSubs_*` | `wiom_primary_revenue` | `TRANSACTION_ID` | Widget subscription |
 | `w_*` | `wiom_net_income` | `TXN_ID` | Wallet / topup |
+| `wiomWall_*` | `wiom_topup_income` | `TRANSACTION_ID` | ✅ Wallet top-up via PG — confirmed Jan26 recon (820 txns Dec25–Feb26, Rs 43.5L) |
 | `mr_*` | `wiom_mobile_recharge_transactions` | `TRANSACTION_ID` | Mobile recharge |
 | `cxTeam_*` | `wiom_ott_transactions` | `TRANSACTION_ID` | CX team OTT |
 | `sd_*` | `wiom_customer_security_deposit` | `SD_TXN_ID` | Security deposit |
+| *(any prefix)* | `wiom_refunded_transactions` | `TRANSACTION_ID` | **Fallback** — refunded orders (REFUND_STATUS=1); 3,367 Jan26 txns found here |
 
 **Prefixes NOT in Juspay (partner wallet / cash):**
 

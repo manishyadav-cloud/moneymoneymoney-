@@ -79,6 +79,15 @@ moneymoney!!!/
 - `_settlement_fullrecon.py` — Full settlement universe reconciliation (all months)
 - `_settlement_jan26_recon.py` — Jan 2026 scoped settlement reconciliation
 - `_bank_recon.py` — Layer 4: PG settlements vs bank receipts (all 4 gateways)
+- `_jan26_reverse_recon.py` — Reverse recon Bank→Settlement→Juspay→Wiom (builds `recon_jan26_base`)
+
+## Key Data Findings (from Jan26 reverse recon)
+- `wiomWall_*` order prefix = wallet topups → maps to `wiom_topup_income.TRANSACTION_ID` (NOT net_income)
+- `paytm_settlements.transaction_type` = `'ACQUIRING'` for forward payments (NOT 'SALE')
+- 2,617 `custGen_*/cusSubs_*` Juspay SUCCESS txns genuinely absent from Wiom DB export (Rs 11.87L)
+- 3,367 MISSING_WIOM rows are actually in `wiom_refunded_transactions` — refunded, not lost
+- PayU `ADJ_*` settlement rows = platform fee debits, NOT customer transactions (never in Juspay)
+- Base recon table: `recon_jan26_base` (382,253 rows) persisted in data.duckdb
 
 ## Mismatch / Export CSVs (docs/)
 - `mismatch_wiom_to_juspay_jan26_v2.csv`, `mismatch_juspay_to_wiom_jan26_v2.csv`
