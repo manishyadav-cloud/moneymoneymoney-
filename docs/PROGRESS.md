@@ -21,7 +21,8 @@ _Load each group, verify, then move to next._
 
 ### Group B — PG Transactions (4 tables) ✅ DONE
 - [x] `PhonePe_transaction_dec_to_feb26.csv` → `phonepe_transactions` (120,926 rows, 54 cols)
-- [x] `Razorpay_transactions_dec_to_feb26.csv` → `razorpay_transactions` (53,644 rows, 27 cols)
+- [x] `Razorpay_transactions_dec_to_feb26.csv` → `razorpay_transactions` (53,644 rows → **51,835 rows** after dedup, 27 cols)
+  - **Data cleanup (2026-03-29):** Removed 1,809 exact duplicate rows (634 order_receipts had 2 identical copies each) — CSV export artifact from Razorpay. Fixed via `SELECT DISTINCT *`.
 - [x] `payu_transactions_dec_to_feb26.csv` → `payu_transactions` (295,095 rows, 85 cols)
 - [x] Paytm transactions (3 CSVs → 1 table) → `paytm_transactions` (907,342 rows, 124 cols)
 
@@ -74,7 +75,7 @@ _Three-layer reconciliation: Wiom DB → Juspay → PGs → Bank_
   - PAYTM_V2 (314,833 txns): exact amount match, 35 Paytm-only txns (Rs 2,787) — date edge cases
   - PHONEPE (16,792 txns): exact match on both count and amount
   - PAYU (33,242 txns): count match but amount diff Rs 54,160 (Juspay > PG) — needs investigation
-  - RAZORPAY (16,494 txns): count match, amount anomaly due to duplicate order_receipts in PG table
+  - RAZORPAY (16,494 txns): 100% match, Rs 0 diff after deduplicating 1,809 duplicate rows in razorpay_transactions
   - **No Juspay-only orphans** — all Juspay Jan26 SUCCESS txns appear in PG tables
   - Join keys confirmed: PAYTM/PhonePe/PayU use juspay_txn_id; Razorpay uses order_id = order_receipt
   - Refunds: 3,196 Juspay refunds — Paytm (2,656/2,656 matched), PhonePe (158/158 matched), PayU/Razorpay (no separate PG table)
