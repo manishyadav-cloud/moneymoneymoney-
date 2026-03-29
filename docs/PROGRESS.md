@@ -107,18 +107,17 @@ _Three-layer reconciliation: Wiom DB → Juspay → PGs → Bank_
   - Exported: `docs/razorpay_fee_trace_jan26.csv` (16,495 rows, traced to Wiom DB)
 
 ### Layer 3b — PG Settlements vs Bank Receipts ✅ DONE
+- [x] **DATA FIX (2026-03-29):** `bank_receipt_from_pg` was loaded with only the Paytm sheet (358 rows). Reloaded with all 4 sheets → **1,098 rows** covering Paytm/PayU/PhonePe/Razorpay
 - [x] UTR investigation → Paytm UTR (`UTIBR6*`) ≠ bank RTGS UTR (`UTIBH*`) — different systems, no key join; use date-level matching
-- [x] Confirmed bank_receipt_from_pg = Paytm-only (all 358 rows: "PAYTM PAYMENTS SERVICES LIMI" via RTGS)
-- [x] 1 UTR/day on both sides — perfect 1:1 date mapping confirmed
-- [x] Daily reconciliation: settlement net − refund deductions = bank deposit → `docs/_bank_recon.py`
-- Key findings (Jan 2026):
-  - **Paytm recon CLEAN: 0.68% residual gap** (Rs 3.94L after refund netting) — likely TDS/platform charges
-  - Paytm Jan26: settlement net Rs 5.84Cr − refunds Rs 3.89L = expected Rs 5.80Cr; bank Rs 5.76Cr; gap Rs -3.94L (-0.68%)
-  - Paytm Dec25: gap Rs -4.50L (-0.74%); Paytm Feb26: gap Rs -2.73L (-0.52%)
-  - Worst single day: 2026-01-30, gap Rs -1,00,642 (large refund batch on that day)
-  - **Non-Paytm gap: Rs 4.44Cr (Dec25-Feb26) unreconciled** — PhonePe/PayU/Razorpay bank accounts not in provided file
-- [ ] Investigate residual gap (~0.6%): TDS deductions, security deposit holdbacks, Paytm platform charges
-- [ ] Obtain PhonePe/PayU/Razorpay bank statements to complete full bank recon
+- [x] All 4 gateways reconciled: settlement net vs bank deposits by date → `docs/_bank_recon.py`
+- Key findings (Dec25–Feb26, months with both settlement + bank data):
+  - **Paytm: -1.28% gap** (Rs 2.20Cr over 3 months) — refund deductions account for majority; ~0.6% residual likely TDS
+  - **PhonePe: -0.53% gap** → CLEAN; worst month Rs -16.8K
+  - **PayU: -0.40% to -1.70% gap** → CLEAN (Jan26 Rs -43.9K, Dec25 Rs -1.79L, Feb26 +Rs 2.16L)
+  - **Razorpay: -0.32% to -0.60% gap** → CLEAN; daily match near-perfect
+  - Bank file gateway mapping: `01 Paytm-Wallet (WIOM Gold)` | `02 Payu-Wallet` | `05 PhonePe Wallet-2` | `06 Razorpay Wallet`
+  - Apr25–Nov25: bank deposits exist (Rs 52.6Cr total) but PG settlement CSVs not available for that period
+- [ ] Investigate Paytm residual gap (~0.6%/month): TDS deductions, platform charges not in paytm_refunds table
 
 ## Phase 5: Data Dictionary
 - [x] Profile all 916 columns (nulls, distinct counts, sample values) → `docs/_column_stats.csv`

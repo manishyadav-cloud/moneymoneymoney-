@@ -1,10 +1,10 @@
 table_name,column_name,data_type,total_rows,distinct_count,null_count,null_pct,min_value,max_value,sample_values
-bank_receipt_from_pg,S.no,DOUBLE,358,306,52,14.5,1.0,99.0,7.0 | 36.0 | 58.0
-bank_receipt_from_pg,Transaction,TIMESTAMP_NS,358,355,0,0.0,2025-04-02 00:00:00,2026-03-24 00:00:00,2025-04-06 00:00:00 | 2025-04-15 00:00:00 | 2025-05-06 00:00:00
-bank_receipt_from_pg,Month,VARCHAR,358,12,0,0.0,Apr-25,Sep-25,Nov-25 | Jan-26 | Dec-25
-bank_receipt_from_pg,Transaction Remarks,VARCHAR,358,358,0,0.0,AXNPNXXXXXXX0578,UTIBHXXXXXXX9986,RTGS/UTIBH25110000691/PAYTM PAYMENTS SERVICES LIMI/                    | RTGS/UTIBH25111000710/PAYTM PAYMENTS SERVICES LIMI/                    | RTGS/UTIBH25118000956/PAYTM PAYMENTS SERVICES LIMI/                   
-bank_receipt_from_pg,Payment Gateway,VARCHAR,358,1,0,0.0,01 Paytm-Wallet (WIOM Gold),01 Paytm-Wallet (WIOM Gold),01 Paytm-Wallet (WIOM Gold)
-bank_receipt_from_pg,Deposit Amt(INR),DOUBLE,358,358,0,0.0,1011765.41,843151.56,1210065.94 | 1083162.76 | 1028425.25
+bank_receipt_from_pg,S.no,DOUBLE,1098,305,52,4.7,2.0,306.0,22.0 | 24.0 | 37.0
+bank_receipt_from_pg,Transaction,TIMESTAMP_NS,1098,357,0,0.0,2025-04-02 00:00:00,2026-03-25 00:00:00,2025-04-20 00:00:00 | 2025-06-12 00:00:00 | 2025-06-19 00:00:00
+bank_receipt_from_pg,Month,VARCHAR,1098,12,0,0.0,Apr-25,Sep-25,Jul-25 | Aug-25 | Jun-25
+bank_receipt_from_pg,Transaction Remarks,VARCHAR,1098,872,0,0.0,AXISCNXXXXXX0065,YESAPXXXXXXX9763,RTGS/UTIBH... PAYTM | NEFT/YESPH... PHONEPE | PAYU PAYMENTS PRIVATELIMITED
+bank_receipt_from_pg,Payment Gateway,VARCHAR,1098,4,0,0.0,01 Paytm-Wallet (WIOM Gold),06 Razorpay Wallet,01 Paytm-Wallet (WIOM Gold) | 02 Payu-Wallet | 05 PhonePe Wallet-2 | 06 Razorpay Wallet
+bank_receipt_from_pg,Deposit Amt(INR),DOUBLE,1098,1098,0,0.0,200.49,13099459.2,1748728.06 | 1465299.02 | 1811782.53
 juspay_refunds,customer_id,VARCHAR,20179,18915,0,0.0,1111151719,9999985854,9910579068_1747488343 | 8860192329_1757322821 | 9927476815
 juspay_refunds,txn_uuid,VARCHAR,20179,20172,0,0.0,moz213pYUHAo6acVWkf,mozzxpYLfXQ8r41wHGD,mozPS3JThLP8kq9SXFt | mozQp73AosjKjc3ZRT1 | mozwvshtiwJrbA4SnTE
 juspay_refunds,refund_initiated_by,VARCHAR,20179,9,0,0.0,API,wiom_sonu_thapa,wiom_shail | wiom_rutuj | AUTO_REFUNDED
